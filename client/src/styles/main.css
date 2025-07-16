@@ -1,0 +1,731 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navbar Styles */
+.navbar {
+    position: fixed; /* Make the navbar fixed */
+    top: 0; /* Stick it to the top */
+    left: 0;
+    width: 100%; /* Full width */
+    z-index: 1000; /* Ensure it stays above other elements */
+    display: flex;
+    justify-content: space-between; /* Space between logo and links */
+    align-items: center;
+    padding: 10px 10px; /* Reduced padding to prevent links from being hidden */
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+body {
+    padding-top: 60px; /* Add padding to avoid content being hidden under the fixed navbar */
+}
+
+.navbar .logo {
+    height: 40px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px; /* Adjust spacing between links */
+    align-items: center;
+    margin-right: 40px; /* Add margin to ensure links are not too close to the right edge */
+}
+
+.nav-links li {
+    list-style: none;
+}
+
+.nav-links a {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between icon and text */
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.nav-links a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-icon {
+    font-size: 1.2rem; /* Adjust icon size */
+}
+
+/* Footer Styles */
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Home Page Styles */
+.home {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    overflow: hidden;
+    height: 400px; /* Increased height for a larger card */
+    margin-bottom: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    transition: background-image 1s ease-in-out; /* Smooth transition for background images */
+    border: 2px solid transparent; /* Add a border for the glow effect */
+    box-shadow: 0 0 10px 2px rgba(0, 123, 255, 0.5), 0 0 30px 10px rgba(0, 123, 255, 0.3); /* Glow effect */
+}
+
+.hero:hover {
+    box-shadow: 0 0 20px 10px rgba(0, 123, 255, 0.7), 0 0 40px 15px rgba(0, 123, 255, 0.5); /* Enhanced glow on hover */
+}
+
+.hero h1 {
+    font-size: 3rem; /* Larger font size for the main text */
+    margin: 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Animated Text Section */
+.animated-text {
+    margin: 40px 0; /* Extended spacing below the hero card */
+    font-size: 1.8rem; /* Slightly larger font size */
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+    height: 80px; /* Reserve space for the text and line */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.animated-text h2 {
+    animation: fadeInOut 4s ease-in-out infinite; /* Match animation duration with interval */
+    margin: 0;
+    position: relative;
+}
+
+/* Animation for Text */
+@keyframes fadeInOut {
+    0%, 10% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    20%, 80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes lineInOut {
+    0%, 20% {
+        width: 0;
+        opacity: 0;
+    }
+    30%, 70% {
+        width: 50%;
+        opacity: 1;
+    }
+    80%, 100% {
+        width: 0;
+        opacity: 0;
+    }
+}
+
+/* Links Section */
+.links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.links .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.links .btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* About Page Styles */
+.about-page {
+    padding: 20px;
+    background-color: #f4f4f9;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.company-info {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.company-info h1 {
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.company-info p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Company Info Section */
+.company-content {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 20px;
+    position: relative;
+}
+
+.company-content::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 90%;
+    background-color: #007bff;
+    left: 600px; /* Match the team-member separator position */
+}
+
+.company-image-container {
+    flex: 1;
+    max-width: 500px; /* Increased size for the image */
+}
+
+.company-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.company-text {
+    flex: 2;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.6;
+    padding-left: 120px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Team Section Styles */
+.team {
+    margin-bottom: 40px;
+}
+
+.team h2 {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Add spacing between team members */
+.team-member {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 20px;
+    position: relative;
+    margin-bottom: 60px; /* Increased space between team members */
+}
+
+.team-member::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 90%; /* Extend the line vertically */
+    background-color: #007bff; /* Line color */
+    left: 600px; /* Move the line further to the right, just before the text */
+}
+
+.team-member .image-container {
+    flex: 1;
+    max-width: 400px; /* Increased size for the image */
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.team-member .image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.team-member .info-container {
+    flex: 2;
+    text-align: center;
+    padding-left: 100px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.team-member .info-container h3 {
+    margin-bottom: 5px;
+    color: #007bff;
+    font-size: 1.5rem;
+}
+
+.team-member .info-container p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Heading Line Styles */
+.heading-line {
+    width: 50px;
+    height: 4px;
+    background-color: #007bff;
+    margin: 10px auto 20px;
+    border-radius: 2px;
+}
+
+.reviews {
+    margin-bottom: 40px;
+}
+
+.reviews h2 {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.review-cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.review-cards .card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.review-profile {
+    margin-bottom: 10px;
+}
+
+.review-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.review-stars {
+    margin-top: 8px;
+    color: #FFD700; /* Gold color for stars */
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.contact {
+    text-align: center;
+    margin-bottom: 40px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,123,255,0.08);
+    max-width: 1500px; /* Increased width */
+    margin: 40px auto 0 auto;
+    padding: 32px 24px;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 30px;
+    padding: 0 16px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 1.08rem;
+    width: 100%;
+}
+
+.contact-icon {
+    font-size: 1.7rem;
+    color: #007bff;
+    background: #eaf4ff;
+    border-radius: 50%;
+    padding: 8px;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
+}
+
+.contact-label {
+    font-weight: 600;
+    color: #222;
+    min-width: 80px;
+    text-align: left;
+}
+
+.contact-value {
+    color: #555;
+    font-size: 1.08rem;
+    word-break: break-word;
+    text-align: left;
+}
+
+.map {
+    margin-top: 32px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,123,255,0.10);
+}
+
+/* Dashboard Styles */
+.dashboard {
+    padding: 20px;
+}
+
+.balance {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.actions {
+    display: flex;
+    gap: 20px;
+}
+
+.actions div {
+    flex: 1;
+    text-align: center;
+}
+
+.actions input {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.actions button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.actions button:hover {
+    background-color: #0056b3;
+}
+
+/* Chat Styles */
+.chat {
+    padding: 20px;
+}
+
+.messages {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.send-message {
+    display: flex;
+    gap: 10px;
+}
+
+.send-message input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.send-message button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.send-message button:hover {
+    background-color: #0056b3;
+}
+
+/* Signup Page Styles */
+.signup-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f9;
+    padding: 20px;
+}
+
+.signup-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.signup-container h1 {
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+/* Input group for icons in forms */
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    background: #f8faff;
+    border-radius: 6px;
+    padding: 0 10px;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.06);
+}
+
+.input-icon {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-right: 8px;
+}
+
+.signup-form input,
+.signup-form select,
+.login-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: transparent;
+    outline: none;
+    margin-bottom: 0;
+}
+
+.signup-form .input-group:last-child,
+.login-form .input-group:last-child {
+    margin-bottom: 20px;
+}
+
+.signup-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-form button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.success-message {
+    color: green;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.login-link {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.login-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* Login Page Styles */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f9;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+.login-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.login-container h1 {
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.signup-link {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.signup-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+.signup-link {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.signup-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
