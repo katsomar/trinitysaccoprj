@@ -11,7 +11,7 @@ const ManagerDashboard = () => {
 
     useEffect(() => {
         // Fetch groups
-        axios.get('/api/manager/groups')
+        axios.get('/api/manager/groups')//BAR
             .then(response => {
                 if (response.data && Array.isArray(response.data.groups)) {
                     setGroups(response.data.groups);
