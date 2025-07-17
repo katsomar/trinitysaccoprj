@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../utils/axiosConfig'; // Use the configured Axios instance
 import { useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -12,7 +12,7 @@ const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axios.post('/api/auth/login', { email, password })
+        axios.post('/login', { email, password }) // Correct endpoint
             .then(response => {
                 if (response.data.success) {
                     alert('Login successful!');

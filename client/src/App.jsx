@@ -10,6 +10,7 @@ import SaverDashboard from './pages/SaverDashboard';
 import ManagerDashboard from './pages/ManagerDashboard';
 import GroupView from './pages/GroupView';
 import Chat from './pages/Chat';
+import CustomerService from './pages/CustomerService';
 
 const App = () => {
     return (
@@ -26,6 +27,7 @@ const App = () => {
                         <Route path="/manager-dashboard" element={<ManagerDashboard />} />
                         <Route path="/group/:groupId" element={<GroupView />} />
                         <Route path="/chat/:groupId" element={<Chat />} />
+                        <Route path="/customer-service" element={<CustomerService />} />
                     </Routes>
                 </main>
                 <Footer />

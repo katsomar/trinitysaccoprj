@@ -5,11 +5,11 @@ return [
     'DB_NAME' => 'trinity_sacco',
     'DB_USER' => 'root',
     'DB_PASSWORD' => '',
-    'JWT_SECRET' => 'your_jwt_secret_key',
-    'EMAIL_HOST' => 'smtp.example.com',
-    'EMAIL_PORT' => 587,
-    'EMAIL_USER' => 'your_email@example.com',
-    'EMAIL_PASSWORD' => 'your_email_password',
-    'UPLOADS_DIR' => __DIR__ . '/uploads/',
+];
+?>
+    'EMAIL_PORT' => 587, // Ensure this matches your email provider's port
+    'EMAIL_USER' => 'nextphase292@gmail.com', // Replace with your actual email address
+    'EMAIL_PASSWORD' => 'katsomar1234m', // Replace with your actual email password
+    'UPLOADS_DIR' => __DIR__ . '/uploads/', // Ensure this directory exists and has write permissions
 ];
 ?>

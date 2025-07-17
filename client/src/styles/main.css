@@ -1,10 +1,29 @@
+/* Theme: Professional Slate & Emerald */
+:root {
+    --primary-color: #1e293b;      /* Slate (dark blue-gray) */
+    --secondary-color: #10b981;    /* Emerald (green) */
+    --accent-color: #f59e0b;       /* Amber (golden yellow) */
+    --background-color: #f1f5f9;   /* Light gray background */
+    --text-color: #1e293b;         /* Dark text */
+    --card-bg: #ffffff;            /* White card background */
+    --card-shadow: 0 4px 16px rgba(30,41,59,0.1); /* Subtle shadow */
+    --input-bg: #f8fafc;           /* Light input background */
+    --input-border: #10b981;       /* Green border */
+    --input-focus: #f59e0b;        /* Amber focus */
+    --header-color: #121212;       /* Dark header text */
+    --header-accent: #f59e0b;      /* Amber accent */
+}
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
 /* General Reset */
 body, html {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 a {
@@ -20,18 +39,18 @@ ul {
 
 /* Navbar Styles */
 .navbar {
-    position: fixed; /* Make the navbar fixed */
-    top: 0; /* Stick it to the top */
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: var(--card-shadow);
+    position: fixed;
+    top: 0;
     left: 0;
-    width: 100%; /* Full width */
-    z-index: 1000; /* Ensure it stays above other elements */
+    width: 100%;
+    z-index: 1000;
     display: flex;
-    justify-content: space-between; /* Space between logo and links */
+    justify-content: space-between;
     align-items: center;
-    padding: 10px 10px; /* Reduced padding to prevent links from being hidden */
-    background-color: #007bff;
-    color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 10px 10px;
 }
 
 body {
@@ -54,6 +73,8 @@ body {
 }
 
 .nav-links a {
+    color: #fff;
+    background: none;
     display: flex;
     align-items: center;
     gap: 5px; /* Space between icon and text */
@@ -61,27 +82,26 @@ body {
     border-radius: 5px;
     font-weight: bold;
     font-size: 1rem;
-    color: white;
-    text-decoration: none;
     transition: background-color 0.3s, transform 0.2s;
 }
 
 .nav-links a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--secondary-color);
+    color: #fff;
     transform: scale(1.1);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .nav-icon {
-    font-size: 1.2rem; /* Adjust icon size */
+    color: var(--accent-color);
 }
 
 /* Footer Styles */
 .footer {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: var(--card-shadow);
     text-align: center;
     padding: 10px;
-    background-color: #007bff;
-    color: white;
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -103,25 +123,69 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--card-shadow);
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: white;
     transition: background-image 1s ease-in-out; /* Smooth transition for background images */
-    border: 2px solid transparent; /* Add a border for the glow effect */
-    box-shadow: 0 0 10px 2px rgba(0, 123, 255, 0.5), 0 0 30px 10px rgba(0, 123, 255, 0.3); /* Glow effect */
 }
 
-.hero:hover {
-    box-shadow: 0 0 20px 10px rgba(0, 123, 255, 0.7), 0 0 40px 15px rgba(0, 123, 255, 0.5); /* Enhanced glow on hover */
+/* Darken the background image */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1;
+    border-radius: 10px;
+}
+
+/* Add orange smoke effect around the borders */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.3), transparent 70%);
+    animation: borderSmokeEffect 6s infinite;
+    z-index: 2;
+    pointer-events: none;
+    border-radius: 15px;
+}
+
+/* Smoke animation */
+@keyframes borderSmokeEffect {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
 }
 
 .hero h1 {
-    font-size: 3rem; /* Larger font size for the main text */
+    font-size: 3.5rem; /* Slightly larger font size */
     margin: 0;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 5px rgba(30,41,59,0.2);
+    color: #fff;
+    font-family: 'Poppins', sans-serif; /* Updated font */
+    font-weight: 700; /* Bold weight for emphasis */
+    letter-spacing: 1.5px; /* Add spacing between letters */
+    z-index: 3; /* Ensure text is above the effects */
+    position: relative;
 }
 
 /* Animated Text Section */
@@ -129,7 +193,7 @@ body {
     margin: 40px 0; /* Extended spacing below the hero card */
     font-size: 1.8rem; /* Slightly larger font size */
     font-weight: bold;
-    color: #007bff;
+    color: var(--secondary-color);
     text-align: center;
     height: 80px; /* Reserve space for the text and line */
     display: flex;
@@ -275,7 +339,7 @@ body {
 }
 
 .team h2 {
-    color: #007bff;
+    color: var(--header-color);
     text-align: center;
     margin-bottom: 10px;
 }
@@ -296,7 +360,7 @@ body {
     position: absolute;
     width: 2px;
     height: 90%; /* Extend the line vertically */
-    background-color: #007bff; /* Line color */
+    background-color: var(--input-focus); /* Line color */
     left: 600px; /* Move the line further to the right, just before the text */
 }
 
@@ -337,7 +401,7 @@ body {
 .heading-line {
     width: 50px;
     height: 4px;
-    background-color: #007bff;
+    background-color: var(--header-accent);
     margin: 10px auto 20px;
     border-radius: 2px;
 }
@@ -359,15 +423,16 @@ body {
 }
 
 .review-cards .card {
-    background: white;
+    background: var(--card-bg);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 16px rgba(30,41,59,0.10); /* Updated shadow */
     text-align: center;
     max-width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: var(--text-color);
 }
 
 .review-profile {
@@ -384,7 +449,7 @@ body {
 
 .review-stars {
     margin-top: 8px;
-    color: #FFD700; /* Gold color for stars */
+    color: var(--accent-color); /* Gold color for stars */
     font-size: 1.2rem;
     letter-spacing: 2px;
 }
@@ -423,8 +488,8 @@ body {
 
 .contact-icon {
     font-size: 1.7rem;
-    color: #007bff;
-    background: #eaf4ff;
+    color: var(--secondary-color);
+    background: #e6fffa;
     border-radius: 50%;
     padding: 8px;
     box-shadow: 0 2px 8px rgba(0,123,255,0.08);
@@ -577,7 +642,7 @@ body {
     background: #f8faff;
     border-radius: 6px;
     padding: 0 10px;
-    box-shadow: 0 2px 8px rgba(0,123,255,0.06);
+    box-shadow: 0 2px 12px rgba(45,55,72,0.08); /* Updated shadow */
 }
 
 .input-icon {
@@ -594,7 +659,8 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
-    background: transparent;
+    background: var(--input-bg);
+    color: var(--text-color);
     outline: none;
     margin-bottom: 0;
 }
@@ -668,7 +734,7 @@ body {
 
 .login-container h1 {
     margin-bottom: 20px;
-    color: #007bff;
+    color: var(--header-color);
 }
 
 .login-form input {
@@ -716,16 +782,221 @@ body {
     text-decoration: underline;
 }
 
-.signup-link {
-    margin-top: 15px;
-    font-size: 0.9rem;
-}
-
-.signup-link a {
+.toggle-password {
+    font-size: 1.2rem;
     color: #007bff;
-    text-decoration: none;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+.toggle-password:hover {
+    color: var(--header-color);
 }
 
-.signup-link a:hover {
-    text-decoration: underline;
+/* Customer Service AI Assistant */
+.customer-service-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: #f4f4f9;
+}
+
+.customer-service-container {
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    color: var(--text-color);
+    padding: 32px 28px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.customer-service-container h1 {
+    color: var(--header-color);
+    font-size: 2rem;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cs-desc {
+    margin-bottom: 18px;
+    color: #555;
+    font-size: 1.08rem;
+}
+
+.cs-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.cs-select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background: #f8faff;
+}
+
+.cs-textarea {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background: #f8faff;
+    resize: vertical;
+}
+
+.cs-btn {
+    padding: 10px 24px;
+    background: #ffa600;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cs-btn:hover {
+    background: #f9b807;
+}
+
+.cs-response {
+    margin-top: 18px;
+    background: #e6fffa;
+    border-radius: 8px;
+    padding: 16px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.08rem;
+    box-shadow: 0 2px 8px rgba(30,41,59,0.08);
+}
+
+.cs-response-icon {
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+}
+
+/* Cards, Containers, Buttons */
+.card,
+.signup-container,
+.login-container,
+.customer-service-container,
+.about-container,
+.team-member,
+.review-cards .card {
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    border-radius: 12px;
+    color: var(--text-color);
+}
+
+.btn,
+.cs-btn,
+.signup-form button,
+.login-form button {
+    background-color: var(--secondary-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.btn:hover,
+.cs-btn:hover,
+.signup-form button:hover,
+.login-form button:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+/* Form Styles */
+.signup-form input,
+.signup-form select,
+.login-form input,
+.cs-select,
+.cs-textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-color);
+}
+
+.signup-form input:focus,
+.signup-form select:focus,
+.login-form input:focus,
+.cs-select:focus,
+.cs-textarea:focus {
+    border-color: var(--input-focus);
+    outline: none;
+}
+
+/* Headings and Text */
+.company-info h1,
+.team h2,
+.reviews h2,
+.contact h2,
+.signup-container h1,
+.login-container h1 {
+    color: var(--header-color);
+}
+
+.company-info p,
+.company-text,
+.team-member .info-container p,
+.review-cards .card p,
+.contact-label,
+.contact-value,
+.cs-desc,
+.cs-response {
+    color: var(--text-color);
+}
+
+/* Contact Section */
+.contact {
+    background: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    color: var(--text-color);
+}
+
+.contact-icon {
+    color: var(--secondary-color);
+    background: #e6fffa;
+}
+
+.contact-label {
+    color: var(--header-color);
+}
+
+.contact-value {
+    color: var(--text-color);
+}
+
+/* Customer Service AI Assistant */
+.cs-response {
+    background: #e6fffa;
+    color: var(--text-color);
+    box-shadow: 0 2px 8px rgba(30,41,59,0.08);
+}
+
+.cs-response-icon {
+    color: var(--secondary-color);
+}
+
+/* Review Stars */
+.review-stars {
+    color: var(--accent-color);
 }
