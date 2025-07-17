@@ -38,7 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
             http_response_code(200);
-            echo json_encode(["success" => "Login successful", "user" => $user]);
+            echo json_encode([
+                "success" => "Login successful",
+                "user" => [
+                    "id" => $user['id'],
+                    "name" => $user['name'],
+                    "role" => $user['role'], // Return the user's role
+                ],
+                "token" => "your_generated_jwt_token_here", // Replace with actual JWT token
+            ]);
         } else {
             http_response_code(401);
             echo json_encode(["error" => "Invalid password"]);
