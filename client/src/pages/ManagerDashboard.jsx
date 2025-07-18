@@ -192,3 +192,4 @@ const ManagerDashboard = () => {
     </div>
   );
 };
+export default ManagerDashboard;
