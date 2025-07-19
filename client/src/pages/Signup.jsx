@@ -13,14 +13,7 @@ import {
 } from "react-icons/fa";
 
 const Signup = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    role: "",
-    password: "",
-    confirmPassword: "",
-  });
+  // Removed unused formData state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
