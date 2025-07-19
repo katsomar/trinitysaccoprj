@@ -1,23 +1,23 @@
 <?php
-require_once '../config/db.php';
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+// CORS headers must come first
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
 
-// Handle CORS preflight
+// Handle preflight request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Headers: Content-Type");
-    header("Access-Control-Allow-Methods: POST, OPTIONS");
-    header("Access-Control-Max-Age: 86400");
     http_response_code(204);
     exit();
 }
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: POST");
-header("Content-Type: application/json");
+// Enable errors
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
+require_once '../config/db.php'; // Must provide $conn as PDO
+
+// Parse JSON input
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!$data) {
@@ -25,7 +25,6 @@ if (!$data) {
     exit;
 }
 
-// Validate input
 $email = trim($data['email'] ?? '');
 $password = $data['password'] ?? '';
 
@@ -34,33 +33,31 @@ if (empty($email) || empty($password)) {
     exit;
 }
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
+try {
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
 
-if ($result && $result->num_rows > 0) {
-    $user = $result->fetch_assoc();
+    if ($stmt->rowCount() > 0) {
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (password_verify($password, $user['password'])) {
-        echo json_encode([
-            "status" => "success",
-            "message" => "Successfully logged in",
-            "details" => [
-                "id" => $user['id'],
-                "email" => $user['email'],
-                "name" => $user['name'] ?? null,
-                "role" => $user['role']  
-
-            ]
-        ]);
+        if (password_verify($password, $user['password'])) {
+            echo json_encode([
+                "status" => "success",
+                "message" => "Successfully logged in",
+                "details" => [
+                    "id" => $user['id'],
+                    "email" => $user['email'],
+                    "name" => $user['name'],
+                    "role" => $user['role']
+                ]
+            ]);
+        } else {
+            echo json_encode(["status" => "failed", "message" => "Invalid password"]);
+        }
     } else {
-        echo json_encode(["status" => "failed", "message" => "Invalid password"]);
+        echo json_encode(["status" => "failed", "message" => "User not found"]);
     }
-} else {
-    echo json_encode(["status" => "failed", "message" => "User not found"]);
+} catch (PDOException $e) {
+    echo json_encode(["status" => "failed", "message" => "Database error: " . $e->getMessage()]);
 }
-
-$stmt->close();
-$conn->close();
 ?>
