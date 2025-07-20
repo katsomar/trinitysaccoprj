@@ -168,6 +168,14 @@ const SaverDashboard = () => {
             <li onClick={() => navigate("/chat")}>Chat</li>
             <li onClick={() => navigate("/settings")}>Settings</li>
           </ul>
+          <div className="sidebar-logo">
+            <img
+              src="/src/assets/images/logo.png"
+              alt="Trinity SACCO"
+              style={{ filter: "grayscale(100%)", opacity: 0.65 }}
+            />
+            <div className="sidebar-logo-text">Powered by Omblo Technologies</div>
+          </div>
         </aside>
 
         {/* Main Content */}

@@ -89,6 +89,32 @@
   z-index: 9;
 }
 
+.sidebar-logo {
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Move logo and text to the left */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: #888;
+}
+
+.sidebar-logo img {
+  max-width: 120px;
+  height: auto;
+  opacity: 0.65; /* Make logo more greyed */
+  margin-left: 0.5rem;
+}
+
+.sidebar-logo-text {
+  font-size: 0.95rem;
+  color: #888;
+  margin-top: 0.3rem;
+  margin-left: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
 .online-status {
   display: flex;
   align-items: center;
@@ -183,7 +209,13 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, border 0.2s;
+  border: 2px solid transparent;
+}
+
+.card:hover {
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 16px rgba(0,123,255,0.10);
 }
 
 .card h2 {
