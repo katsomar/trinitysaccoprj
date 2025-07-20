@@ -11,6 +11,7 @@ import ManagerDashboard from './pages/ManagerDashboard';
 import GroupView from './pages/GroupView';
 import Chat from './pages/Chat';
 import CustomerService from './pages/CustomerService';
+import Settings from './pages/Settings';
 
 // Helper to conditionally render Navbar/Footer
 const Layout = ({ children }) => {
@@ -46,6 +47,7 @@ const App = () => {
                     <Route path="/group/:groupId" element={<GroupView />} />
                     <Route path="/chat/:groupId" element={<Chat />} />
                     <Route path="/customer-service" element={<CustomerService />} />
+                    <Route path="/settings" element={<Settings />} />
                 </Routes>
             </Layout>
         </Router>
