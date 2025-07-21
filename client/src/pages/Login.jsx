@@ -17,7 +17,7 @@ const Login = () => {
       password: password,
     };
     axios
-      .post("/login.php", data) // Correct endpoint
+      .post(`${import.meta.env.VITE_API_URL}/auth/login.php`, data)
       .then((response) => {
         // {"status":"failed","message":"User not found"}
         if (response.data.status == "success") {

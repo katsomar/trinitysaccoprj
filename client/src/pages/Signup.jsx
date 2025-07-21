@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "../utils/axiosConfig"; // Use the configured Axios instance
+import axios from "axios";
 
 import "../styles/main.css";
 import {
@@ -13,7 +13,6 @@ import {
 } from "react-icons/fa";
 
 const Signup = () => {
-  // Removed unused formData state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -28,41 +27,51 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
+
     if (!email || !password || !name || !phone || !role) {
       setError("All fields are required.");
       return;
     }
-    var data = {
-      name: name,
-      email: email,
-      phone: phone,
-      role: role,
-      password: password,
+
+    const data = {
+      name,
+      email,
+      phone,
+      role,
+      password,
     };
+
     axios
-      .post("/register.php", data) // Correct endpoint
+    //Adjust the link to yours Jane!!!!
+      .post(`${import.meta.env.VITE_API_URL}/auth/register.php`, data)
       .then((response) => {
-        // {"status":"failed","message":"User not found"}
-        if (response.data.status == "success") {
-          alert(response.data.message);
-          //   navigate(
-          //     response.data.role === "manager"
-          //       ? "/manager-dashboard"
-          //       : "/saver-dashboard"
-          //   );
-        } else if (response.data.status == "failed") {
-          alert(response.data.message);
+        console.log("Response:", response.data); // Debug log
+        const res = response.data;
+        if (res.status === "success") {
+          setSuccess(res.message);
+          alert(res.message);
+          // Clear form
+          setName("");
+          setEmail("");
+          setPhone("");
+          setRole("");
+          setPassword("");
+          setConfirmPassword("");
+        } else {
+          setError(res.message);
         }
       })
-      .catch(() => setError("An error occurred. Please try again."));
-    setError("");
-    setSuccess("Signup successful!");
-    // Add API call logic here
+      .catch((error) => {
+        console.error("Error:", error);
+        setError("An error occurred. Please try again.");
+      });
   };
 
   return (
@@ -71,7 +80,7 @@ const Signup = () => {
         <h1>Create an Account</h1>
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">{success}</p>}
-        <form onSubmit={(e) => handleSubmit(e)} className="signup-form">
+        <form onSubmit={handleSubmit} className="signup-form">
           <div className="input-group">
             <FaUser className="input-icon" />
             <input
@@ -121,7 +130,7 @@ const Signup = () => {
           <div className="input-group">
             <FaLock className="input-icon" />
             <input
-              type={showPassword ? "text" : "password"} // password is hidden by default
+              type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
               value={password}
@@ -139,7 +148,7 @@ const Signup = () => {
           <div className="input-group">
             <FaLock className="input-icon" />
             <input
-              type={showConfirmPassword ? "text" : "password"} // password is hidden by default
+              type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
               placeholder="Confirm Password"
               value={confirmPassword}
