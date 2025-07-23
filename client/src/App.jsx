@@ -45,6 +45,7 @@ const App = () => {
                     <Route path="/saver-dashboard" element={<SaverDashboard />} />
                     <Route path="/manager-dashboard" element={<ManagerDashboard />} />
                     <Route path="/group/:groupId" element={<GroupView />} />
+                    <Route path="/chat" element={<Chat />} />
                     <Route path="/chat/:groupId" element={<Chat />} />
                     <Route path="/customer-service" element={<CustomerService />} />
                     <Route path="/settings" element={<Settings />} />

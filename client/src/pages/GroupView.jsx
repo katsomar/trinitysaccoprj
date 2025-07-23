@@ -16,22 +16,24 @@ const GroupView = ({ groupId }) => {
     }, [groupId]);
 
     return (
-        <div className="group-view">
-            {group ? (
-                <>
-                    <h1>{group.name}</h1>
-                    <p>Interest Rate: {group.interest_rate}%</p>
-                    <p>Created By: {group.created_by}</p>
-                    <h2>Members</h2>
-                    <ul>
-                        {members.map(member => (
-                            <li key={member.id}>{member.name}</li>
-                        ))}
-                    </ul>
-                </>
-            ) : (
-                <p>Loading group details...</p>
-            )}
+        <div className="scrollable-page">
+            <div className="group-view">
+                {group ? (
+                    <>
+                        <h1>{group.name}</h1>
+                        <p>Interest Rate: {group.interest_rate}%</p>
+                        <p>Created By: {group.created_by}</p>
+                        <h2>Members</h2>
+                        <ul>
+                            {members.map(member => (
+                                <li key={member.id}>{member.name}</li>
+                            ))}
+                        </ul>
+                    </>
+                ) : (
+                    <p>Loading group details...</p>
+                )}
+            </div>
         </div>
     );
 };

@@ -120,8 +120,8 @@
 
 /* Main layout */
 html, body, #root {
-  height: 100%;
-  overflow: hidden;
+  /* height: 100%; */
+  /* overflow: hidden; */
 }
 
 .chat-root {

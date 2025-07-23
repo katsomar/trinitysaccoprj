@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/main.css';
 
+
 const Home = () => {
     const [currentText, setCurrentText] = useState(0);
     const [currentImage, setCurrentImage] = useState(0);
@@ -34,19 +35,21 @@ const Home = () => {
     }, [animatedTexts.length, backgroundImages.length]);
 
     return (
-        <div className="home">
-            <div
-                className="hero"
-                style={{
-                    backgroundImage: `url(${backgroundImages[currentImage]})`,
-                }}
-            >
-                <h1>Welcome to Trinity SACCO</h1>
-            </div>
+        <div className="scrollable-page">
+            <div className="home">
+                <div
+                    className="hero"
+                    style={{
+                        backgroundImage: `url(${backgroundImages[currentImage]})`,
+                    }}
+                >
+                    <h1>Welcome to Trinity SACCO</h1>
+                </div>
 
-            <div className="animated-text">
-                <h2 key={currentText}>{animatedTexts[currentText]}</h2>
-                <div className="animated-line" />
+                <div className="animated-text">
+                    <h2 key={currentText}>{animatedTexts[currentText]}</h2>
+                    <div className="animated-line" />
+                </div>
             </div>
         </div>
     );
