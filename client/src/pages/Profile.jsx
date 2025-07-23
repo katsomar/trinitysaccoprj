@@ -93,7 +93,21 @@ const Profile = () => {
         <main className="profile-container">
           <div className="profile-header-row">
             <h1 className="profile-title">PROFILE</h1>
-            <button className="back-dashboard-btn" onClick={() => navigate("/saver-dashboard")}>Back to Dashboard</button>
+            <button
+                className="btn"
+                style={{
+                  background: "#e3e6ee",
+                  color: "#004080",
+                  fontWeight: 500,
+                  borderRadius: "8px",
+                  padding: "0.5rem 1.2rem",
+                  fontSize: "1rem",
+                  marginLeft: "auto"
+                }}
+                onClick={() => navigate("/saver-dashboard")}
+              >
+                Back to Dashboard
+              </button>
           </div>
           <form className="profile-form" onSubmit={handleSave}>
             {/* Profile Photo Section */}

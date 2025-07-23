@@ -34,8 +34,8 @@
 .profile-title {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--slate-800, #1e293b);
-  letter-spacing: 0.05em;
+  color: #004080;
+  margin-bottom: 2rem;
 }
 
 .back-dashboard-btn {
@@ -157,7 +157,7 @@
   margin-top: 0.5rem;
 }
 .save-changes-btn {
-  background: var(--emerald-500, #10b981);
+  background: #007bff;
   color: #fff;
   border: none;
   border-radius: 0.5rem;
