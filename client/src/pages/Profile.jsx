@@ -41,7 +41,7 @@ const Profile = () => {
   const TopNav = () => (
     <nav className="navbar">
       <div className="navbar-left">
-        <div className="profile-viewer">
+        <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
           <img src={photo} alt="Avatar" className="avatar" />
           <span>{profile.name}</span>
         </div>

@@ -86,7 +86,7 @@ function Chat() {
   const TopNav = () => (
     <nav className="navbar">
       <div className="navbar-left">
-        <div className="profile-viewer">
+        <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/profile'}>
           <img src={user.avatar} alt="Avatar" className="avatar" />
           <span>{user.name}</span>
         </div>

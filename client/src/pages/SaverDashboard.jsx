@@ -132,7 +132,7 @@ const SaverDashboard = () => {
         {/* Navbar */}
         <nav className="navbar">
           <div className="navbar-left">
-            <div className="profile-viewer">
+            <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
               <img src={user.avatar} alt="Avatar" className="avatar" />
               <span>{user.name}</span>
             </div>
