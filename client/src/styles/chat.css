@@ -138,8 +138,7 @@ html, body, #root {
   display: flex;
   flex: 1 1 auto;
   min-height: 0;
-  height: calc(100vh - 56px - 56px); /* Subtract navbar and footer height */
-  margin-top: 56px; /* Ensures content starts below navbar */
+  height: calc(100vh - 56px); /* Subtract only navbar height */
   overflow: hidden;
 }
 
