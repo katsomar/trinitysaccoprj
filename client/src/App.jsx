@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -13,6 +13,7 @@ import Chat from './pages/Chat';
 import CustomerService from './pages/CustomerService';
 import Settings from './pages/Settings';
 import Profile from './pages/Profile';
+import Notifications from './pages/Notifications';
 
 // Helper to conditionally render Navbar/Footer
 const Layout = ({ children }) => {
@@ -27,7 +28,7 @@ const Layout = ({ children }) => {
 
     return (
         <div className="app">
-            {showLayout && <Navbar />}
+            {showLayout && <NavBar />}
             <main>{children}</main>
             {showLayout && <Footer />}
         </div>
@@ -51,6 +52,7 @@ const App = () => {
                     <Route path="/customer-service" element={<CustomerService />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/notifications" element={<Notifications />} />
                 </Routes>
             </Layout>
         </Router>
