@@ -14,6 +14,7 @@ import CustomerService from './pages/CustomerService';
 import Settings from './pages/Settings';
 import Profile from './pages/Profile';
 import Notifications from './pages/Notifications';
+import ManagerNotifications from './pages/ManagerNotifications';
 
 // Helper to conditionally render Navbar/Footer
 const Layout = ({ children }) => {
@@ -46,6 +47,7 @@ const App = () => {
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/saver-dashboard" element={<SaverDashboard />} />
                     <Route path="/manager-dashboard" element={<ManagerDashboard />} />
+                    <Route path="/manager-notifications" element={<ManagerNotifications />} />
                     <Route path="/group/:groupId" element={<GroupView />} />
                     <Route path="/chat" element={<Chat />} />
                     <Route path="/chat/:groupId" element={<Chat />} />

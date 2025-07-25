@@ -158,6 +158,7 @@ const ManagerDashboard = () => {
               <li onClick={() => navigate("/groups")}>Groups</li>
               <li onClick={() => navigate("/interest-calculator")}>Interest Calculator</li>
               <li onClick={() => navigate("/reports")}>Reports</li>
+              <li onClick={() => navigate("/manager-notifications")}>Manager Notifications</li>
               <li onClick={() => navigate("/messages")}>Messages</li>
               <li onClick={() => navigate("/settings")}>Settings</li>
             </ul>
