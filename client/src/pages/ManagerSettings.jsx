@@ -133,8 +133,27 @@ const ManagerSettings = () => {
             <div className="sidebar-logo-text">Powered by Omblo Technologies</div>
           </div>
         </aside>
+        
         <div className="manager-settings-container">
-          <h1 className="settings-title">Manager Settings</h1>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <h1 className="settings-title">Settings</h1>
+              <button
+                className="btn"
+                style={{
+                  background: "#e3e6ee",
+                  color: "#004080",
+                  fontWeight: 500,
+                  borderRadius: "8px",
+                  padding: "0.5rem 1.2rem",
+                  fontSize: "1rem",
+                  marginLeft: "auto"
+                }}
+                onClick={() => navigate("/manager-dashboard")}
+              >
+                Back to Dashboard
+              </button>
+            </div>
+          
 
           {/* 1. Security Settings */}
           <section className="settings-section">
@@ -272,6 +291,21 @@ const ManagerSettings = () => {
             </div>
             {dataMsg && <div className="form-msg">{dataMsg}</div>}
           </section>
+          <div className="settings-actions">
+              <button className="settings-undo-btn btn" onClick={() => alert("Undone!")}>
+                Undo
+              </button>
+              <button className="settings-redo-btn btn" onClick={() => alert("Redone!")}>
+                Redo
+              </button>
+              <button
+                className="settings-save-btn btn"
+                onClick={() => alert("Changes saved!")}
+                type="button"
+              >
+                Save Changes
+              </button>
+            </div>
         </div>
       </div>
     </div>

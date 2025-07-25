@@ -92,6 +92,8 @@
   height: auto; /* Let sidebar height be auto so it doesn't overlap footer */
   bottom: unset; /* Ensure no bottom positioning */
   z-index: 9;
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 .sidebar-logo {
