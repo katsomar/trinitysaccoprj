@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/manager-notifications.css";
-import NavBar from "../components/NavBar";
 import { useNavigate } from "react-router-dom";
 
 const user = {
@@ -92,7 +91,26 @@ const ManagerNotifications = () => {
 
   return (
     <div className="manager-notifications-root">
-      <NavBar />
+      {/* Top NavBar (copied from ManagerDashboard) */}
+      <nav className="navbar">
+        <div className="navbar-left">
+          <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
+            <img src={user.avatar} alt="Avatar" className="avatar" />
+            <span>{user.name}</span>
+          </div>
+        </div>
+        <div className="navbar-center">
+          <input
+            type="text"
+            className="search-bar"
+            placeholder="Search groups or members..."
+          />
+          <button className="discover-btn" onClick={() => navigate("/discover")}>Discover</button>
+        </div>
+        <div className="navbar-right">
+          <button className="logout-btn" onClick={() => navigate("/login")}>Logout</button>
+        </div>
+      </nav>
       <div className="manager-notifications-main">
         <aside className="sidebar">
           <div className="online-status">
@@ -106,7 +124,7 @@ const ManagerNotifications = () => {
             <li onClick={() => navigate("/interest-calculator")}>Interest Calculator</li>
             <li onClick={() => navigate("/reports")}>Reports</li>
             <li onClick={() => navigate("/messages")}>Messages</li>
-            <li onClick={() => navigate("/settings")}>Settings</li>
+            <li className="active" onClick={() => navigate("/manager-settings")}>Settings</li>
           </ul>
           <div className="sidebar-logo">
             <img

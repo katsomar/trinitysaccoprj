@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Chart, Bar, Pie } from "react-chartjs-2";
 import "chart.js/auto";
 import axios from "axios";
@@ -73,6 +73,7 @@ const SaverDashboard = () => {
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [selectedGroup, setSelectedGroup] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
       // Fetch balance and transactions
@@ -164,11 +165,11 @@ const SaverDashboard = () => {
               <span>{user.online ? "Online" : "Offline"}</span>
             </div>
             <ul className="sidebar-menu">
-              <li onClick={() => navigate("/deposit")}>Deposit</li>
-              <li onClick={() => navigate("/withdraw")}>Withdraw</li>
-              <li onClick={() => navigate("/notifications")}>Notifications</li>
-              <li onClick={() => navigate("/chat")}>Chat</li>
-              <li onClick={() => navigate("/settings")}>Settings</li>
+              <li className={location.pathname === "/deposit" ? "active" : ""} onClick={() => navigate("/deposit")}>Deposit</li>
+              <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => navigate("/withdraw")}>Withdraw</li>
+              <li className={location.pathname === "/notifications" ? "active" : ""} onClick={() => navigate("/notifications")}>Notifications</li>
+              <li className={location.pathname === "/chat" ? "active" : ""} onClick={() => navigate("/chat")}>Chat</li>
+              <li className={location.pathname === "/settings" ? "active" : ""} onClick={() => navigate("/settings")}>Settings</li>
             </ul>
             <div className="sidebar-logo">
               <img

@@ -160,7 +160,7 @@ const ManagerDashboard = () => {
               <li onClick={() => navigate("/reports")}>Reports</li>
               <li onClick={() => navigate("/manager-notifications")}>Manager Notifications</li>
               <li onClick={() => navigate("/messages")}>Messages</li>
-              <li onClick={() => navigate("/settings")}>Settings</li>
+              <li onClick={() => navigate("/manager-settings")}>Settings</li>
             </ul>
             <div className="sidebar-logo">
               <img src="/src/assets/images/logo.png" alt="Trinity SACCO" style={{ filter: "grayscale(100%)", opacity: 0.65 }}/>

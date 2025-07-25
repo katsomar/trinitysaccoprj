@@ -1,0 +1,205 @@
+/* Manager Settings Page Styles */
+.manager-settings-root {
+  min-height: 100vh;
+  background: var(--slate-50, #f8fafc);
+  display: flex;
+  flex-direction: column;
+}
+
+.manager-settings-main {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.manager-settings-container {
+  flex: 1 1 auto;
+  padding: 2.5rem 2rem 2rem 2rem;
+  background: transparent;
+  min-width: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-left: 250px;
+}
+
+.settings-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--primary-color, #004080);
+  margin-bottom: 2.5rem;
+}
+
+.settings-section {
+  background: var(--card-bg, #fff);
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px 0 rgba(16, 30, 54, 0.07);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.settings-section h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--emerald-700, #047857);
+  margin-bottom: 0.7rem;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.form-group label {
+  font-size: 1rem;
+  color: var(--slate-700, #334155);
+  font-weight: 500;
+  margin-bottom: 0.1rem;
+}
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="number"],
+.form-group select {
+  border: 1.5px solid var(--slate-200, #e2e8f0);
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  color: var(--slate-800, #1e293b);
+  background: var(--slate-50, #f8fafc);
+  transition: border 0.2s;
+  resize: none;
+}
+.form-group input:focus,
+.form-group select:focus {
+  border: 1.5px solid var(--primary-color, #004080);
+  outline: none;
+}
+
+.form-group.toggles {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+.status-toggle {
+  background: var(--emerald-500, #10b981);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 1.1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.status-toggle.off {
+  background: var(--slate-200, #e2e8f0);
+  color: var(--slate-700, #334155);
+}
+.status-dot {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 50%;
+  margin-right: 0.5em;
+  background: var(--emerald-500, #10b981);
+  vertical-align: middle;
+}
+.status-dot.offline {
+  background: var(--slate-400, #94a3b8);
+}
+
+.save-btn, .export-btn {
+  background: var(--primary-color, #004080);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 rgba(16, 30, 54, 0.08);
+  transition: background 0.2s, color 0.2s;
+  margin-top: 0.5rem;
+}
+.save-btn:hover, .export-btn:hover {
+  background: var(--amber-500, #f59e42);
+  color: #fff;
+}
+
+.form-msg {
+  margin-top: 0.5rem;
+  color: var(--emerald-700, #047857);
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.data-tools-row {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 0.7rem;
+}
+
+@media (max-width: 1200px) {
+  .manager-settings-container {
+    margin-left: 200px;
+  }
+}
+@media (max-width: 1024px) {
+  .manager-settings-main {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .manager-settings-container {
+    padding: 1.5rem 0.5rem;
+    margin-left: 0;
+  }
+}
+@media (max-width: 700px) {
+  .settings-title {
+    font-size: 1.3rem;
+  }
+  .settings-section {
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
+  }
+  .save-btn, .export-btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+}
+@media (max-width: 500px) {
+  .manager-settings-container {
+    padding: 0.5rem 0.1rem;
+    gap: 1rem;
+  }
+  .settings-section {
+    padding: 0.7rem 0.2rem 0.7rem 0.2rem;
+    gap: 0.7rem;
+  }
+} 
