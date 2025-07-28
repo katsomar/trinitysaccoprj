@@ -86,7 +86,7 @@ function Chat() {
   const TopNav = () => (
     <nav className="navbar">
       <div className="navbar-left">
-        <div className="profile-viewer">
+        <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/profile'}>
           <img src={user.avatar} alt="Avatar" className="avatar" />
           <span>{user.name}</span>
         </div>
@@ -116,7 +116,19 @@ function Chat() {
       <div className="chat-main">
         {/* LEFT SIDEBAR */}
         <aside className="chat-sidebar" style={{ marginTop: 0, top: 0, height: "100%" }}>
-          <div className="chat-sidebar-title">CHAT SPACE</div>
+          <div className="chat-sidebar-title" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button
+              className="chat-back-btn"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, marginRight: '8px', display: 'flex', alignItems: 'center' }}
+              title="Back to Dashboard"
+              onClick={() => window.location.href = "/saver-dashboard"}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#004080" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            CHAT SPACE
+          </div>
           <div className="chat-contacts-list">
             {contactList.map((c, idx) => (
               <div

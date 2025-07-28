@@ -84,6 +84,16 @@ body {
     font-size: 1rem;
     transition: background-color 0.3s, transform 0.2s;
 }
+::-webkit-scrollbar{
+    width: 0.5rem;
+    background: rgba(229, 165, 93, 0.2);
+}
+
+::-webkit-scrollbar-thumb{
+    width: 100%;
+    background: #0f36d0;
+    border-radius: 0.25rem;
+}
 
 .nav-links a:hover {
     background-color: var(--secondary-color);
@@ -102,9 +112,12 @@ body {
     box-shadow: var(--card-shadow);
     text-align: center;
     padding: 10px;
-    position: fixed;
-    bottom: 0;
+
     width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    margin-bottom: 0;
 }
 
 /* Home Page Styles */
@@ -1000,3 +1013,11 @@ body {
 .review-stars {
     color: var(--accent-color);
 }
+
+.scrollable-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+

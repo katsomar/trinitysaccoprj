@@ -1,0 +1,119 @@
+/* Invites Page Styles */
+.invites-page {
+  min-height: 100vh;
+  background: #f7f9fc;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.invites-title {
+  color: #004080;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.invites-list {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.invite-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.5rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid transparent;
+  transition: box-shadow 0.2s, border 0.2s;
+  position: relative;
+}
+.invite-card:hover {
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 16px rgba(0,123,255,0.10);
+}
+.invite-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+}
+.invite-group {
+  font-size: 1.15rem;
+  color: #004080;
+  font-weight: 600;
+}
+.invite-status.accepted {
+  background: #e6f9ed;
+  color: #28a745;
+  border-radius: 8px;
+  padding: 0.2rem 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.invite-info {
+  color: #004080;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.invite-message {
+  margin-top: 0.5rem;
+  color: #888;
+  font-style: italic;
+}
+.invite-actions {
+  display: flex;
+  gap: 1rem;
+}
+.accept-btn {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.accept-btn:hover {
+  background: #218838;
+}
+.decline-btn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.decline-btn:hover {
+  background: #b52a37;
+}
+.invites-fallback {
+  color: #888;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+@media (max-width: 600px) {
+  .invites-list {
+    max-width: 98vw;
+    padding: 0 0.5rem;
+  }
+  .invites-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+  .invite-card {
+    padding: 1rem 0.5rem;
+  }
+} 

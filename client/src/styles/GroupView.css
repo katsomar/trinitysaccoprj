@@ -1,0 +1,355 @@
+/* GroupView Page Styles */
+.groupview-main-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 2rem;
+  margin-left: 2rem;
+}
+
+.groupview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.groupview-header h1 {
+  font-size: 2rem;
+  color: #004080;
+  font-weight: 700;
+}
+
+.groupview-back-btn {
+  background: #fff;
+  color: #004080;
+  border: 2px solid #004080;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.groupview-back-btn:hover {
+  background: #004080;
+  color: #fff;
+}
+
+.groupview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.groupview-form-card, .groupview-invite-card, .groupview-info-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 2px solid transparent;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+
+.groupview-form-card:hover, .groupview-invite-card:hover, .groupview-info-card:hover {
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 16px rgba(0,123,255,0.10);
+}
+
+.groupview-form h2, .groupview-invite-card h2, .groupview-info-card h2 {
+  font-size: 1.2rem;
+  color: #004080;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.groupview-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  color: #004080;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.groupview-form input,
+.groupview-form textarea {
+  margin-top: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #e3e6ee;
+  font-size: 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
+  background: #f7f9fc;
+  outline: none;
+}
+
+.groupview-form input:focus,
+.groupview-form textarea:focus {
+  border: 1.5px solid #007bff;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+}
+
+.groupview-create-btn {
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+.groupview-create-btn:hover {
+  background: #218838;
+}
+
+/* Enhanced Invite Members Card */
+.groupview-invite-card {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 2px solid transparent;
+  transition: box-shadow 0.2s, border 0.2s;
+  margin-bottom: 1.5rem;
+}
+.groupview-invite-card:hover {
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 16px rgba(0,123,255,0.10);
+}
+.groupview-invite-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1.2rem;
+}
+.groupview-invite-header-icon {
+  font-size: 1.5rem;
+  color: #007bff;
+  background: #e3e6ee;
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.groupview-invite-header-title {
+  font-size: 1.15rem;
+  color: #004080;
+  font-weight: 600;
+}
+.groupview-search-wrapper {
+  background: #f7f9fc;
+  border-radius: 10px;
+  padding: 1rem 0.5rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  justify-content: center;
+}
+.groupview-search {
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  border: 1px solid #e3e6ee;
+  width: 90%;
+  max-width: 340px;
+  font-size: 1rem;
+  background: #f7f9fc;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.groupview-search:focus {
+  border: 1.5px solid #007bff;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+}
+.groupview-search:disabled {
+  background: #f0f0f0;
+  color: #aaa;
+}
+
+.groupview-search-results {
+  margin-bottom: 1.2rem;
+}
+.groupview-search-results li {
+  background: #f7f9fc;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.2s;
+}
+.groupview-search-results li:hover {
+  background: #e3e6ee;
+}
+.groupview-search-results li:last-child {
+  border-bottom: none;
+}
+
+.groupview-invite-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.3rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 0.95rem;
+}
+.groupview-invite-btn:hover {
+  background: #0056b3;
+}
+
+.groupview-invites-list {
+  margin-top: 1.2rem;
+  background: #f7f9fc;
+  border-radius: 10px;
+  padding: 1rem 0.5rem;
+}
+.groupview-invites-list h3 {
+  font-size: 1rem;
+  color: #004080;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.groupview-invites-list ul {
+  list-style: none;
+  padding: 0;
+}
+.groupview-invites-list li {
+  padding: 0.3rem 0;
+  color: #004080;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid #e3e6ee;
+}
+.groupview-invites-list li:last-child {
+  border-bottom: none;
+}
+.groupview-invite-status {
+  background: #ffeaea;
+  color: #dc3545;
+  border-radius: 8px;
+  padding: 0.1rem 0.7rem;
+  font-size: 0.95rem;
+  margin-left: 0.5rem;
+  font-weight: 600;
+}
+
+.groupview-info-card {
+  min-width: 0;
+}
+.groupview-info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+  font-size: 1.05rem;
+}
+.groupview-info-label {
+  color: #888;
+  font-weight: 500;
+  margin-right: 1rem;
+}
+
+/* Tabs for Invite/Manage */
+.groupview-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.groupview-tab-btn {
+  background: #fff;
+  color: #004080;
+  border: 2px solid #004080;
+  border-radius: 8px 8px 0 0;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  font-size: 1rem;
+  outline: none;
+}
+.groupview-tab-btn.active {
+  background: #004080;
+  color: #fff;
+  border-bottom: 2px solid #f7f9fc;
+  z-index: 1;
+}
+.groupview-tab-btn:not(.active):hover {
+  background: #e3e6ee;
+  color: #007bff;
+}
+
+/* Improved Invite Members Tab Layout */
+.groupview-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.groupview-invite-card {
+  margin-bottom: 0;
+  padding-top: 2.2rem;
+  padding-bottom: 2.2rem;
+}
+
+.groupview-invites-list {
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+}
+
+@media (max-width: 1200px) {
+  .groupview-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 900px) {
+  .groupview-main-content {
+    margin-left: 1rem;
+    padding: 1rem;
+  }
+  .groupview-grid {
+    gap: 1.2rem;
+  }
+}
+@media (max-width: 600px) {
+  .groupview-main-content {
+    margin-left: 0;
+    padding: 0.5rem;
+  }
+  .groupview-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .groupview-grid {
+    gap: 1rem;
+  }
+  .groupview-form-card, .groupview-invite-card, .groupview-info-card {
+    padding: 1rem 0.5rem;
+  }
+  .groupview-tabs {
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .groupview-tab-btn {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.95rem;
+  }
+} 

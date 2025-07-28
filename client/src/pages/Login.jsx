@@ -47,45 +47,47 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <h1>Login</h1>
-        {error && <p className="error-message">{error}</p>}
-        <form onSubmit={handleLogin} className="login-form">
-          <div className="input-group">
-            <FaEnvelope className="input-icon" />
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <FaLock className="input-icon" />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <span
-              className="toggle-password"
-              onClick={() => setShowPassword((prev) => !prev)}
-              style={{ cursor: "pointer", marginLeft: 8 }}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
-          <button type="submit" className="btn">
-            Login
-          </button>
-        </form>
-        <p className="signup-link">
-          Don't have an account? <a href="/signup">Sign up here</a>
-        </p>
+    <div className="scrollable-page">
+      <div className="login-page">
+        <div className="login-container">
+          <h1>Login</h1>
+          {error && <p className="error-message">{error}</p>}
+          <form onSubmit={handleLogin} className="login-form">
+            <div className="input-group">
+              <FaEnvelope className="input-icon" />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <FaLock className="input-icon" />
+              <input
+                type={showPassword ? "text" : "password"} // password is hidden by default
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <span
+                className="toggle-password"
+                onClick={() => setShowPassword((prev) => !prev)}
+                style={{ cursor: "pointer", marginLeft: 8 }}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+            <button type="submit" className="btn">
+              Login
+            </button>
+          </form>
+          <p className="signup-link">
+            Don't have an account? <a href="/signup">Sign up here</a>
+          </p>
+        </div>
       </div>
     </div>
   );

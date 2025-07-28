@@ -92,49 +92,51 @@ const CustomerService = () => {
   };
 
   return (
-    <div className="customer-service-page">
-      <div className="customer-service-container">
-        <h1>
-          <FaRobot style={{ marginRight: 10 }} />
-          AI Customer Care Assistant
-        </h1>
-        <p className="cs-desc">
-          How can we help you today? Select an issue or describe your problem
-          below.
-        </p>
-        <form className="cs-form" onSubmit={handleSend}>
-          <select
-            value={selectedIssue}
-            onChange={handleIssueSelect}
-            className="cs-select"
-          >
-            <option value="">Select an issue...</option>
-            {issueOptions.map((issue) => (
-              <option key={issue} value={issue}>
-                {issue}
-              </option>
-            ))}
-          </select>
-          {(selectedIssue === "Other" || selectedIssue === "") && (
-            <textarea
-              className="cs-textarea"
-              placeholder="Describe your issue here..."
-              value={customQuery}
-              onChange={handleQueryChange}
-              rows={4}
-            />
+    <div className="scrollable-page">
+      <div className="customer-service-page">
+        <div className="customer-service-container">
+          <h1>
+            <FaRobot style={{ marginRight: 10 }} />
+            AI Customer Care Assistant
+          </h1>
+          <p className="cs-desc">
+            How can we help you today? Select an issue or describe your problem
+            below.
+          </p>
+          <form className="cs-form" onSubmit={handleSend}>
+            <select
+              value={selectedIssue}
+              onChange={handleIssueSelect}
+              className="cs-select"
+            >
+              <option value="">Select an issue...</option>
+              {issueOptions.map((issue) => (
+                <option key={issue} value={issue}>
+                  {issue}
+                </option>
+              ))}
+            </select>
+            {(selectedIssue === "Other" || selectedIssue === "") && (
+              <textarea
+                className="cs-textarea"
+                placeholder="Describe your issue here..."
+                value={customQuery}
+                onChange={handleQueryChange}
+                rows={4}
+              />
+            )}
+            <button type="submit" className="cs-btn">
+              <FaPaperPlane style={{ marginRight: 6 }} />
+              Send
+            </button>
+          </form>
+          {response && (
+            <div className="cs-response">
+              <FaRobot className="cs-response-icon" />
+              <span>{response}</span>
+            </div>
           )}
-          <button type="submit" className="cs-btn">
-            <FaPaperPlane style={{ marginRight: 6 }} />
-            Send
-          </button>
-        </form>
-        {response && (
-          <div className="cs-response">
-            <FaRobot className="cs-response-icon" />
-            <span>{response}</span>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
