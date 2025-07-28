@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Invites.css';
+import Footer from '../components/Footer';
 
 const user = {
   name: "Kats Omar",
@@ -120,6 +121,7 @@ const Invites = () => {
           </div>
         </main>
       </div>
+      <Footer />
     </div>
   );
 };

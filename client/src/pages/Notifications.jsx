@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/notifications.css";
-// Import NavBar and Sidebar from your components directory
+// Remove NavBar import, use custom navbar below
 import { useNavigate } from "react-router-dom";
 
 const user = {
@@ -85,20 +85,16 @@ const Notifications = () => {
 
   return (
     <div className="notifications-root">
-      {/* Navbar (copied from SaverDashboard.jsx) */}
+      {/* Navbar (same as SaverDashboard) */}
       <nav className="navbar">
         <div className="navbar-left">
-          <div className="profile-viewer">
-            <div
-              style={{
-                textAlign: "center",
-                fontWeight: "bold",
-                marginBottom: 4,
-              }}
-            >
-              {user.name}
-            </div>
+          <div
+            className="profile-viewer"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/profile")}
+          >
             <img src={user.avatar} alt="Avatar" className="avatar" />
+            <span>{user.name}</span>
           </div>
         </div>
         <div className="navbar-center">

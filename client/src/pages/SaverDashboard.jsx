@@ -5,13 +5,7 @@ import "chart.js/auto";
 import axios from "axios";
 import "../styles/SaverDashboard.css"; // Ensure your theme CSS is imported
 import Footer from "../components/Footer";
-
-const user = {
-  name: "Kats Omar",
-  accountNumber: "SACCO20250717001",
-  avatar: "/assets/avatar.png",
-  online: true,
-};
+import DepositModal from '../components/DepositModal';
 
 const notifications = [
   { id: 1, text: "Deposit of $100 received." },
@@ -75,18 +69,16 @@ const SaverDashboard = () => {
   });
   const [balance, setBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
-  const [depositAmount, setDepositAmount] = useState("");
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [selectedGroup, setSelectedGroup] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [showDepositModal, setShowDepositModal] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      setError("Not logged in.");
       setLoading(false);
       return;
     }
@@ -120,37 +112,10 @@ const SaverDashboard = () => {
         );
         setLoading(false);
       })
-      .catch((err) => {
-        setError("Failed to load user data.");
+      .catch(() => {
         setLoading(false);
       });
   }, []);
-
-  const handleDeposit = () => {
-    if (!selectedGroup) {
-      alert("Please select a group to deposit into.");
-      return;
-    }
-    if (!depositAmount || parseFloat(depositAmount) <= 0) {
-      alert("Please enter a valid deposit amount.");
-      return;
-    }
-    const token = localStorage.getItem("token");
-    axios
-      .post(
-        "http://localhost/server/savedashboard/deposit.php",
-        { amount: depositAmount, group_id: selectedGroup },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then((response) => {
-        alert(response.data.message);
-        setBalance((prev) => prev + parseFloat(depositAmount));
-        setDepositAmount("");
-      })
-      .catch((error) =>
-        alert(error.response?.data?.message || "Error depositing money.")
-      );
-  };
 
   const handleWithdraw = () => {
     if (!selectedGroup) {
@@ -179,7 +144,6 @@ const SaverDashboard = () => {
   };
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="scrollable-page">
@@ -219,7 +183,7 @@ const SaverDashboard = () => {
               <span>{user.online ? "Online" : "Offline"}</span>
             </div>
             <ul className="sidebar-menu">
-              <li className={location.pathname === "/deposit" ? "active" : ""} onClick={() => navigate("/deposit")}>Deposit</li>
+              <li className={location.pathname === "/deposit" ? "active" : ""} onClick={() => setShowDepositModal(true)}>Deposit</li>
               <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => navigate("/withdraw")}>Withdraw</li>
               <li className={location.pathname === "/notifications" ? "active" : ""} onClick={() => navigate("/notifications")}>Notifications</li>
               <li className={location.pathname === "/chat" ? "active" : ""} onClick={() => navigate("/chat")}>Chat</li>
@@ -261,7 +225,7 @@ const SaverDashboard = () => {
                     <option value="group2">Family Fund</option>
                     <option value="group3">Holiday Club</option>
                   </select>
-                  <button className="btn deposit-btn" onClick={handleDeposit}>
+                  <button className="btn deposit-btn" onClick={() => setShowDepositModal(true)}>
                     Deposit
                   </button>
                   <button className="btn withdraw-btn" onClick={handleWithdraw}>
@@ -366,6 +330,7 @@ const SaverDashboard = () => {
           <span>&copy; 2024 Trinity SACCO. All rights reserved.</span>
         </footer>
       </div>
+      <DepositModal isOpen={showDepositModal} onClose={() => setShowDepositModal(false)} />
     </div>
   );
 };
