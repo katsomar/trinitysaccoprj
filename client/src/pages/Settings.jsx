@@ -32,6 +32,9 @@ const Settings = () => {
   const [threshold, setThreshold] = useState("");
 const [reminder, setReminder] = useState("");
   const [theme, setTheme] = useState("light");
+  const [idVerified, setIdVerified] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
+
 
 
 
@@ -96,7 +99,7 @@ const [reminder, setReminder] = useState("");
     try {
       const token = localStorage.getItem("token");
      await axios.put(
-  "http://localhost/server/setting/verify-id.php",
+  "http://localhost/server/setting/update-password.php",
  
   { currentPassword, newPassword },
   { headers: { Authorization: `Bearer ${token}` } }
@@ -152,22 +155,29 @@ const [reminder, setReminder] = useState("");
   };
 
   const handleVerifyId = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-  "http://localhost/server/settig/verify-id.php",
-  {},
-  { headers: { Authorization: `Bearer ${token}` } }
-);
+  try {
+    const token = localStorage.getItem("token");
 
-      setUser({ ...user, idVerified: true });
-      setError(null);
-      alert("ID verification requested!");
-    } catch (error) {
-      console.error("Error verifying ID:", error);
-      setError(error.response?.data?.message || "Failed to verify ID.");
-    }
-  };
+    await axios.post(
+      "http://localhost/server/settig/verify-id.php",
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    // ✅ Update user object with verified ID
+    setUser(prevUser => ({
+      ...prevUser,
+      idVerified: true,
+    }));
+
+    setError(null);
+    alert("ID verification requested!");
+  } catch (error) {
+    console.error("Error verifying ID:", error);
+    setError(error.response?.data?.message || "Failed to verify ID.");
+  }
+};
+
 
   // Role-based sidebar menu
   const menuItems = {
