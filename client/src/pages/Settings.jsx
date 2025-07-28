@@ -28,6 +28,7 @@ const Settings = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [onlineStatus, setOnlineStatus] = useEffect
 
   useEffect(() => {
     const fetchUserData = async () => {
