@@ -28,6 +28,12 @@ const Settings = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [onlineStatus, setOnlineStatus] = useState(false);
+  const [threshold, setThreshold] = useState("");
+const [reminder, setReminder] = useState("");
+  const [theme, setTheme] = useState("light");
+
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -37,7 +43,7 @@ const Settings = () => {
           navigate("/login");
           return;
         }
-        const response = await axios.get("http://localhost/server/setting.php", {
+        const response = await axios.get("http://localhost/server/settings.php", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(response.data);
@@ -60,7 +66,7 @@ const Settings = () => {
     try {
       const token = localStorage.getItem("token");
     await axios.put(
-  "http://localhost/server/setting.php",
+  "http://localhost/server/settings.php",
   {
     online: user.online,
     phone: user.phone,
@@ -181,6 +187,13 @@ const Settings = () => {
   };
 
   if (loading) return <div>Loading...</div>;
+const handlePhoneChange = (e) => {
+  setUser(prevUser => ({
+    ...prevUser,
+    phone: e.target.value,
+  }));
+};
+
 
   return (
     <div className="scrollable-page">
@@ -262,11 +275,12 @@ const Settings = () => {
                 <label>Email</label>
                 <div>
                   <span>{user.email}</span>
-                  {emailVerified ? (
-                    <span className="verified-icon" title="Verified">✔️</span>
-                  ) : (
-                    <span className="unverified-icon" title="Not Verified">❔</span>
-                  )}
+             {user.emailVerified ? (
+  <span className="verified-icon" title="Verified">✔️</span>
+) : (
+  <span className="unverified-icon" title="Not Verified">❔</span>
+)}
+
                   <button className="btn" style={{ marginLeft: "1rem" }} onClick={() => setEmailVerified(true)}>
                     Verify Email
                   </button>
@@ -275,7 +289,7 @@ const Settings = () => {
               <div className="settings-row">
                 <label>National ID</label>
                 <div>
-                  {idVerified ? (
+                  {user.idVerified ? (
                     <span className="verified-icon" title="Verified">✔️</span>
                   ) : (
                     <span className="unverified-icon" title="Not Verified">❔</span>
@@ -290,29 +304,29 @@ const Settings = () => {
             <hr />
 
             {/* Contact Details */}
-            <section className="settings-section">
-              <h2>Contact Details</h2>
-              <div className="settings-row">
-                <label>Phone Number</label>
-                <div>
-                  <input
-                    type="text"
-                    className="settings-input"
-                    value={phone}
-                    onChange={e => setPhone(e.target.value)}
-                    disabled={phoneVerified}
-                  />
-                  {phoneVerified ? (
-                    <span className="verified-icon" title="Verified">✔️</span>
-                  ) : (
-                    <span className="unverified-icon" title="Not Verified">❔</span>
-                  )}
-                  <button className="btn" style={{ marginLeft: "1rem" }} onClick={() => setPhoneVerified(true)}>
-                    {phoneVerified ? "Verified" : "Verify Number"}
-                  </button>
-                </div>
-              </div>
-            </section>
+           <section className="settings-section">
+  <h2>Contact Details</h2>
+  <div className="settings-row">
+    <label>Phone Number</label>
+    <div>
+      <input
+        type="text"
+        className="settings-input"
+        value={user.phone}
+        onChange={handlePhoneChange}
+        disabled={user.phoneVerified}
+      />
+      {user.phoneVerified ? (
+        <span className="verified-icon" title="Verified">✔️</span>
+      ) : (
+        <span className="unverified-icon" title="Not Verified">❔</span>
+      )}
+      <button className="btn" style={{ marginLeft: "1rem" }} onClick={handleVerifyPhone}>
+        {user.phoneVerified ? "Verified" : "Verify Number"}
+      </button>
+    </div>
+  </div>
+</section>
             <hr />
 
             {/* Password & Security */}
@@ -357,7 +371,7 @@ const Settings = () => {
                 </label>
               </div>
               <div className="settings-row">
-                <button className="btn" style={{ marginTop: "0.5rem" }}>
+                <button className="btn" style={{ marginTop: "0.5rem" }}  onClick={handlePasswordUpdate}>
                   Update Password
                 </button>
               </div>
@@ -366,30 +380,43 @@ const Settings = () => {
 
             {/* Notification & Limits */}
             <section className="settings-section">
-              <h2>Notification & Limits</h2>
-              <div className="settings-row">
-                <label>Minimum Balance Alert</label>
-                <input
-                  type="number"
-                  className="settings-input"
-                  value={threshold}
-                  onChange={e => setThreshold(e.target.value)}
-                  min={0}
-                />
-              </div>
-              <div className="settings-row">
-                <label>Reminder Interval (days)</label>
-                <select
-                  className="settings-input"
-                  value={reminder}
-                  onChange={e => setReminder(e.target.value)}
-                >
-                  <option value="1">Every 1 day</option>
-                  <option value="3">Every 3 days</option>
-                  <option value="7">Every week</option>
-                </select>
-              </div>
-            </section>
+  <h2>Notification & Limits</h2>
+
+  <div className="settings-row">
+    <label>Minimum Balance Alert</label>
+    <input
+      type="number"
+      className="settings-input"
+      value={user.threshold || ""}
+      onChange={(e) =>
+        setUser((prevUser) => ({
+          ...prevUser,
+          threshold: e.target.value,
+        }))
+      }
+      min={0}
+    />
+  </div>
+
+  <div className="settings-row">
+    <label>Reminder Interval (days)</label>
+    <select
+      className="settings-input"
+      value={user.reminder || ""}
+      onChange={(e) =>
+        setUser((prevUser) => ({
+          ...prevUser,
+          reminder: e.target.value,
+        }))
+      }
+    >
+      <option value="1">Every 1 day</option>
+      <option value="3">Every 3 days</option>
+      <option value="7">Every week</option>
+    </select>
+  </div>
+</section>
+
             <hr />
 
             {/* Theme */}
