@@ -6,6 +6,7 @@ import axios from "axios";
 import "../styles/SaverDashboard.css"; // Ensure your theme CSS is imported
 import Footer from "../components/Footer";
 import DepositModal from '../components/DepositModal';
+import WithdrawPopup from '../components/WithdrawPopup';
 
 const notifications = [
   { id: 1, text: "Deposit of $100 received." },
@@ -75,6 +76,7 @@ const SaverDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showDepositModal, setShowDepositModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -184,7 +186,7 @@ const SaverDashboard = () => {
             </div>
             <ul className="sidebar-menu">
               <li className={location.pathname === "/deposit" ? "active" : ""} onClick={() => setShowDepositModal(true)}>Deposit</li>
-              <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => navigate("/withdraw")}>Withdraw</li>
+              <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => setShowWithdrawModal(true)}>Withdraw</li>
               <li className={location.pathname === "/notifications" ? "active" : ""} onClick={() => navigate("/notifications")}>Notifications</li>
               <li className={location.pathname === "/chat" ? "active" : ""} onClick={() => navigate("/chat")}>Chat</li>
               <li className={location.pathname === "/invites" ? "active" : ""} onClick={() => navigate("/invites")}>Invites</li>
@@ -331,6 +333,7 @@ const SaverDashboard = () => {
         </footer>
       </div>
       <DepositModal isOpen={showDepositModal} onClose={() => setShowDepositModal(false)} />
+      <WithdrawPopup isOpen={showWithdrawModal} onClose={() => setShowWithdrawModal(false)} />
     </div>
   );
 };
