@@ -4,6 +4,7 @@ import '../styles/GroupView.css';
 import logo from '../assets/images/logo.png';
 import { useNavigate, useLocation } from 'react-router-dom';
 import InviteManager from './InviteManager';
+import Footer from '../components/Footer';
 
 const dummyUsers = [
   { id: 1, name: 'Jane Doe', email: 'jane@example.com' },
@@ -263,7 +264,8 @@ const GroupView = () => {
           </div>
         </main>
             </div>
-        </div>
+        <Footer />
+    </div>
     );
 };
 
