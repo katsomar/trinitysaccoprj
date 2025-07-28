@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../styles/notifications.css";
 // Import NavBar and Sidebar from your components directory
-import NavBar from "../components/NavBar";
 import { useNavigate } from "react-router-dom";
 
 const user = {
@@ -15,29 +14,34 @@ const dummyNotifications = [
   {
     id: 1,
     type: "group_invite",
-    message: "You have been invited to join the Project Alpha group. Click to see more.",
-    details: "John Doe has invited you to join the Project Alpha group. Accept to join and collaborate with the team.",
+    message:
+      "You have been invited to join the Project Alpha group. Click to see more.",
+    details:
+      "John Doe has invited you to join the Project Alpha group. Accept to join and collaborate with the team.",
     read: false,
   },
   {
     id: 2,
     type: "friend_request",
     message: "Jane Smith sent you a friend request.",
-    details: "Jane Smith wants to add you as a friend. Accept to connect or ignore to dismiss.",
+    details:
+      "Jane Smith wants to add you as a friend. Accept to connect or ignore to dismiss.",
     read: false,
   },
   {
     id: 3,
     type: "message",
     message: "New message from Alex: 'Hey, are you available for a call?'",
-    details: "Alex: Hey, are you available for a call later today? Let me know what time works for you!",
+    details:
+      "Alex: Hey, are you available for a call later today? Let me know what time works for you!",
     read: false,
   },
   {
     id: 4,
     type: "group_update",
     message: "Project Beta group has a new update.",
-    details: "The Project Beta group has posted a new update regarding the upcoming deadline. Please review the changes.",
+    details:
+      "The Project Beta group has posted a new update regarding the upcoming deadline. Please review the changes.",
     read: false,
   },
 ];
@@ -55,9 +59,7 @@ const typeActions = {
     { label: "Mark as Read", action: "mark_read" },
     { label: "Reply", action: "reply" },
   ],
-  group_update: [
-    { label: "Mark as Read", action: "mark_read" },
-  ],
+  group_update: [{ label: "Mark as Read", action: "mark_read" }],
 };
 
 const Notifications = () => {
@@ -83,11 +85,47 @@ const Notifications = () => {
 
   return (
     <div className="notifications-root">
-      <NavBar />
+      {/* Navbar (copied from SaverDashboard.jsx) */}
+      <nav className="navbar">
+        <div className="navbar-left">
+          <div className="profile-viewer">
+            <div
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                marginBottom: 4,
+              }}
+            >
+              {user.name}
+            </div>
+            <img src={user.avatar} alt="Avatar" className="avatar" />
+          </div>
+        </div>
+        <div className="navbar-center">
+          <input
+            type="text"
+            className="search-bar"
+            placeholder="Search groups or friends..."
+          />
+          <button
+            className="discover-btn"
+            onClick={() => navigate("/discover")}
+          >
+            Discover
+          </button>
+        </div>
+        <div className="navbar-right">
+          <button className="logout-btn" onClick={() => navigate("/login")}>
+            Logout
+          </button>
+        </div>
+      </nav>
       <div className="notifications-main">
         <aside className="sidebar">
           <div className="online-status">
-            <span className={`status-dot ${user.online ? "online" : "offline"}`}></span>
+            <span
+              className={`status-dot ${user.online ? "online" : "offline"}`}
+            ></span>
             <span>{user.online ? "Online" : "Offline"}</span>
           </div>
           <ul className="sidebar-menu">
@@ -103,7 +141,9 @@ const Notifications = () => {
               alt="Trinity SACCO"
               style={{ filter: "grayscale(100%)", opacity: 0.65 }}
             />
-            <div className="sidebar-logo-text">Powered by Omblo Technologies</div>
+            <div className="sidebar-logo-text">
+              Powered by Omblo Technologies
+            </div>
           </div>
         </aside>
         <div className="notifications-container">
@@ -117,12 +157,15 @@ const Notifications = () => {
               return (
                 <div
                   key={notif.id}
-                  className={`notification-card${isExpanded ? " expanded" : ""}${notif.read ? " read" : ""}`}
+                  className={`notification-card${
+                    isExpanded ? " expanded" : ""
+                  }${notif.read ? " read" : ""}`}
                   onClick={() => handleExpand(notif.id)}
                   tabIndex={0}
                   role="button"
                   onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") handleExpand(notif.id);
+                    if (e.key === "Enter" || e.key === " ")
+                      handleExpand(notif.id);
                   }}
                 >
                   <div className="notification-preview">{notif.message}</div>
@@ -155,4 +198,4 @@ const Notifications = () => {
   );
 };
 
-export default Notifications; 
+export default Notifications;

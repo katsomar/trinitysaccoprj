@@ -1,74 +1,162 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bar, Line, Pie } from "react-chartjs-2";
 import "chart.js/auto";
-import axios from "../utils/axiosConfig"; // Make sure this is your axios instance
-import "../styles/SaverDashboard.css";
+import "../styles/SaverDashboard.css"; // Reuse the same theme
+
+const user = {
+  name: "Manager Jane",
+  accountNumber: "SACCO20250717002",
+  avatar: "/assets/manager-avatar.png",
+  online: true,
+};
+
+const groupStats = {
+  totalSavings: 12500,
+  totalMembers: 24,
+  activeMembers: 18,
+  interestRate: 7.5,
+};
+
+const members = [
+  { id: 1, name: "Kats Omar", avatar: "/assets/avatar1.png" },
+  { id: 2, name: "Alex Kim", avatar: "/assets/avatar2.png" },
+  { id: 3, name: "Sarah Lee", avatar: "/assets/avatar3.png" },
+  { id: 4, name: "John Doe", avatar: "/assets/avatar4.png" },
+];
+
+const contributions = [
+  { id: 1, member: "Kats Omar", amount: 200, date: "2024-07-10" },
+  { id: 2, member: "Sarah Lee", amount: 150, date: "2024-07-09" },
+  { id: 3, member: "Alex Kim", amount: 300, date: "2024-07-08" },
+];
+
+const transactions = [
+  {
+    id: 1,
+    type: "deposit",
+    member: "Kats Omar",
+    amount: 200,
+    date: "2024-07-10",
+  },
+  {
+    id: 2,
+    type: "withdrawal",
+    member: "Sarah Lee",
+    amount: 100,
+    date: "2024-07-09",
+  },
+  {
+    id: 3,
+    type: "deposit",
+    member: "Alex Kim",
+    amount: 300,
+    date: "2024-07-08",
+  },
+];
+
+const notifications = [
+  { id: 1, text: "New withdrawal request from Sarah Lee." },
+  { id: 2, text: "Interest rate updated to 7.5%." },
+  { id: 3, text: "Monthly report is ready for download." },
+];
+
+const chats = [
+  {
+    id: 1,
+    name: "Group: School Savers",
+    preview: "Let's meet tomorrow.",
+    unread: true,
+  },
+  { id: 2, name: "Kats Omar", preview: "Deposit confirmed.", unread: false },
+  { id: 3, name: "Alex Kim", preview: "Can I withdraw?", unread: true },
+];
+
+const withdrawalRequests = [
+  {
+    id: 1,
+    member: "Sarah Lee",
+    amount: 100,
+    date: "2024-07-09",
+    status: "pending",
+  },
+  {
+    id: 2,
+    member: "Alex Kim",
+    amount: 150,
+    date: "2024-07-08",
+    status: "pending",
+  },
+  {
+    id: 3,
+    member: "John Doe",
+    amount: 80,
+    date: "2024-07-07",
+    status: "pending",
+  },
+];
+
+// Chart.js dummy configs
+const barData = {
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+  datasets: [
+    {
+      label: "Group Deposits",
+      data: [1200, 1500, 1100, 1800, 1700, 2000, 1700],
+      backgroundColor: "rgba(0, 123, 255, 0.7)",
+      borderColor: "#007bff",
+      borderWidth: 2,
+      tension: 0.4,
+    },
+    {
+      label: "Group Withdrawals",
+      data: [600, 800, 700, 900, 850, 1000, 950],
+      backgroundColor: "rgba(255, 99, 132, 0.7)",
+      borderColor: "#ff6384",
+      borderWidth: 2,
+      tension: 0.4,
+    },
+  ],
+};
+
+const lineData = {
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+  datasets: [
+    {
+      label: "Savings Growth",
+      data: [5000, 6500, 8000, 9000, 10500, 12000, 12500],
+      fill: false,
+      borderColor: "#28a745",
+      backgroundColor: "rgba(40,167,69,0.2)",
+      tension: 0.4,
+    },
+  ],
+};
+
+const pieData = {
+  labels: ["Deposits", "Withdrawals"],
+  datasets: [
+    {
+      data: [12000, 7000],
+      backgroundColor: ["#28a745", "#ffc107"],
+      hoverBackgroundColor: ["#218838", "#e0a800"],
+      borderWidth: 2,
+    },
+  ],
+};
 
 const ManagerDashboard = () => {
   const navigate = useNavigate();
   const [chartType, setChartType] = useState("bar");
   const [showcaseIndex, setShowcaseIndex] = useState(0);
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
- useEffect(() => {
-  const fetchDashboard = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("Please login first");
-      setLoading(false);
-      return;
-    }
-    try {
-      const res = await axios.get(
-        "http://localhost/server/config/managerdashboard.php",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      console.log("Dashboard response:", res.data);
-      if (res.data.status === "success") {
-        setData(res.data.data);
-      } else {
-        setError(res.data.message || "Failed to load dashboard data.");
-      }
-    } catch (err) {
-      console.error("Fetch error:", err);
-      setError("Network error or unauthorized. Please login again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchDashboard();
-}, []);
-
-
-  useEffect(() => {
+  // Auto-scroll member showcase
+  React.useEffect(() => {
     const interval = setInterval(() => {
-      if (data.members?.length > 3) {
-        setShowcaseIndex((prev) => (prev + 1) % (data.members.length - 2));
-      }
+      setShowcaseIndex((prev) => (prev + 1) % (members.length - 2));
     }, 3000);
     return () => clearInterval(interval);
-  }, [data.members]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  // Destructure safely
-  const {
-    user = {},
-    group_stats: groupStats = {},
-    members = [],
-    contributions = [],
-    transactions = [],
-    notifications = [],
-    chats = [],
-    withdrawal_requests: withdrawalRequests = [],
-    bar_data: barData = { labels: [], datasets: [] },
-    line_data: lineData = { labels: [], datasets: [] },
-    pie_data: pieData = { labels: [], datasets: [] },
-  } = data;
+  }, []);
 
   return (
     <div className="scrollable-page">
@@ -76,7 +164,11 @@ const ManagerDashboard = () => {
         {/* Navbar */}
         <nav className="navbar">
           <div className="navbar-left">
-            <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
+            <div
+              className="profile-viewer"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/profile")}
+            >
               <img src={user.avatar} alt="Avatar" className="avatar" />
               <span>{user.name}</span>
             </div>
@@ -87,7 +179,10 @@ const ManagerDashboard = () => {
               className="search-bar"
               placeholder="Search groups or friends..."
             />
-            <button className="discover-btn" onClick={() => navigate("/discover")}>
+            <button
+              className="discover-btn"
+              onClick={() => navigate("/discover")}
+            >
               Discover
             </button>
           </div>
@@ -102,22 +197,34 @@ const ManagerDashboard = () => {
           {/* Sidebar */}
           <aside className="sidebar">
             <div className="online-status">
-              <span className={`status-dot ${user.online ? "online" : "offline"}`}></span>
+              <span
+                className={`status-dot ${user.online ? "online" : "offline"}`}
+              ></span>
               <span>{user.online ? "Online" : "Offline"}</span>
             </div>
             <ul className="sidebar-menu">
               <li onClick={() => navigate("/members")}>Members</li>
               <li onClick={() => navigate("/transactions")}>Transactions</li>
               <li onClick={() => navigate("/groups")}>Groups</li>
-              <li onClick={() => navigate("/interest-calculator")}>Interest Calculator</li>
+              <li onClick={() => navigate("/interest-calculator")}>
+                Interest Calculator
+              </li>
               <li onClick={() => navigate("/reports")}>Reports</li>
-              <li onClick={() => navigate("/manager-notifications")}>Manager Notifications</li>
+              <li onClick={() => navigate("/manager-notifications")}>
+                Manager Notifications
+              </li>
               <li onClick={() => navigate("/messages")}>Messages</li>
               <li onClick={() => navigate("/manager-settings")}>Settings</li>
             </ul>
             <div className="sidebar-logo">
-              <img src="/src/assets/images/logo.png" alt="Trinity SACCO" style={{ filter: "grayscale(100%)", opacity: 0.65 }}/>
-              <div className="sidebar-logo-text">Powered by Omblo Technologies</div>
+              <img
+                src="/src/assets/images/logo.png"
+                alt="Trinity SACCO"
+                style={{ filter: "grayscale(100%)", opacity: 0.65 }}
+              />
+              <div className="sidebar-logo-text">
+                Powered by Omblo Technologies
+              </div>
             </div>
           </aside>
 
@@ -126,7 +233,10 @@ const ManagerDashboard = () => {
             {/* Greeting */}
             <section className="greeting-section">
               <h1>Welcome, {user.name}</h1>
-              <p>Account Number: <span className="account-number">{user.accountNumber}</span></p>
+              <p>
+                Account Number:{" "}
+                <span className="account-number">{user.accountNumber}</span>
+              </p>
             </section>
 
             {/* Cards Grid */}
@@ -134,12 +244,20 @@ const ManagerDashboard = () => {
               {/* Card 1: Account Balance */}
               <article className="card balance-card">
                 <h2>Group Savings</h2>
-                <p className="balance-amount">${groupStats.totalSavings.toLocaleString()}</p>
+                <p className="balance-amount">
+                  ${groupStats.totalSavings.toLocaleString()}
+                </p>
                 <div className="balance-actions">
-                  <button className="btn deposit-btn" onClick={() => navigate("/deposit")}>
+                  <button
+                    className="btn deposit-btn"
+                    onClick={() => navigate("/deposit")}
+                  >
                     Deposit
                   </button>
-                  <button className="btn withdraw-btn" onClick={() => navigate("/withdraw")}>
+                  <button
+                    className="btn withdraw-btn"
+                    onClick={() => navigate("/withdraw")}
+                  >
                     Withdraw
                   </button>
                 </div>
@@ -154,7 +272,9 @@ const ManagerDashboard = () => {
                     options={{
                       responsive: true,
                       animation: { duration: 1500, easing: "easeInOutQuart" },
-                      plugins: { legend: { display: true, position: "bottom" } },
+                      plugins: {
+                        legend: { display: true, position: "bottom" },
+                      },
                     }}
                     className="dashboard-chart"
                   />
@@ -164,22 +284,26 @@ const ManagerDashboard = () => {
                     options={{
                       responsive: true,
                       animation: { duration: 1500, easing: "easeInOutQuart" },
-                      plugins: { legend: { display: true, position: "bottom" } },
+                      plugins: {
+                        legend: { display: true, position: "bottom" },
+                      },
                     }}
                     className="dashboard-chart"
                   />
                 )}
-                <div className="chart-toggle-btns" style={{ marginTop: "1rem", display: "flex", gap: "0.7rem", justifyContent: "center" }}>
-                  <button
-                    className="btn"
-                    onClick={() => setChartType("bar")}
-                  >
+                <div
+                  className="chart-toggle-btns"
+                  style={{
+                    marginTop: "1rem",
+                    display: "flex",
+                    gap: "0.7rem",
+                    justifyContent: "center",
+                  }}
+                >
+                  <button className="btn" onClick={() => setChartType("bar")}>
                     Bar
                   </button>
-                  <button
-                    className="btn"
-                    onClick={() => setChartType("line")}
-                  >
+                  <button className="btn" onClick={() => setChartType("line")}>
                     Line
                   </button>
                 </div>
@@ -202,7 +326,13 @@ const ManagerDashboard = () => {
               {/* Card 4: Total Members */}
               <article className="card">
                 <h2>Total Members</h2>
-                <p style={{ fontSize: "2rem", color: "#007bff", fontWeight: 700 }}>
+                <p
+                  style={{
+                    fontSize: "2rem",
+                    color: "#007bff",
+                    fontWeight: 700,
+                  }}
+                >
                   {groupStats.totalMembers}
                 </p>
               </article>
@@ -210,7 +340,13 @@ const ManagerDashboard = () => {
               {/* Card 5: Member Activity */}
               <article className="card">
                 <h2>Active Members</h2>
-                <p style={{ fontSize: "1.5rem", color: "#28a745", fontWeight: 600 }}>
+                <p
+                  style={{
+                    fontSize: "1.5rem",
+                    color: "#28a745",
+                    fontWeight: 600,
+                  }}
+                >
                   {groupStats.activeMembers}
                 </p>
               </article>
@@ -218,10 +354,19 @@ const ManagerDashboard = () => {
               {/* Card 6: Interest Rate */}
               <article className="card">
                 <h2>Interest Rate</h2>
-                <p style={{ fontSize: "1.5rem", color: "#ffc107", fontWeight: 600 }}>
+                <p
+                  style={{
+                    fontSize: "1.5rem",
+                    color: "#ffc107",
+                    fontWeight: 600,
+                  }}
+                >
                   {groupStats.interestRate}% per month
                 </p>
-                <button className="btn" onClick={() => navigate("/interest-calculator")}>
+                <button
+                  className="btn"
+                  onClick={() => navigate("/interest-calculator")}
+                >
                   Change Rate
                 </button>
               </article>
@@ -252,7 +397,10 @@ const ManagerDashboard = () => {
                     </li>
                   ))}
                 </ul>
-                <button className="btn" onClick={() => navigate("/contributions")}>
+                <button
+                  className="btn"
+                  onClick={() => navigate("/contributions")}
+                >
                   View More
                 </button>
               </article>
@@ -280,7 +428,10 @@ const ManagerDashboard = () => {
                     <li key={n.id}>{n.text}</li>
                   ))}
                 </ul>
-                <button className="btn" onClick={() => navigate("/notifications")}>
+                <button
+                  className="btn"
+                  onClick={() => navigate("/notifications")}
+                >
                   View More
                 </button>
               </article>
@@ -316,11 +467,15 @@ const ManagerDashboard = () => {
                 <ul>
                   {withdrawalRequests.slice(0, 3).map((w) => (
                     <li key={w.id}>
-                      <strong>{w.member}</strong>: ${w.amount} on {w.date} <span style={{ color: "#ffc107" }}>{w.status}</span>
+                      <strong>{w.member}</strong>: ${w.amount} on {w.date}{" "}
+                      <span style={{ color: "#ffc107" }}>{w.status}</span>
                     </li>
                   ))}
                 </ul>
-                <button className="btn" onClick={() => navigate("/withdrawal-requests")}>
+                <button
+                  className="btn"
+                  onClick={() => navigate("/withdrawal-requests")}
+                >
                   View More
                 </button>
               </article>
