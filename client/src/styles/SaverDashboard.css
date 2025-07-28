@@ -359,8 +359,8 @@
 
 ::-webkit-scrollbar-thumb{
     width: 100%;
-    background: #FF8C42;
-    border-radius: 0.25rem;
+    background:  #004080;
+    border-radius: 0rem;
 }
 
 .cautions-card li {

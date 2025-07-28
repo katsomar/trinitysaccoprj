@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import NavBar from './components/NavBar';
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -16,6 +16,8 @@ import Profile from './pages/Profile';
 import Notifications from './pages/Notifications';
 import ManagerNotifications from './pages/ManagerNotifications';
 import ManagerSettings from './pages/ManagerSettings';
+import Invites from './pages/Invites';
+import InviteManager from './pages/InviteManager';
 
 // Helper to conditionally render Navbar/Footer
 const Layout = ({ children }) => {
@@ -30,7 +32,7 @@ const Layout = ({ children }) => {
 
     return (
         <div className="app">
-            {showLayout && <NavBar />}
+            {showLayout && <Navbar />}
             <main>{children}</main>
             {showLayout && <Footer />}
         </div>
@@ -50,7 +52,10 @@ const App = () => {
                     <Route path="/manager-dashboard" element={<ManagerDashboard />} />
                     <Route path="/manager-notifications" element={<ManagerNotifications />} />
                     <Route path="/manager-settings" element={<ManagerSettings />} />
+                    <Route path="/groups" element={<GroupView />} />
                     <Route path="/group/:groupId" element={<GroupView />} />
+                    <Route path="/invites" element={<Invites />} />
+                    <Route path="/invite-manager" element={<InviteManager />} />
                     <Route path="/chat" element={<Chat />} />
                     <Route path="/chat/:groupId" element={<Chat />} />
                     <Route path="/customer-service" element={<CustomerService />} />

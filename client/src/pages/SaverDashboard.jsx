@@ -169,6 +169,7 @@ const SaverDashboard = () => {
               <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => navigate("/withdraw")}>Withdraw</li>
               <li className={location.pathname === "/notifications" ? "active" : ""} onClick={() => navigate("/notifications")}>Notifications</li>
               <li className={location.pathname === "/chat" ? "active" : ""} onClick={() => navigate("/chat")}>Chat</li>
+              <li className={location.pathname === "/invites" ? "active" : ""} onClick={() => navigate("/invites")}>Invites</li>
               <li className={location.pathname === "/settings" ? "active" : ""} onClick={() => navigate("/settings")}>Settings</li>
             </ul>
             <div className="sidebar-logo">
