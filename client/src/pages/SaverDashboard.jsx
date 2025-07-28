@@ -1,36 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Chart, Bar, Pie } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import "chart.js/auto";
 import axios from "axios";
-import "../styles/SaverDashboard.css"; // Ensure your theme CSS is imported
+import "../styles/SaverDashboard.css";
 
-const user = {
-  name: "Kats Omar",
-  accountNumber: "SACCO20250717001",
-  avatar: "/assets/avatar.png",
-  online: true,
-};
-
-const notifications = [
-  { id: 1, text: "Deposit of $100 received." },
-  { id: 2, text: "Withdrawal request approved." },
-  { id: 3, text: "New group invitation: School Savers." },
-];
-
-const chats = [
-  { id: 1, name: "Manager Jane", preview: "Your withdrawal is approved.", unread: true },
-  { id: 2, name: "Group: School Savers", preview: "Meeting at 5pm.", unread: false },
-  { id: 3, name: "Friend: Alex", preview: "Can you join my group?", unread: true },
-];
-
-const cautions = [
-  { id: 1, text: "Account balance below threshold!", type: "danger" },
-  { id: 2, text: "Account unchanged for 3 months – please recharge.", type: "warning" },
-];
-
-
-// Chart.js dummy configs
 const performanceData = {
   labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
   datasets: [
@@ -66,64 +40,149 @@ const pieData = {
 };
 
 const SaverDashboard = () => {
+  const [user, setUser] = useState({
+    name: localStorage.getItem("userName") || "",
+    accountNumber: "",
+    avatar: "/assets/avatar.png",
+    online: true,
+  });
   const [balance, setBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
-  const [depositAmount, setDepositAmount] = useState('');
-  const [withdrawAmount, setWithdrawAmount] = useState('');
-  const [selectedGroup, setSelectedGroup] = useState('');
+  const [depositAmount, setDepositAmount] = useState("");
+  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [notifications, setNotifications] = useState([]);
+  const [chats, setChats] = useState([]);
+  const [cautions, setCautions] = useState([]);
 
   useEffect(() => {
-      // Fetch balance and transactions
-      axios.get('/api/saver/balance')
-          .then(response => {
-              setBalance(typeof response.data.balance === 'number' ? response.data.balance : 0);
-              setTransactions(Array.isArray(response.data.transactions) ? response.data.transactions : []);
-          })
-          .catch(error => {
-              console.error('Error fetching balance and transactions:', error);
-              setBalance(0);
-              setTransactions([]);
-          });
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost/server/savedashboard/notifications.php", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setNotifications(Array.isArray(res.data) ? res.data : []);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch notifications", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost/server/savedashboard/chats.php", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setChats(Array.isArray(res.data) ? res.data : []);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch chats", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Not logged in.");
+      setLoading(false);
+      return;
+    }
+    const fetchUser = axios.get("http://localhost/server/user.php", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const fetchBalance = axios.get(
+      "http://localhost/server/savedashboard/balance.php",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    Promise.all([fetchUser, fetchBalance])
+      .then(([userRes, balRes]) => {
+        setUser((u) => {
+          // Update localStorage with the latest name
+          localStorage.setItem("userName", userRes.data.name);
+          return {
+            ...u,
+            name: userRes.data.name,
+            accountNumber: userRes.data.accountNumber,
+          };
+        });
+        setBalance(
+          typeof balRes.data.balance === "number" ? balRes.data.balance : 0
+        );
+        setTransactions(
+          Array.isArray(balRes.data.transactions)
+            ? balRes.data.transactions
+            : []
+        );
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError("Failed to load user data.");
+        setLoading(false);
+      });
   }, []);
 
   const handleDeposit = () => {
-      if (!selectedGroup) {
-          alert('Please select a group to deposit into.');
-          return;
-      }
-      if (!depositAmount || parseFloat(depositAmount) <= 0) {
-          alert('Please enter a valid deposit amount.');
-          return;
-      }
-
-      axios.post('/api/saver/deposit', { amount: depositAmount, group_id: selectedGroup })
-          .then(response => {
-              alert(response.data.message);
-              setBalance(prev => prev + parseFloat(depositAmount));
-              setDepositAmount('');
-          })
-          .catch(error => console.error('Error depositing money:', error));
+    if (!selectedGroup) {
+      alert("Please select a group to deposit into.");
+      return;
+    }
+    if (!depositAmount || parseFloat(depositAmount) <= 0) {
+      alert("Please enter a valid deposit amount.");
+      return;
+    }
+    const token = localStorage.getItem("token");
+    axios
+      .post(
+        "http://localhost/server/savedashboard/deposit.php",
+        { amount: depositAmount, group_id: selectedGroup },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then((response) => {
+        alert(response.data.message);
+        setBalance((prev) => prev + parseFloat(depositAmount));
+        setDepositAmount("");
+      })
+      .catch((error) =>
+        alert(error.response?.data?.message || "Error depositing money.")
+      );
   };
 
   const handleWithdraw = () => {
-      if (!selectedGroup) {
-          alert('Please select a group to withdraw from.');
-          return;
-      }
-      if (!withdrawAmount || parseFloat(withdrawAmount) <= 0) {
-          alert('Please enter a valid withdrawal amount.');
-          return;
-      }
-
-      axios.post('/api/saver/withdraw', { amount: withdrawAmount, group_id: selectedGroup })
-          .then(response => {
-              alert(response.data.message);
-              setBalance(prev => prev - parseFloat(withdrawAmount));
-              setWithdrawAmount('');
-          })
-          .catch(error => console.error('Error withdrawing money:', error));
+    if (!selectedGroup) {
+      alert("Please select a group to withdraw from.");
+      return;
+    }
+    if (!withdrawAmount || parseFloat(withdrawAmount) <= 0) {
+      alert("Please enter a valid withdrawal amount.");
+      return;
+    }
+    const token = localStorage.getItem("token");
+    axios
+      .post(
+        "http://localhost/server/savedashboard/withdraw.php",
+        { amount: withdrawAmount, group_id: selectedGroup },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      .then((response) => {
+        alert(response.data.message);
+        setBalance((prev) => prev - parseFloat(withdrawAmount));
+        setWithdrawAmount("");
+      })
+      .catch((error) =>
+        alert(error.response?.data?.message || "Error withdrawing money.")
+      );
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="saver-dashboard">
@@ -131,8 +190,18 @@ const SaverDashboard = () => {
       <nav className="navbar">
         <div className="navbar-left">
           <div className="profile-viewer">
+            {/* Show user's name above the avatar */}
+            <div
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                marginBottom: 4,
+              }}
+            >
+              {user.name}
+            </div>
             <img src={user.avatar} alt="Avatar" className="avatar" />
-            <span>{user.name}</span>
+            {/* Remove duplicate name display below avatar */}
           </div>
         </div>
         <div className="navbar-center">
@@ -141,7 +210,10 @@ const SaverDashboard = () => {
             className="search-bar"
             placeholder="Search groups or friends..."
           />
-          <button className="discover-btn" onClick={() => navigate("/discover")}>
+          <button
+            className="discover-btn"
+            onClick={() => navigate("/discover")}
+          >
             Discover
           </button>
         </div>
@@ -174,7 +246,9 @@ const SaverDashboard = () => {
               alt="Trinity SACCO"
               style={{ filter: "grayscale(100%)", opacity: 0.65 }}
             />
-            <div className="sidebar-logo-text">Powered by Omblo Technologies</div>
+            <div className="sidebar-logo-text">
+              Powered by Omblo Technologies
+            </div>
           </div>
         </aside>
 
@@ -183,7 +257,10 @@ const SaverDashboard = () => {
           {/* Greeting */}
           <section className="greeting-section">
             <h1>Welcome, {user.name}</h1>
-            <p>Account Number: <span className="account-number">{user.accountNumber}</span></p>
+            <p>
+              Account Number:{" "}
+              <span className="account-number">{user.accountNumber}</span>
+            </p>
           </section>
 
           {/* Cards Grid */}
@@ -195,7 +272,7 @@ const SaverDashboard = () => {
               <div className="balance-actions">
                 <select
                   value={selectedGroup}
-                  onChange={e => setSelectedGroup(e.target.value)}
+                  onChange={(e) => setSelectedGroup(e.target.value)}
                   className="group-select"
                 >
                   <option value="">Select Group</option>
@@ -203,9 +280,23 @@ const SaverDashboard = () => {
                   <option value="group2">Family Fund</option>
                   <option value="group3">Holiday Club</option>
                 </select>
+                <input
+                  type="number"
+                  placeholder="Deposit Amount"
+                  value={depositAmount}
+                  onChange={(e) => setDepositAmount(e.target.value)}
+                  style={{ marginLeft: 8, width: 100 }}
+                />
                 <button className="btn deposit-btn" onClick={handleDeposit}>
                   Deposit
                 </button>
+                <input
+                  type="number"
+                  placeholder="Withdraw Amount"
+                  value={withdrawAmount}
+                  onChange={(e) => setWithdrawAmount(e.target.value)}
+                  style={{ marginLeft: 8, width: 100 }}
+                />
                 <button className="btn withdraw-btn" onClick={handleWithdraw}>
                   Withdraw
                 </button>
@@ -246,7 +337,10 @@ const SaverDashboard = () => {
                   <li key={n.id}>{n.text}</li>
                 ))}
               </ul>
-              <button className="btn" onClick={() => navigate("/notifications")}>
+              <button
+                className="btn"
+                onClick={() => navigate("/notifications")}
+              >
                 View Notifications
               </button>
             </article>

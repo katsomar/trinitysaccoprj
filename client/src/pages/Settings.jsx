@@ -1,39 +1,186 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Settings.css";
+import axios from "axios";
 
 // This Settings page is specifically for SACCO Saver users.
 // Only savers should access and use these settings.
 
-const user = {
-  name: "Kats Omar",
-  accountNumber: "SACCO20250717001",
-  avatar: "/assets/avatar.png",
-  online: true,
-  email: "katsomar@email.com",
-  emailVerified: true,
-  idVerified: false,
-  phone: "+256700123456",
-  phoneVerified: true,
-};
-
 const Settings = () => {
   const navigate = useNavigate();
-  const [onlineStatus, setOnlineStatus] = useState(user.online);
-  const [theme, setTheme] = useState("light");
-  const [emailVerified, setEmailVerified] = useState(user.emailVerified);
-  const [idVerified, setIdVerified] = useState(user.idVerified);
-  const [phone, setPhone] = useState(user.phone);
-  const [phoneVerified, setPhoneVerified] = useState(user.phoneVerified);
-  const [threshold, setThreshold] = useState(50);
-  const [reminder, setReminder] = useState("3");
+  const [user, setUser] = useState({
+    name: "",
+    accountNumber: "",
+    avatar: "/assets/avatar.png",
+    online: true,
+    email: "",
+    emailVerified: false,
+    idVerified: false,
+    phone: "",
+    phoneVerified: false,
+    role: "saver",
+    threshold: 50,
+    reminder: "3",
+    theme: "light",
+  });
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleSave = () => {
-    alert("Settings saved!");
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+        const response = await axios.get("http://localhost/server/setting.php", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUser(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setError(
+          error.response?.data?.message || "Failed to fetch user data."
+        );
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }
+      }
+    };
+    fetchUserData();
+  }, [navigate]);
+
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem("token");
+    await axios.put(
+  "http://localhost/server/setting.php",
+  {
+    online: user.online,
+    phone: user.phone,
+    phoneVerified: user.phoneVerified,
+    emailVerified: user.emailVerified,
+    idVerified: user.idVerified,
+    threshold: user.threshold,
+    reminder: user.reminder,
+    theme: user.theme,
+  },
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+
+      setError(null);
+      alert("Settings saved!");
+    } catch (error) {
+      console.error("Error saving settings:", error);
+      setError(error.response?.data?.message || "Failed to save settings.");
+    }
   };
+
+  const handlePasswordUpdate = async () => {
+    if (newPassword !== confirmPassword) {
+      setError("New passwords do not match!");
+      return;
+    }
+    try {
+      const token = localStorage.getItem("token");
+     await axios.put(
+  "http://localhost/server/setting/verify-id.php",
+ 
+  { currentPassword, newPassword },
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+
+      setError(null);
+      alert("Password updated!");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (error) {
+      console.error("Error updating password:", error);
+      setError(
+        error.response?.data?.message || "Failed to update password."
+      );
+    }
+  };
+
+  const handleVerifyEmail = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+  "http://localhost/server/setting/verify-email.php",
+  {},
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+
+      setUser({ ...user, emailVerified: true });
+      setError(null);
+      alert("Email verification requested!");
+    } catch (error) {
+      console.error("Error verifying email:", error);
+      setError(error.response?.data?.message || "Failed to verify email.");
+    }
+  };
+
+  const handleVerifyPhone = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+  "http://localhost/server/setting/verify-phone.php",
+  { phone: user.phone },
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+
+      setUser({ ...user, phoneVerified: true });
+      setError(null);
+      alert("Phone verification requested!");
+    } catch (error) {
+      console.error("Error verifying phone:", error);
+      setError(error.response?.data?.message || "Failed to verify phone.");
+    }
+  };
+
+  const handleVerifyId = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+  "http://localhost/server/settig/verify-id.php",
+  {},
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+
+      setUser({ ...user, idVerified: true });
+      setError(null);
+      alert("ID verification requested!");
+    } catch (error) {
+      console.error("Error verifying ID:", error);
+      setError(error.response?.data?.message || "Failed to verify ID.");
+    }
+  };
+
+  // Role-based sidebar menu
+  const menuItems = {
+    saver: [
+      { path: "/deposit", label: "Deposit" },
+      { path: "/withdraw", label: "Withdraw" },
+      { path: "/notifications", label: "Notifications" },
+      { path: "/chat", label: "Chat" },
+      { path: "/settings", label: "Settings" },
+    ],
+    admin: [
+      { path: "/dashboard", label: "Admin Dashboard" },
+      { path: "/manage-users", label: "Manage Users" },
+      { path: "/reports", label: "Reports" },
+      { path: "/settings", label: "Settings" },
+    ],
+  };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="saver-dashboard">
@@ -42,7 +189,12 @@ const Settings = () => {
         <div className="navbar-left">
           <div className="profile-viewer">
             <img src={user.avatar} alt="Avatar" className="avatar" />
-            <span>{user.name}</span>
+        <span>
+  {user.name}
+  {user.role && ` (${user.role.charAt(0).toUpperCase() + user.role.slice(1)})`}
+</span>
+
+
           </div>
         </div>
         <div className="navbar-center">
@@ -56,7 +208,13 @@ const Settings = () => {
           </button>
         </div>
         <div className="navbar-right">
-          <button className="logout-btn" onClick={() => navigate("/login")}>
+          <button
+            className="logout-btn"
+            onClick={() => {
+              localStorage.removeItem("token");
+              navigate("/login");
+            }}
+          >
             Logout
           </button>
         </div>
@@ -66,16 +224,19 @@ const Settings = () => {
         {/* Sidebar */}
         <aside className="sidebar">
           <div className="online-status">
-            <span className={`status-dot ${onlineStatus ? "online" : "offline"}`}></span>
-            <span>{onlineStatus ? "Online" : "Offline"}</span>
+            <span
+              className={`status-dot ${user.online ? "online" : "offline"}`}
+            ></span>
+            <span>{user.online ? "Online" : "Offline"}</span>
           </div>
           <ul className="sidebar-menu">
-            <li onClick={() => navigate("/deposit")}>Deposit</li>
-            <li onClick={() => navigate("/withdraw")}>Withdraw</li>
-            <li onClick={() => navigate("/notifications")}>Notifications</li>
-            <li onClick={() => navigate("/chat")}>Chat</li>
-            <li onClick={() => navigate("/settings")}>Settings</li>
-          </ul>
+  {(menuItems[user.role] || []).map((item) => (
+    <li key={item.path} onClick={() => navigate(item.path)}>
+      {item.label}
+    </li>
+  ))}
+</ul>
+
           <div className="sidebar-logo">
             <img
               src="/src/assets/images/logo.png"
@@ -88,7 +249,18 @@ const Settings = () => {
 
         {/* Main Content */}
         <main className="settings-main">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {error && (
+            <div className="error-message" style={{ color: "red", marginBottom: "1rem" }}>
+              {error}
+            </div>
+          )}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <h1 className="settings-title">Settings</h1>
             <button
               className="btn"
@@ -99,9 +271,9 @@ const Settings = () => {
                 borderRadius: "8px",
                 padding: "0.5rem 1.2rem",
                 fontSize: "1rem",
-                marginLeft: "auto"
+                marginLeft: "auto",
               }}
-              onClick={() => navigate("/saver-dashboard")}
+              onClick={() => navigate(`/${user.role}-dashboard`)}
             >
               Back to Dashboard
             </button>
@@ -114,27 +286,45 @@ const Settings = () => {
               <label>Email</label>
               <div>
                 <span>{user.email}</span>
-                {emailVerified ? (
-                  <span className="verified-icon" title="Verified">✔️</span>
+                {user.emailVerified ? (
+                  <span className="verified-icon" title="Verified">
+                    ✔️
+                  </span>
                 ) : (
-                  <span className="unverified-icon" title="Not Verified">❔</span>
+                  <span className="unverified-icon" title="Not Verified">
+                    ❔
+                  </span>
                 )}
-                <button className="btn" style={{ marginLeft: "1rem" }} onClick={() => setEmailVerified(true)}>
-                  Verify Email
+                <button
+                  className="btn"
+                  style={{ marginLeft: "1rem" }}
+                  onClick={handleVerifyEmail}
+                  disabled={user.emailVerified}
+                >
+                  {user.emailVerified ? "Verified" : "Verify Email"}
                 </button>
               </div>
             </div>
             <div className="settings-row">
               <label>National ID</label>
               <div>
-                {idVerified ? (
-                  <span className="verified-icon" title="Verified">✔️</span>
+                {user.idVerified ? (
+                  <span className="verified-icon" title="Verified">
+                    ✔️
+                  </span>
                 ) : (
-                  <span className="unverified-icon" title="Not Verified">❔</span>
+                  <span className="unverified-icon" title="Not Verified">
+                    ❔
+                  </span>
                 )}
-                <input type="file" className="settings-upload" />
-                <button className="btn" style={{ marginLeft: "1rem" }} onClick={() => setIdVerified(true)}>
-                  Upload/Verify
+                <input type="file" className="settings-upload" disabled={user.idVerified} />
+                <button
+                  className="btn"
+                  style={{ marginLeft: "1rem" }}
+                  onClick={handleVerifyId}
+                  disabled={user.idVerified}
+                >
+                  {user.idVerified ? "Verified" : "Upload/Verify"}
                 </button>
               </div>
             </div>
@@ -150,17 +340,26 @@ const Settings = () => {
                 <input
                   type="text"
                   className="settings-input"
-                  value={phone}
-                  onChange={e => setPhone(e.target.value)}
-                  disabled={phoneVerified}
+                  value={user.phone}
+                  onChange={(e) => setUser({ ...user, phone: e.target.value })}
+                  disabled={user.phoneVerified}
                 />
-                {phoneVerified ? (
-                  <span className="verified-icon" title="Verified">✔️</span>
+                {user.phoneVerified ? (
+                  <span className="verified-icon" title="Verified">
+                    ✔️
+                  </span>
                 ) : (
-                  <span className="unverified-icon" title="Not Verified">❔</span>
+                  <span className="unverified-icon" title="Not Verified">
+                    ❔
+                  </span>
                 )}
-                <button className="btn" style={{ marginLeft: "1rem" }} onClick={() => setPhoneVerified(true)}>
-                  {phoneVerified ? "Verified" : "Verify Number"}
+                <button
+                  className="btn"
+                  style={{ marginLeft: "1rem" }}
+                  onClick={handleVerifyPhone}
+                  disabled={user.phoneVerified}
+                >
+                  {user.phoneVerified ? "Verified" : "Verify Number"}
                 </button>
               </div>
             </div>
@@ -176,7 +375,7 @@ const Settings = () => {
                 type="password"
                 className="settings-input"
                 value={currentPassword}
-                onChange={e => setCurrentPassword(e.target.value)}
+                onChange={(e) => setCurrentPassword(e.target.value)}
               />
             </div>
             <div className="settings-row">
@@ -185,7 +384,7 @@ const Settings = () => {
                 type="password"
                 className="settings-input"
                 value={newPassword}
-                onChange={e => setNewPassword(e.target.value)}
+                onChange={(e) => setNewPassword(e.target.value)}
               />
             </div>
             <div className="settings-row">
@@ -194,7 +393,7 @@ const Settings = () => {
                 type="password"
                 className="settings-input"
                 value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
             <div className="settings-row">
@@ -202,14 +401,18 @@ const Settings = () => {
               <label className="switch">
                 <input
                   type="checkbox"
-                  checked={onlineStatus}
-                  onChange={() => setOnlineStatus(!onlineStatus)}
+                  checked={user.online}
+                  onChange={() => setUser({ ...user, online: !user.online })}
                 />
                 <span className="slider"></span>
               </label>
             </div>
             <div className="settings-row">
-              <button className="btn" style={{ marginTop: "0.5rem" }}>
+              <button
+                className="btn"
+                style={{ marginTop: "0.5rem" }}
+                onClick={handlePasswordUpdate}
+              >
                 Update Password
               </button>
             </div>
@@ -224,8 +427,8 @@ const Settings = () => {
               <input
                 type="number"
                 className="settings-input"
-                value={threshold}
-                onChange={e => setThreshold(e.target.value)}
+                value={user.threshold}
+                onChange={(e) => setUser({ ...user, threshold: parseInt(e.target.value) })}
                 min={0}
               />
             </div>
@@ -233,8 +436,8 @@ const Settings = () => {
               <label>Reminder Interval (days)</label>
               <select
                 className="settings-input"
-                value={reminder}
-                onChange={e => setReminder(e.target.value)}
+                value={user.reminder}
+                onChange={(e) => setUser({ ...user, reminder: e.target.value })}
               >
                 <option value="1">Every 1 day</option>
                 <option value="3">Every 3 days</option>
@@ -252,8 +455,10 @@ const Settings = () => {
               <label className="switch">
                 <input
                   type="checkbox"
-                  checked={theme === "dark"}
-                  onChange={() => setTheme(theme === "light" ? "dark" : "light")}
+                  checked={user.theme === "dark"}
+                  onChange={() =>
+                    setUser({ ...user, theme: user.theme === "light" ? "dark" : "light" })
+                  }
                 />
                 <span className="slider"></span>
               </label>
@@ -268,23 +473,21 @@ const Settings = () => {
               <label>QR Code Login</label>
               <div className="qr-placeholder">
                 <div className="qr-box"></div>
-                <span className="qr-label">Scan this QR on another device to login</span>
+                <span className="qr-label">
+                  Scan this QR on another device to login
+                </span>
               </div>
             </div>
             <div className="settings-row">
               <span className="qr-desc">
-                Enable multi-device login to access your account securely from multiple devices.
+                Enable multi-device login to access your account securely from multiple
+                devices.
               </span>
             </div>
           </section>
 
           <div className="settings-actions">
-            <button className="settings-undo-btn btn" onClick={() => alert("Undone!")}>
-              Undo
-            </button>
-            <button className="settings-redo-btn btn" onClick={() => alert("Redone!")}>
-              Redo
-            </button>
+            {/* Removed Undo/Redo buttons as they lack functionality */}
             <button className="settings-save-btn btn" onClick={handleSave}>
               Save Changes
             </button>
@@ -293,7 +496,7 @@ const Settings = () => {
       </div>
       {/* Footer */}
       <footer className="footer">
-        <span>&copy; 2024 Trinity SACCO. All rights reserved.</span>
+        <span>© 2024 Trinity SACCO. All rights reserved.</span>
       </footer>
     </div>
   );

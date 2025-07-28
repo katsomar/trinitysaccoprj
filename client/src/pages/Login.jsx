@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "../utils/axiosConfig"; // Use the configured Axios instance
+import axios from "../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -10,28 +10,40 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    var data = {
-      email: email,
-      password: password,
-    };
-    axios
-      .post(`${import.meta.env.VITE_API_URL}/auth/login.php`, data)
-      .then((response) => {
-        // {"status":"failed","message":"User not found"}
-        if (response.data.status == "success") {
-          alert(response.data.message);
-          navigate(
-            response.data.details.role === "manager"
-              ? "/manager-dashboard"
-              : "/saver-dashboard"
-          );
-        } else if (response.data.status == "failed") {
-          alert(response.data.message);
-        }
-      })
-      .catch(() => setError("An error occurred. Please try again."));
+    setError("");
+    const data = { email, password };
+
+    try {
+      const response = await axios.post(
+        "http://localhost/server/api/auth/login.php",
+        data
+      );
+      const result = response.data;
+      console.log("Login response:", result); // Debug log
+
+      if (result.message === "Login successful") {
+        // Store token and user info
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("userName", result.name);
+        localStorage.setItem("userRole", result.role);
+
+        alert("Login successful!");
+
+        // Redirect based on role
+        navigate(
+          result.role === "manager" ? "/manager-dashboard" : "/saver-dashboard"
+        );
+      } else {
+        setError(result.error || "Login failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(
+        err.response?.data?.error || "An error occurred. Please try again."
+      );
+    }
   };
 
   return (
@@ -53,7 +65,7 @@ const Login = () => {
           <div className="input-group">
             <FaLock className="input-icon" />
             <input
-              type={showPassword ? "text" : "password"} // password is hidden by default
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

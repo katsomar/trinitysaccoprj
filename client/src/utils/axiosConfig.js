@@ -1,10 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 
-const axiosInstance = axios.create({
-  baseURL: "http://localhost/server/api", // Correct backend URL
+const instance = axios.create({
+  baseURL: 'http://localhost/server/config/', // Update to /api/ if needed
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
-export default axiosInstance;
+instance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default instance;
