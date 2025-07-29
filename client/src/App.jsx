@@ -49,6 +49,8 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/saver-dashboard" element={<SaverDashboard />} />
+                    <Route path="/saver-dashboard/deposit" element={<SaverDashboard />} />
+                    <Route path="/saver-dashboard/withdraw" element={<SaverDashboard />} />
                     <Route path="/manager-dashboard" element={<ManagerDashboard />} />
                     <Route path="/manager-notifications" element={<ManagerNotifications />} />
                     <Route path="/manager-settings" element={<ManagerSettings />} />

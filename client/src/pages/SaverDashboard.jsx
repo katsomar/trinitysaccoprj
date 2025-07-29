@@ -227,12 +227,14 @@ const SaverDashboard = () => {
                     <option value="group2">Family Fund</option>
                     <option value="group3">Holiday Club</option>
                   </select>
-                  <button className="btn deposit-btn" onClick={() => setShowDepositModal(true)}>
-                    Deposit
-                  </button>
-                  <button className="btn withdraw-btn" onClick={handleWithdraw}>
-                    Withdraw
-                  </button>
+                  <div className="balance-buttons">
+                    <button className="btn deposit-btn" onClick={() => setShowDepositModal(true)}>
+                      Deposit
+                    </button>
+                    <button className="btn withdraw-btn" onClick={() => setShowWithdrawModal(true)}>
+                      Withdraw
+                    </button>
+                  </div>
                 </div>
               </article>
 

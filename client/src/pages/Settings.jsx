@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Settings.css";
 import axios from "axios";
-
+import DepositModal from '../components/DepositModal';
+import WithdrawPopup from '../components/WithdrawPopup';
 // This Settings page is specifically for SACCO Saver users.
 // Only savers should access and use these settings.
 
@@ -34,7 +35,8 @@ const [reminder, setReminder] = useState("");
   const [theme, setTheme] = useState("light");
   const [idVerified, setIdVerified] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
-
+  const [showDepositModal, setShowDepositModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
 
 
@@ -241,8 +243,8 @@ const handlePhoneChange = (e) => {
               <span>{onlineStatus ? "Online" : "Offline"}</span>
             </div>
             <ul className="sidebar-menu">
-              <li onClick={() => navigate("/deposit")}>Deposit</li>
-              <li onClick={() => navigate("/withdraw")}>Withdraw</li>
+            <li className={location.pathname === "/deposit" ? "active" : ""} onClick={() => setShowDepositModal(true)}>Deposit</li>
+            <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => setShowWithdrawModal(true)}>Withdraw</li>
               <li onClick={() => navigate("/notifications")}>Notifications</li>
               <li onClick={() => navigate("/chat")}>Chat</li>
               <li onClick={() => navigate("/settings")}>Settings</li>
@@ -477,6 +479,8 @@ const handlePhoneChange = (e) => {
           </main>
         </div>
         {/* Footer */}
+        <DepositModal isOpen={showDepositModal} onClose={() => setShowDepositModal(false)} />
+        <WithdrawPopup isOpen={showWithdrawModal} onClose={() => setShowWithdrawModal(false)} />
 
       </div>
     </div>

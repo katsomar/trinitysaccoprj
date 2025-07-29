@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../styles/notifications.css";
 // Remove NavBar import, use custom navbar below
 import { useNavigate } from "react-router-dom";
+import DepositModal from '../components/DepositModal';
+import WithdrawPopup from '../components/WithdrawPopup';
 
 const user = {
   name: "Kats Omar",
@@ -66,6 +68,8 @@ const Notifications = () => {
   const [expandedId, setExpandedId] = useState(null);
   const [notifications, setNotifications] = useState(dummyNotifications);
   const navigate = useNavigate();
+  const [showDepositModal, setShowDepositModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
   const handleExpand = (id) => {
     setExpandedId(expandedId === id ? null : id);
@@ -125,8 +129,8 @@ const Notifications = () => {
             <span>{user.online ? "Online" : "Offline"}</span>
           </div>
           <ul className="sidebar-menu">
-            <li onClick={() => navigate("/deposit")}>Deposit</li>
-            <li onClick={() => navigate("/withdraw")}>Withdraw</li>
+          <li className={location.pathname === "/deposit" ? "active" : ""} onClick={() => setShowDepositModal(true)}>Deposit</li>
+          <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => setShowWithdrawModal(true)}>Withdraw</li>
             <li onClick={() => navigate("/notifications")}>Notifications</li>
             <li onClick={() => navigate("/chat")}>Chat</li>
             <li onClick={() => navigate("/settings")}>Settings</li>
@@ -190,7 +194,10 @@ const Notifications = () => {
           </div>
         </div>
       </div>
+    <DepositModal isOpen={showDepositModal} onClose={() => setShowDepositModal(false)} />
+    <WithdrawPopup isOpen={showWithdrawModal} onClose={() => setShowWithdrawModal(false)} />
     </div>
+    
   );
 };
 
