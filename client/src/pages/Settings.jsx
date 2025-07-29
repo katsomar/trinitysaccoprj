@@ -11,7 +11,7 @@ const Settings = () => {
   const [user, setUser] = useState({
     name: "",
     accountNumber: "",
-    avatar: "/assets/avatar.png",
+    avatar: "../../public/images/prof.png",
     online: true,
     email: "",
     emailVerified: false,
@@ -30,13 +30,10 @@ const Settings = () => {
   const [error, setError] = useState(null);
   const [onlineStatus, setOnlineStatus] = useState(false);
   const [threshold, setThreshold] = useState("");
-const [reminder, setReminder] = useState("");
+  const [reminder, setReminder] = useState("");
   const [theme, setTheme] = useState("light");
   const [idVerified, setIdVerified] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
-
-
-
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -46,16 +43,17 @@ const [reminder, setReminder] = useState("");
           navigate("/login");
           return;
         }
-        const response = await axios.get("http://localhost/server/settings.php", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          "http://localhost/trinitySacco/server/settings.php",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setUser(response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        setError(
-          error.response?.data?.message || "Failed to fetch user data."
-        );
+        setError(error.response?.data?.message || "Failed to fetch user data.");
         if (error.response?.status === 401 || error.response?.status === 403) {
           localStorage.removeItem("token");
           navigate("/login");
@@ -68,20 +66,20 @@ const [reminder, setReminder] = useState("");
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
-    await axios.put(
-  "http://localhost/server/settings.php",
-  {
-    online: user.online,
-    phone: user.phone,
-    phoneVerified: user.phoneVerified,
-    emailVerified: user.emailVerified,
-    idVerified: user.idVerified,
-    threshold: user.threshold,
-    reminder: user.reminder,
-    theme: user.theme,
-  },
-  { headers: { Authorization: `Bearer ${token}` } }
-);
+      await axios.put(
+        "http://localhost/trinitySacco/server/settings.php",
+        {
+          online: user.online,
+          phone: user.phone,
+          phoneVerified: user.phoneVerified,
+          emailVerified: user.emailVerified,
+          idVerified: user.idVerified,
+          threshold: user.threshold,
+          reminder: user.reminder,
+          theme: user.theme,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       setError(null);
       alert("Settings saved!");
@@ -98,12 +96,12 @@ const [reminder, setReminder] = useState("");
     }
     try {
       const token = localStorage.getItem("token");
-     await axios.put(
-  "http://localhost/server/setting/update-password.php",
- 
-  { currentPassword, newPassword },
-  { headers: { Authorization: `Bearer ${token}` } }
-);
+      await axios.put(
+        "http://localhost/trinitySacco/server/setting/update-password.php",
+
+        { currentPassword, newPassword },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       setError(null);
       alert("Password updated!");
@@ -112,9 +110,7 @@ const [reminder, setReminder] = useState("");
       setConfirmPassword("");
     } catch (error) {
       console.error("Error updating password:", error);
-      setError(
-        error.response?.data?.message || "Failed to update password."
-      );
+      setError(error.response?.data?.message || "Failed to update password.");
     }
   };
 
@@ -122,10 +118,10 @@ const [reminder, setReminder] = useState("");
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-  "http://localhost/server/setting/verify-email.php",
-  {},
-  { headers: { Authorization: `Bearer ${token}` } }
-);
+        "http://localhost/trinitySacco/server/setting/verify-email.php",
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       setUser({ ...user, emailVerified: true });
       setError(null);
@@ -140,10 +136,10 @@ const [reminder, setReminder] = useState("");
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-  "http://localhost/server/setting/verify-phone.php",
-  { phone: user.phone },
-  { headers: { Authorization: `Bearer ${token}` } }
-);
+        "http://localhost/trinitySacco/server/setting/verify-phone.php",
+        { phone: user.phone },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       setUser({ ...user, phoneVerified: true });
       setError(null);
@@ -155,29 +151,28 @@ const [reminder, setReminder] = useState("");
   };
 
   const handleVerifyId = async () => {
-  try {
-    const token = localStorage.getItem("token");
+    try {
+      const token = localStorage.getItem("token");
 
-    await axios.post(
-      "http://localhost/server/settig/verify-id.php",
-      {},
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+      await axios.post(
+        "http://localhost/trinitySacco/server/settig/verify-id.php",
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    // ✅ Update user object with verified ID
-    setUser(prevUser => ({
-      ...prevUser,
-      idVerified: true,
-    }));
+      // ✅ Update user object with verified ID
+      setUser((prevUser) => ({
+        ...prevUser,
+        idVerified: true,
+      }));
 
-    setError(null);
-    alert("ID verification requested!");
-  } catch (error) {
-    console.error("Error verifying ID:", error);
-    setError(error.response?.data?.message || "Failed to verify ID.");
-  }
-};
-
+      setError(null);
+      alert("ID verification requested!");
+    } catch (error) {
+      console.error("Error verifying ID:", error);
+      setError(error.response?.data?.message || "Failed to verify ID.");
+    }
+  };
 
   // Role-based sidebar menu
   const menuItems = {
@@ -197,13 +192,12 @@ const [reminder, setReminder] = useState("");
   };
 
   if (loading) return <div>Loading...</div>;
-const handlePhoneChange = (e) => {
-  setUser(prevUser => ({
-    ...prevUser,
-    phone: e.target.value,
-  }));
-};
-
+  const handlePhoneChange = (e) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      phone: e.target.value,
+    }));
+  };
 
   return (
     <div className="scrollable-page">
@@ -211,7 +205,11 @@ const handlePhoneChange = (e) => {
         {/* Navbar */}
         <nav className="navbar">
           <div className="navbar-left">
-            <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
+            <div
+              className="profile-viewer"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/profile")}
+            >
               <img src={user.avatar} alt="Avatar" className="avatar" />
               <span>{user.name}</span>
             </div>
@@ -222,7 +220,10 @@ const handlePhoneChange = (e) => {
               className="search-bar"
               placeholder="Search groups or friends..."
             />
-            <button className="discover-btn" onClick={() => navigate("/discover")}>
+            <button
+              className="discover-btn"
+              onClick={() => navigate("/discover")}
+            >
               Discover
             </button>
           </div>
@@ -237,7 +238,9 @@ const handlePhoneChange = (e) => {
           {/* Sidebar */}
           <aside className="sidebar">
             <div className="online-status">
-              <span className={`status-dot ${onlineStatus ? "online" : "offline"}`}></span>
+              <span
+                className={`status-dot ${onlineStatus ? "online" : "offline"}`}
+              ></span>
               <span>{onlineStatus ? "Online" : "Offline"}</span>
             </div>
             <ul className="sidebar-menu">
@@ -253,13 +256,21 @@ const handlePhoneChange = (e) => {
                 alt="Trinity SACCO"
                 style={{ filter: "grayscale(100%)", opacity: 0.65 }}
               />
-              <div className="sidebar-logo-text">Powered by Omblo Technologies</div>
+              <div className="sidebar-logo-text">
+                Powered by Omblo Technologies
+              </div>
             </div>
           </aside>
 
           {/* Main Content */}
           <main className="settings-main">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <h1 className="settings-title">Settings</h1>
               <button
                 className="btn"
@@ -270,7 +281,7 @@ const handlePhoneChange = (e) => {
                   borderRadius: "8px",
                   padding: "0.5rem 1.2rem",
                   fontSize: "1rem",
-                  marginLeft: "auto"
+                  marginLeft: "auto",
                 }}
                 onClick={() => navigate("/saver-dashboard")}
               >
@@ -285,13 +296,21 @@ const handlePhoneChange = (e) => {
                 <label>Email</label>
                 <div>
                   <span>{user.email}</span>
-             {user.emailVerified ? (
-  <span className="verified-icon" title="Verified">✔️</span>
-) : (
-  <span className="unverified-icon" title="Not Verified">❔</span>
-)}
+                  {user.emailVerified ? (
+                    <span className="verified-icon" title="Verified">
+                      ✔️
+                    </span>
+                  ) : (
+                    <span className="unverified-icon" title="Not Verified">
+                      ❔
+                    </span>
+                  )}
 
-                  <button className="btn" style={{ marginLeft: "1rem" }} onClick={() => setEmailVerified(true)}>
+                  <button
+                    className="btn"
+                    style={{ marginLeft: "1rem" }}
+                    onClick={() => setEmailVerified(true)}
+                  >
                     Verify Email
                   </button>
                 </div>
@@ -300,12 +319,20 @@ const handlePhoneChange = (e) => {
                 <label>National ID</label>
                 <div>
                   {user.idVerified ? (
-                    <span className="verified-icon" title="Verified">✔️</span>
+                    <span className="verified-icon" title="Verified">
+                      ✔️
+                    </span>
                   ) : (
-                    <span className="unverified-icon" title="Not Verified">❔</span>
+                    <span className="unverified-icon" title="Not Verified">
+                      ❔
+                    </span>
                   )}
                   <input type="file" className="settings-upload" />
-                  <button className="btn" style={{ marginLeft: "1rem" }} onClick={() => setIdVerified(true)}>
+                  <button
+                    className="btn"
+                    style={{ marginLeft: "1rem" }}
+                    onClick={() => setIdVerified(true)}
+                  >
                     Upload/Verify
                   </button>
                 </div>
@@ -314,29 +341,37 @@ const handlePhoneChange = (e) => {
             <hr />
 
             {/* Contact Details */}
-           <section className="settings-section">
-  <h2>Contact Details</h2>
-  <div className="settings-row">
-    <label>Phone Number</label>
-    <div>
-      <input
-        type="text"
-        className="settings-input"
-        value={user.phone}
-        onChange={handlePhoneChange}
-        disabled={user.phoneVerified}
-      />
-      {user.phoneVerified ? (
-        <span className="verified-icon" title="Verified">✔️</span>
-      ) : (
-        <span className="unverified-icon" title="Not Verified">❔</span>
-      )}
-      <button className="btn" style={{ marginLeft: "1rem" }} onClick={handleVerifyPhone}>
-        {user.phoneVerified ? "Verified" : "Verify Number"}
-      </button>
-    </div>
-  </div>
-</section>
+            <section className="settings-section">
+              <h2>Contact Details</h2>
+              <div className="settings-row">
+                <label>Phone Number</label>
+                <div>
+                  <input
+                    type="text"
+                    className="settings-input"
+                    value={user.phone}
+                    onChange={handlePhoneChange}
+                    disabled={user.phoneVerified}
+                  />
+                  {user.phoneVerified ? (
+                    <span className="verified-icon" title="Verified">
+                      ✔️
+                    </span>
+                  ) : (
+                    <span className="unverified-icon" title="Not Verified">
+                      ❔
+                    </span>
+                  )}
+                  <button
+                    className="btn"
+                    style={{ marginLeft: "1rem" }}
+                    onClick={handleVerifyPhone}
+                  >
+                    {user.phoneVerified ? "Verified" : "Verify Number"}
+                  </button>
+                </div>
+              </div>
+            </section>
             <hr />
 
             {/* Password & Security */}
@@ -348,7 +383,7 @@ const handlePhoneChange = (e) => {
                   type="password"
                   className="settings-input"
                   value={currentPassword}
-                  onChange={e => setCurrentPassword(e.target.value)}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
                 />
               </div>
               <div className="settings-row">
@@ -357,7 +392,7 @@ const handlePhoneChange = (e) => {
                   type="password"
                   className="settings-input"
                   value={newPassword}
-                  onChange={e => setNewPassword(e.target.value)}
+                  onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>
               <div className="settings-row">
@@ -366,7 +401,7 @@ const handlePhoneChange = (e) => {
                   type="password"
                   className="settings-input"
                   value={confirmPassword}
-                  onChange={e => setConfirmPassword(e.target.value)}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
               <div className="settings-row">
@@ -381,7 +416,11 @@ const handlePhoneChange = (e) => {
                 </label>
               </div>
               <div className="settings-row">
-                <button className="btn" style={{ marginTop: "0.5rem" }}  onClick={handlePasswordUpdate}>
+                <button
+                  className="btn"
+                  style={{ marginTop: "0.5rem" }}
+                  onClick={handlePasswordUpdate}
+                >
                   Update Password
                 </button>
               </div>
@@ -390,42 +429,42 @@ const handlePhoneChange = (e) => {
 
             {/* Notification & Limits */}
             <section className="settings-section">
-  <h2>Notification & Limits</h2>
+              <h2>Notification & Limits</h2>
 
-  <div className="settings-row">
-    <label>Minimum Balance Alert</label>
-    <input
-      type="number"
-      className="settings-input"
-      value={user.threshold || ""}
-      onChange={(e) =>
-        setUser((prevUser) => ({
-          ...prevUser,
-          threshold: e.target.value,
-        }))
-      }
-      min={0}
-    />
-  </div>
+              <div className="settings-row">
+                <label>Minimum Balance Alert</label>
+                <input
+                  type="number"
+                  className="settings-input"
+                  value={user.threshold || ""}
+                  onChange={(e) =>
+                    setUser((prevUser) => ({
+                      ...prevUser,
+                      threshold: e.target.value,
+                    }))
+                  }
+                  min={0}
+                />
+              </div>
 
-  <div className="settings-row">
-    <label>Reminder Interval (days)</label>
-    <select
-      className="settings-input"
-      value={user.reminder || ""}
-      onChange={(e) =>
-        setUser((prevUser) => ({
-          ...prevUser,
-          reminder: e.target.value,
-        }))
-      }
-    >
-      <option value="1">Every 1 day</option>
-      <option value="3">Every 3 days</option>
-      <option value="7">Every week</option>
-    </select>
-  </div>
-</section>
+              <div className="settings-row">
+                <label>Reminder Interval (days)</label>
+                <select
+                  className="settings-input"
+                  value={user.reminder || ""}
+                  onChange={(e) =>
+                    setUser((prevUser) => ({
+                      ...prevUser,
+                      reminder: e.target.value,
+                    }))
+                  }
+                >
+                  <option value="1">Every 1 day</option>
+                  <option value="3">Every 3 days</option>
+                  <option value="7">Every week</option>
+                </select>
+              </div>
+            </section>
 
             <hr />
 
@@ -438,7 +477,9 @@ const handlePhoneChange = (e) => {
                   <input
                     type="checkbox"
                     checked={theme === "dark"}
-                    onChange={() => setTheme(theme === "light" ? "dark" : "light")}
+                    onChange={() =>
+                      setTheme(theme === "light" ? "dark" : "light")
+                    }
                   />
                   <span className="slider"></span>
                 </label>
@@ -453,21 +494,30 @@ const handlePhoneChange = (e) => {
                 <label>QR Code Login</label>
                 <div className="qr-placeholder">
                   <div className="qr-box"></div>
-                  <span className="qr-label">Scan this QR on another device to login</span>
+                  <span className="qr-label">
+                    Scan this QR on another device to login
+                  </span>
                 </div>
               </div>
               <div className="settings-row">
                 <span className="qr-desc">
-                  Enable multi-device login to access your account securely from multiple devices.
+                  Enable multi-device login to access your account securely from
+                  multiple devices.
                 </span>
               </div>
             </section>
 
             <div className="settings-actions">
-              <button className="settings-undo-btn btn" onClick={() => alert("Undone!")}>
+              <button
+                className="settings-undo-btn btn"
+                onClick={() => alert("Undone!")}
+              >
                 Undo
               </button>
-              <button className="settings-redo-btn btn" onClick={() => alert("Redone!")}>
+              <button
+                className="settings-redo-btn btn"
+                onClick={() => alert("Redone!")}
+              >
                 Redo
               </button>
               <button className="settings-save-btn btn" onClick={handleSave}>
@@ -477,7 +527,6 @@ const handlePhoneChange = (e) => {
           </main>
         </div>
         {/* Footer */}
-
       </div>
     </div>
   );

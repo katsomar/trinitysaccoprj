@@ -84,11 +84,11 @@ const SaverDashboard = () => {
       setLoading(false);
       return;
     }
-    const fetchUser = axios.get("http://localhost/server/user.php", {
+    const fetchUser = axios.get("http://localhost/trinitySacco/server/user.php", {
       headers: { Authorization: `Bearer ${token}` },
     });
     const fetchBalance = axios.get(
-      "http://localhost/server/savedashboard/balance.php",
+      "http://localhost/trinitySacco/server/savedashboard/balance.php",
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -131,7 +131,7 @@ const SaverDashboard = () => {
     const token = localStorage.getItem("token");
     axios
       .post(
-        "http://localhost/server/savedashboard/withdraw.php",
+        "http://localhost/trinitySacco/server/savedashboard/withdraw.php",
         { amount: withdrawAmount, group_id: selectedGroup },
         { headers: { Authorization: `Bearer ${token}` } }
       )
