@@ -49,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   'user' => [
     'id' => $user['id'],
     'name' => $user['name'],
-    'avatar' => $user['avatar'],
-    'account_number' => $user['account_number'],
-    'is_online' => $user['is_online']
+  //  'avatar' => $user['avatar'],
+   // 'account_number' => $user['account_number'],
+    //'is_online' => $user['is_online']
   ]
 ];
 
