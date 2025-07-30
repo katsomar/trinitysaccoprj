@@ -1,0 +1,176 @@
+/* Invite Manager Panel Styles */
+.invite-manager-panel {
+  background: #f7f9fc;
+  min-height: 100vh;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.invite-manager-title {
+  color: #004080;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+.invite-manager-list {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.invite-manager-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid transparent;
+  transition: box-shadow 0.2s, border 0.2s;
+  position: relative;
+}
+.invite-manager-card:hover {
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 16px rgba(0,123,255,0.10);
+}
+.invite-manager-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+  gap: 0.7rem;
+}
+.invite-manager-user {
+  color: #004080;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+.invite-manager-status {
+  border-radius: 8px;
+  padding: 0.2rem 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.status-pending {
+  background: #fffbe6;
+  color: #ffc107;
+  border: 1px solid #ffe58f;
+}
+.status-accepted {
+  background: #e6f9ed;
+  color: #28a745;
+  border: 1px solid #b7eb8f;
+}
+.status-declined {
+  background: #ffeaea;
+  color: #dc3545;
+  border: 1px solid #ffa39e;
+}
+.invite-manager-date {
+  color: #888;
+  font-size: 0.98rem;
+}
+.invite-manager-actions {
+  display: flex;
+  gap: 1rem;
+}
+.resend-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.resend-btn:hover {
+  background: #0056b3;
+}
+.cancel-btn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cancel-btn:hover {
+  background: #b52a37;
+}
+.invite-manager-fallback {
+  color: #888;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+/* 3-column grid for sent invites */
+.invite-manager-list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+  .invite-manager-list-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .invite-manager-list-grid {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+}
+
+/* Pagination styles */
+.invite-manager-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.pagination-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 1rem;
+}
+.pagination-btn:disabled {
+  background: #e3e6ee;
+  color: #888;
+  cursor: not-allowed;
+}
+.pagination-info {
+  color: #004080;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+@media (max-width: 600px) {
+  .invite-manager-list {
+    max-width: 98vw;
+    padding: 0 0.5rem;
+  }
+  .invite-manager-title {
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+  }
+  .invite-manager-card {
+    padding: 0.7rem 0.3rem;
+  }
+} 
