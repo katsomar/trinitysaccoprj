@@ -135,7 +135,7 @@ const Profile = () => {
           <img
             src={photo || "images/prof.png"}
             alt="Prof"
-            className="profile-photo"
+            className="avatar"
           />{" "}
           <span>{profile.name}</span>
         </div>
