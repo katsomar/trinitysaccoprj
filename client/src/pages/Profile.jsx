@@ -1,48 +1,142 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/profile.css";
 import "../styles/main.css";
 import { useNavigate } from "react-router-dom";
-
-const dummyData = {
-  name: "Kats Omar",
-  bio: "Passionate saver. Love to help my group reach new goals!",
-  birthday: "1995-07-17",
-  email: "kats@example.com",
-  phone: "+256 700 123456",
-  address: "123 Kampala Road, Uganda",
-  avatar: "/src/assets/images/jane.jpeg",
-};
+import axios from "axios"; // Add this import
 
 const Profile = () => {
-  const [profile, setProfile] = useState({ ...dummyData });
-  const [photo, setPhoto] = useState(dummyData.avatar);
+  const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    bio: "",
+    birthday: "",
+    address: "",
+    avatar: "images/prof.png", // Default avatar path
+  });
+  const [photo, setPhoto] = useState("");
   const navigate = useNavigate();
+  const [selectedPhotoFile, setSelectedPhotoFile] = useState(null); // add this
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      console.log("Fetching profile...");
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(
+          "http://localhost/trinitySacco/server/profile.php", // <-- Use correct endpoint
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        console.log("Profile fetch response:", res.data); // Log the response
+
+
+
+        if (res.data.status === "success") {
+          setProfile((prev) => ({
+            ...prev,
+            ...res.data.profile, // assuming your backend returns {profile: {...}}
+          }));
+
+          if (res.data.profile && res.data.profile.profile_pic) {
+            setPhoto(
+              `http://localhost/trinitySacco/server/images/${res.data.profile.profile_pic}`
+            );
+          } else {
+            setPhoto(null);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch profile:", err);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
+  const handlePhotoChange = (event) => {
+    const file = event.target.files[0];
     if (file) {
+      setSelectedPhotoFile(file); // Save file for FormData upload
+
       const reader = new FileReader();
-      reader.onload = (ev) => setPhoto(ev.target.result);
+      reader.onloadend = () => {
+        setPhoto(reader.result); // Just for preview
+      };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    alert("Profile changes saved! (Demo only)");
+
+    const token = localStorage.getItem("token");
+
+    // Create FormData for sending text + image
+    const formData = new FormData();
+    formData.append("name", profile.name);
+    formData.append("email", profile.email);
+    formData.append("phone", profile.phone);
+    formData.append("bio", profile.bio);
+    formData.append("birthdate", profile.birthday);
+    formData.append("address", profile.address);
+
+    if (selectedPhotoFile) {
+      formData.append("profilePhoto", selectedPhotoFile); // Send image file
+    }
+
+    try {
+      const res = await axios.post(
+        "http://localhost/trinitySacco/server/update-profile.php",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.data.status === "success") {
+        alert("Profile updated successfully!");
+        if (res.data.profile_pic) {
+          setPhoto(
+            `http://localhost/trinitySacco/server/images/${res.data.profile_pic}`
+          );
+        }
+      } else {
+        console.error("Profile update error:", res.data); // Add this line
+        alert(
+          "Failed to save profile: " +
+            (res.data.message || JSON.stringify(res.data) || "Unknown error")
+        );
+      }
+    } catch (err) {
+      alert("Failed to save profile.");
+      console.error(err);
+    }
   };
 
   // Top NavBar (reuse SaverDashboard style)
   const TopNav = () => (
     <nav className="navbar">
       <div className="navbar-left">
-        <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
-          <img src={photo} alt="Avatar" className="avatar" />
+        <div
+          className="profile-viewer"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/profile")}
+        >
+          <img
+            src={photo || "images/prof.png"}
+            alt="Prof"
+            className="profile-photo"
+          />{" "}
           <span>{profile.name}</span>
         </div>
       </div>
@@ -52,10 +146,14 @@ const Profile = () => {
           className="search-bar"
           placeholder="Search groups or friends..."
         />
-        <button className="discover-btn" onClick={() => navigate("/discover")}>Discover</button>
+        <button className="discover-btn" onClick={() => navigate("/discover")}>
+          Discover
+        </button>
       </div>
       <div className="navbar-right">
-        <button className="logout-btn" onClick={() => navigate("/login")}>Logout</button>
+        <button className="logout-btn" onClick={() => navigate("/login")}>
+          Logout
+        </button>
       </div>
     </nav>
   );
@@ -94,28 +192,31 @@ const Profile = () => {
           <div className="profile-header-row">
             <h1 className="profile-title">PROFILE</h1>
             <button
-                className="btn"
-                style={{
-                  background: "#e3e6ee",
-                  color: "#004080",
-                  fontWeight: 500,
-                  borderRadius: "8px",
-                  padding: "0.5rem 1.2rem",
-                  fontSize: "1rem",
-                  marginLeft: "auto"
-                }}
-                onClick={() => navigate("/saver-dashboard")}
-              >
-                Back to Dashboard
-              </button>
+              className="btn"
+              style={{
+                background: "#e3e6ee",
+                color: "#004080",
+                fontWeight: 500,
+                borderRadius: "8px",
+                padding: "0.5rem 1.2rem",
+                fontSize: "1rem",
+                marginLeft: "auto",
+              }}
+              onClick={() => navigate("/saver-dashboard")}
+            >
+              Back to Dashboard
+            </button>
           </div>
           <form className="profile-form" onSubmit={handleSave}>
             {/* Profile Photo Section */}
             <section className="profile-card profile-photo-section">
-              <label htmlFor="profile-photo-upload" className="profile-photo-label">
+              <label
+                htmlFor="profile-photo-upload"
+                className="profile-photo-label"
+              >
                 <div className="profile-photo-wrapper">
                   <img
-                    src={photo}
+                    src={photo || "images/prof.png"}
                     alt="Profile"
                     className="profile-photo"
                   />
@@ -129,12 +230,16 @@ const Profile = () => {
                   <button
                     type="button"
                     className="change-photo-btn"
-                    onClick={() => document.getElementById("profile-photo-upload").click()}
+                    onClick={() =>
+                      document.getElementById("profile-photo-upload").click()
+                    }
                   >
                     Upload/Change Photo
                   </button>
                 </div>
-                <div className="profile-photo-hint">Click to upload/change photo</div>
+                <div className="profile-photo-hint">
+                  Click to upload/change photo
+                </div>
               </label>
             </section>
 
@@ -213,10 +318,7 @@ const Profile = () => {
 
             {/* Save Changes Button */}
             <div className="profile-save-row">
-              <button
-                type="submit"
-                className="save-changes-btn"
-              >
+              <button type="submit" className="save-changes-btn">
                 Save Changes
               </button>
             </div>
@@ -230,4 +332,4 @@ const Profile = () => {
   );
 };
 
-export default Profile; 
+export default Profile;

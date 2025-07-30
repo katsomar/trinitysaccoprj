@@ -17,7 +17,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost/server/api/auth/login.php",
+        "http://localhost/trinitySacco/server/api/auth/login.php",
         data
       );
       const result = response.data;
