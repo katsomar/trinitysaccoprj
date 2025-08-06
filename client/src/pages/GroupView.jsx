@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// Sidebar can be imported if available, else use a placeholder
 import '../styles/GroupView.css';
 import logo from '../assets/images/logo.png';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -10,22 +9,146 @@ const dummyUsers = [
   { id: 1, name: 'Jane Doe', email: 'jane@example.com' },
   { id: 2, name: 'John Smith', email: 'john@example.com' },
   { id: 3, name: 'Alice Johnson', email: 'alice@example.com' },
+  { id: 4, name: 'Bob Lee', email: 'bob@example.com' },
+  { id: 5, name: 'Mary Ann', email: 'mary@example.com' },
 ];
+
+const dummyGroups = [
+  { id: 'g1', name: 'Education Fund' },
+  { id: 'g2', name: 'Business Group' },
+  { id: 'g3', name: 'Holiday Club' },
+];
+
+function Modal({ isOpen, onClose, children, width = 400 }) {
+  if (!isOpen) return null;
+  return (
+    <div className="modal-overlay fade-in">
+      <div className="modal-content slide-down" style={{ maxWidth: width }}>
+        {children}
+        <button className="modal-close-btn" onClick={onClose}>&times;</button>
+      </div>
+      <style>{`
+        .modal-overlay {
+          position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+          background: rgba(0,0,0,0.38); backdrop-filter: blur(2px);
+          z-index: 2000; display: flex; align-items: center; justify-content: center;
+          animation: fadeIn 0.2s;
+        }
+        .modal-content {
+          background: #fff; border-radius: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+          padding: 2.2rem 2.7rem 2rem 2.7rem; min-width: 340px; max-width: 95vw; text-align: center; position: relative;
+          animation: slideDown 0.33s cubic-bezier(.4,1.4,.6,1);
+          transition: box-shadow 0.2s;
+        }
+        .modal-content h2 {
+          font-size: 1.45rem;
+          font-weight: 700;
+          margin-bottom: 1.2rem;
+          color: #004080;
+          letter-spacing: 0.5px;
+        }
+        .modal-input, .groupview-modal-select, textarea {
+          width: 100%;
+          padding: 0.7rem 1rem;
+          border-radius: 8px;
+          border: 1.5px solid #e3e6ee;
+          font-size: 1.08rem;
+          margin-bottom: 1.1rem;
+          background: #f7f9fc;
+          transition: border 0.2s, box-shadow 0.2s;
+        }
+        .modal-input:focus, .groupview-modal-select:focus, textarea:focus {
+          border: 1.5px solid #007bff;
+          outline: none;
+          box-shadow: 0 0 0 2px #e3e6ff;
+        }
+        .modal-close-btn {
+          position: absolute; top: 10px; right: 18px; background: none; border: none; font-size: 2.1rem; color: #888; cursor: pointer;
+          transition: color 0.18s;
+        }
+        .modal-close-btn:hover {
+          color: #dc3545;
+        }
+        .btn {
+          background: #007bff;
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          padding: 0.55rem 1.3rem;
+          font-weight: 600;
+          font-size: 1.05rem;
+          cursor: pointer;
+          transition: background 0.18s, box-shadow 0.18s;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .btn:disabled {
+          background: #b3c6e0;
+          cursor: not-allowed;
+        }
+        .btn:hover:not(:disabled) {
+          background: #0056b3;
+        }
+        .modal-error {
+          color: #dc3545;
+          margin-bottom: 0.7rem;
+          font-size: 1.08rem;
+        }
+        .modal-search-results {
+          list-style: none;
+          padding: 0;
+          margin: 0.5rem 0 0.5rem 0;
+          text-align: left;
+        }
+        .modal-search-results li {
+          padding: 0.5rem 0.7rem;
+          border-radius: 7px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          transition: background 0.15s;
+        }
+        .modal-search-results li:hover {
+          background: #f0f6ff;
+        }
+        .modal-user-tag {
+          background: #e3e6ee;
+          color: #004080;
+          border-radius: 16px;
+          padding: 0.3rem 0.9rem 0.3rem 0.8rem;
+          font-size: 1rem;
+          display: inline-flex;
+          align-items: center;
+          margin-right: 0.2rem;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideDown { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+      `}</style>
+    </div>
+  );
+}
 
 const GroupView = () => {
   const navigate = useNavigate();
   const location = useLocation();
-    const [group, setGroup] = useState(null);
+  const [group, setGroup] = useState(null);
   const [form, setForm] = useState({
     name: '',
     interest: '',
     period: '',
     description: '',
   });
-  const [invites, setInvites] = useState([]);
-  const [search, setSearch] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
   const [activeTab, setActiveTab] = useState('invite');
+
+  // Invite flow state
+  const [inviteStep, setInviteStep] = useState(0); // 0=none, 1=group, 2=pwd, 3=form
+  const [selectedGroupId, setSelectedGroupId] = useState('');
+  const [selectedGroupName, setSelectedGroupName] = useState('');
+  const [invitePwd, setInvitePwd] = useState('');
+  const [invitePwdError, setInvitePwdError] = useState('');
+  const [inviteSearch, setInviteSearch] = useState('');
+  const [inviteResults, setInviteResults] = useState([]);
+  const [inviteSelected, setInviteSelected] = useState([]);
+  const [inviteMsg, setInviteMsg] = useState('');
 
   // Dummy user for navbar
   const user = {
@@ -47,30 +170,77 @@ const GroupView = () => {
     });
   };
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-    if (e.target.value.trim() === '') {
-      setSearchResults([]);
+  // Invite flow handlers
+  function openInviteFlow() {
+    setInviteStep(1);
+    setSelectedGroupId('');
+    setSelectedGroupName('');
+    setInvitePwd('');
+    setInvitePwdError('');
+    setInviteSearch('');
+    setInviteResults([]);
+    setInviteSelected([]);
+    setInviteMsg('');
+  }
+  function closeAllModals() {
+    setInviteStep(0);
+    setInvitePwd('');
+    setInvitePwdError('');
+    setInviteSearch('');
+    setInviteResults([]);
+    setInviteSelected([]);
+    setInviteMsg('');
+  }
+  function handleGroupSelect(e) {
+    setSelectedGroupId(e.target.value);
+    const g = dummyGroups.find(g => g.id === e.target.value);
+    setSelectedGroupName(g ? g.name : '');
+  }
+  function handleGroupConfirm() {
+    if (!selectedGroupId) return;
+    setInviteStep(2);
+  }
+  function handlePwdConfirm() {
+    if (!invitePwd) {
+      setInvitePwdError('Password required');
       return;
     }
-    setSearchResults(
+    setInviteStep(3);
+    setInvitePwdError('');
+  }
+  function handleInviteSearch(e) {
+    setInviteSearch(e.target.value);
+    if (e.target.value.trim() === '') {
+      setInviteResults([]);
+      return;
+    }
+    setInviteResults(
       dummyUsers.filter(
         (u) =>
-          u.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-          u.email.toLowerCase().includes(e.target.value.toLowerCase())
+          (u.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+            u.email.toLowerCase().includes(e.target.value.toLowerCase())) &&
+          !inviteSelected.some(sel => sel.id === u.id)
       )
     );
-  };
+  }
+  function handleAddInviteUser(user) {
+    setInviteSelected(prev => [...prev, user]);
+    setInviteResults(prev => prev.filter(u => u.id !== user.id));
+    setInviteSearch('');
+  }
+  function handleRemoveInviteUser(user) {
+    setInviteSelected(prev => prev.filter(u => u.id !== user.id));
+  }
+  function handleSendInvites() {
+    // Simulate sending
+    console.log('Inviting to group:', selectedGroupId);
+    console.log('Users:', inviteSelected);
+    console.log('Message:', inviteMsg);
+    closeAllModals();
+    alert('Invitations sent!');
+  }
 
-  const handleInvite = (user) => {
-    setInvites((prev) => [
-      ...prev,
-      { ...user, status: 'Pending' },
-    ]);
-    setSearchResults((prev) => prev.filter((u) => u.id !== user.id));
-  };
-
-    return (
+  return (
     <div className="saver-dashboard">
       {/* Navbar (Manager style) */}
       <nav className="navbar">
@@ -186,51 +356,16 @@ const GroupView = () => {
                 </form>
               </section>
               <div style={{ height: '2.5rem' }} />
+              {/* Invite Members Button */}
+              <div style={{textAlign: 'center', marginBottom: '2rem'}}>
+                <button className="btn groupview-invite-btn" onClick={openInviteFlow}>
+                  Invite Members to Group
+                </button>
+              </div>
             </>
           )}
           <div className="groupview-grid">
-            {activeTab === 'invite' && (
-              <section className="groupview-invite-card">
-                <div className="groupview-invite-header">
-                  <span className="groupview-invite-header-icon" role="img" aria-label="invite">📨</span>
-                  <span className="groupview-invite-header-title">Invite Members to Group</span>
-                </div>
-                <div className="groupview-search-wrapper">
-                  <input
-                    className="groupview-search"
-                    type="text"
-                    placeholder="Search users by name or email..."
-                    value={search}
-                    onChange={handleSearch}
-                    disabled={!group}
-                  />
-                </div>
-                <ul className="groupview-search-results">
-                  {searchResults.map((user) => (
-                    <li key={user.id}>
-                      <span>{user.name} ({user.email})</span>
-                      <button
-                        className="btn groupview-invite-btn"
-                        onClick={() => handleInvite(user)}
-                      >
-                        Invite to Group
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                <div className="groupview-invites-list">
-                  <h3>Sent Invites</h3>
-                  <ul>
-                    {invites.length === 0 && <li>No invites sent yet.</li>}
-                    {invites.map((invite) => (
-                      <li key={invite.id}>
-                        {invite.name} ({invite.email}) <span className="groupview-invite-status">{invite.status}</span>
-                      </li>
-                            ))}
-                        </ul>
-                </div>
-              </section>
-            )}
+            {/* Removed old invite card, replaced by new invite flow */}
             {activeTab === 'manage' && (
               <section className="groupview-invite-card">
                 <InviteManager />
@@ -263,10 +398,81 @@ const GroupView = () => {
             )}
           </div>
         </main>
+      </div>
+      <Footer />
+      {/* Step 1: Select Group Modal */}
+      <Modal isOpen={inviteStep === 1} onClose={closeAllModals}>
+        <h2>Select Group to Invite Members</h2>
+        <select className="groupview-modal-select" value={selectedGroupId} onChange={handleGroupSelect}>
+          <option value="">-- Select Group --</option>
+          {dummyGroups.map(g => (
+            <option key={g.id} value={g.id}>{g.name}</option>
+          ))}
+        </select>
+        <div style={{marginTop: '1.5rem'}}>
+          <button className="btn" disabled={!selectedGroupId} onClick={handleGroupConfirm}>Continue</button>
+        </div>
+      </Modal>
+      {/* Step 2: Password Modal */}
+      <Modal isOpen={inviteStep === 2} onClose={closeAllModals}>
+        <h2>Password Verification</h2>
+        <input
+          type="password"
+          className="modal-input"
+          placeholder="Enter your password"
+          value={invitePwd}
+          onChange={e => setInvitePwd(e.target.value)}
+          autoFocus
+        />
+        {invitePwdError && <div className="modal-error">{invitePwdError}</div>}
+        <div style={{marginTop: '1.5rem'}}>
+          <button className="btn" onClick={handlePwdConfirm}>Verify</button>
+        </div>
+      </Modal>
+      {/* Step 3: Invite Form Modal */}
+      <Modal isOpen={inviteStep === 3} onClose={closeAllModals} width={500}>
+        <h2>Invite Members to {selectedGroupName}</h2>
+        <div style={{margin: '1rem 0'}}>
+          <input
+            className="modal-input"
+            type="text"
+            placeholder="Search users by name or email..."
+            value={inviteSearch}
+            onChange={handleInviteSearch}
+          />
+          {inviteResults.length > 0 && (
+            <ul className="modal-search-results">
+              {inviteResults.map(u => (
+                <li key={u.id} style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                  <span>{u.name} ({u.email})</span>
+                  <button className="btn" style={{fontSize: '0.95rem', padding: '0.2rem 0.7rem'}} onClick={() => handleAddInviteUser(u)}>Add</button>
+                </li>
+              ))}
+            </ul>
+          )}
+          {inviteSelected.length > 0 && (
+            <div className="modal-selected-users" style={{margin: '0.7rem 0', display: 'flex', flexWrap: 'wrap', gap: '0.5rem'}}>
+              {inviteSelected.map(u => (
+                <span key={u.id} className="modal-user-tag">
+                  {u.name} <button onClick={() => handleRemoveInviteUser(u)} style={{marginLeft: 4, color: '#dc3545', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 700}}>&times;</button>
+                </span>
+              ))}
             </div>
-        <Footer />
+          )}
+        </div>
+        <textarea
+          className="modal-input"
+          style={{width: '100%', minHeight: 70, marginBottom: 12}}
+          placeholder="Custom invitation message..."
+          value={inviteMsg}
+          onChange={e => setInviteMsg(e.target.value)}
+        />
+        <button className="btn" style={{marginTop: 8}} disabled={inviteSelected.length === 0} onClick={handleSendInvites}>
+          Send Invitations
+        </button>
+      </Modal>
     </div>
-    );
+  );
 };
 
 export default GroupView;
