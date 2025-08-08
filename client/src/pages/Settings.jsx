@@ -249,6 +249,7 @@ const Settings = () => {
             <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => setShowWithdrawModal(true)}>Withdraw</li>
               <li onClick={() => navigate("/notifications")}>Notifications</li>
               <li onClick={() => navigate("/chat")}>Chat</li>
+              <li onClick={() => navigate("/invites")}>Invites/Requests</li>
               <li onClick={() => navigate("/settings")}>Settings</li>
             </ul>
             <div className="sidebar-logo">

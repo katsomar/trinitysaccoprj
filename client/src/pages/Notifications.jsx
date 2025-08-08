@@ -105,6 +105,7 @@ const Notifications = () => {
           <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => setShowWithdrawModal(true)}>Withdraw</li>
             <li onClick={() => navigate("/notifications")}>Notifications</li>
             <li onClick={() => navigate("/chat")}>Chat</li>
+            <li onClick={() => navigate("/invites")}>Invites/Requests</li>
             <li onClick={() => navigate("/settings")}>Settings</li>
           </ul>
           <div className="sidebar-logo">
@@ -121,7 +122,7 @@ const Notifications = () => {
         <div className="notifications-container">
           <div className="notifications-header-row">
             <div className="notifications-title">Notifications</div>
-            <button className="back-dashboard-btn">Back to Dashboard</button>
+            <button className="back-dashboard-btn" onClick={() => navigate("/saver-dashboard")}>Back to Dashboard</button>
           </div>
           <div className="notifications-list">
             {notifications.map((notif) => {
