@@ -1,0 +1,231 @@
+.manager-discover-main-bg {
+  background: #f4f7fa;
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+.manager-discover-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #004080;
+  margin: 2.2rem 0 1.5rem 2.2rem;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+.manager-discover-3col {
+  display: flex;
+  gap: 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+.manager-discover-sidebar {
+  flex: 0 0 20%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.manager-discover-main {
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.manager-discover-section {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+  padding: 2.2rem 2.2rem 2rem 2.2rem;
+  margin-bottom: 0.5rem;
+}
+.manager-discover-section-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #004080;
+  border-bottom: 2px solid #e3e6ee;
+  padding-bottom: 0.6rem;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.1px;
+}
+.manager-discover-ad-card {
+  background: linear-gradient(120deg, #e3e6ee 60%, #f7f9fc 100%);
+  border-radius: 14px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #004080;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.2px;
+}
+.manager-discover-trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.3rem;
+}
+.manager-discover-group-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1.3rem 1.2rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  align-items: flex-start;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.manager-discover-group-card:hover {
+  box-shadow: 0 8px 32px rgba(0,64,128,0.13);
+  transform: translateY(-4px) scale(1.025);
+}
+.manager-discover-group-title {
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #004080;
+}
+.manager-discover-group-meta {
+  font-size: 1.01rem;
+  color: #555;
+  margin-bottom: 0.2rem;
+}
+.manager-discover-group-rate {
+  font-size: 1.01rem;
+  color: #28a745;
+  font-weight: 600;
+}
+.manager-discover-join-btn {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.manager-discover-join-btn:hover {
+  background: #004080;
+}
+.manager-discover-rate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.manager-discover-rate-card {
+  background: #f7f9fc;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.manager-discover-rate-card:hover {
+  box-shadow: 0 6px 18px rgba(0,64,128,0.10);
+  transform: translateY(-2px) scale(1.015);
+}
+.manager-discover-rate-inst {
+  font-weight: 700;
+  color: #004080;
+  font-size: 1.08rem;
+}
+.manager-discover-rate-type {
+  color: #555;
+  font-size: 1.01rem;
+}
+.manager-discover-rate-val {
+  color: #28a745;
+  font-weight: 700;
+  font-size: 1.09rem;
+  margin-left: auto;
+}
+.manager-discover-bank-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.3rem;
+}
+.manager-discover-bank-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1.2rem 1.2rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  align-items: flex-start;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.manager-discover-bank-card:hover {
+  box-shadow: 0 8px 32px rgba(0,64,128,0.13);
+  transform: translateY(-4px) scale(1.025);
+}
+.manager-discover-bank-img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #e3e6ee;
+  margin-bottom: 0.7rem;
+}
+.manager-discover-bank-title {
+  font-size: 1.09rem;
+  font-weight: 700;
+  color: #004080;
+}
+.manager-discover-bank-desc {
+  color: #555;
+  font-size: 1.01rem;
+  margin-bottom: 0.2rem;
+}
+.manager-discover-placeholder {
+  background: #e3e6ee;
+  border-radius: 12px;
+  padding: 2.2rem 1.2rem;
+  color: #888;
+  text-align: center;
+  font-size: 1.08rem;
+  font-style: italic;
+  margin-top: 1.2rem;
+}
+
+@media (max-width: 1100px) {
+  .manager-discover-3col {
+    gap: 1.2rem;
+  }
+  .manager-discover-main {
+    gap: 1.2rem;
+  }
+}
+@media (max-width: 900px) {
+  .manager-discover-3col {
+    flex-direction: column;
+    gap: 2.2rem;
+  }
+  .manager-discover-sidebar {
+    flex-direction: row;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .manager-discover-main {
+    width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .manager-discover-title {
+    font-size: 1.5rem;
+    margin: 1.2rem 0 1rem 0;
+  }
+  .manager-discover-section {
+    padding: 1.1rem 0.7rem 1rem 0.7rem;
+  }
+  .manager-discover-3col {
+    gap: 0.7rem;
+  }
+}
