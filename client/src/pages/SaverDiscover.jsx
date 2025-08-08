@@ -1,5 +1,7 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import "../styles/discover.css";
+import "../styles/managerDiscover.css";
+import SaverTopNav from "../components/SaverTopNav";
 
 const mockGroups = [
   { id: "g1", name: "Education Fund", members: 24 },
@@ -8,106 +10,95 @@ const mockGroups = [
   { id: "g4", name: "Women Empowerment", members: 32 },
   { id: "g5", name: "Farmers SACCO", members: 19 },
 ];
-const mockUsers = [
-  { id: "u1", username: "jane_doe", name: "Jane Doe" },
-  { id: "u2", username: "john_smith", name: "John Smith" },
-  { id: "u3", username: "alice_j", name: "Alice Johnson" },
-  { id: "u4", username: "bob_lee", name: "Bob Lee" },
-  { id: "u5", username: "mary_ann", name: "Mary Ann" },
-];
 
 function SaverDiscover() {
-  const [searchType, setSearchType] = useState("group");
-  const [search, setSearch] = useState("");
-  const [focused, setFocused] = useState(false);
-  const [results, setResults] = useState([]);
-  const [showTrending, setShowTrending] = useState(false);
-  const searchRef = useRef(null);
-
-  // Handle search
-  function handleSearch(e) {
-    setSearch(e.target.value);
-    if (e.target.value.trim() === "") {
-      setResults([]);
-      return;
-    }
-    if (searchType === "group") {
-      setResults(
-        mockGroups.filter(g =>
-          g.name.toLowerCase().includes(e.target.value.toLowerCase())
-        )
-      );
-    } else {
-      setResults(
-        mockUsers.filter(u =>
-          u.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-          u.username.toLowerCase().includes(e.target.value.toLowerCase())
-        )
-      );
-    }
-  }
-
   return (
     <div className="discover-root">
-      {/* Top NavBar */}
-      <nav className="navbar discover-navbar">
-        <div className="navbar-left">
-          <span className="discover-title">Discover</span>
-        </div>
-        <div className="navbar-center">
-          <div className="discover-searchbar-wrapper">
-            <input
-              ref={searchRef}
-              type="text"
-              className="discover-searchbar"
-              placeholder={searchType === "group" ? "Search groups..." : "Search users..."}
-              value={search}
-              onFocus={() => { setFocused(true); setShowTrending(true); }}
-              onBlur={() => { setFocused(false); setTimeout(() => setShowTrending(false), 200); }}
-              onChange={handleSearch}
-            />
-            <select
-              className="discover-type-select"
-              value={searchType}
-              onChange={e => { setSearchType(e.target.value); setSearch(""); setResults([]); }}
-            >
-              <option value="group">Groups</option>
-              <option value="user">Users</option>
-            </select>
-            {showTrending && searchType === "group" && search.trim() === "" && (
-              <div className="discover-trending-dropdown">
-                <div className="discover-trending-title">Trending Groups</div>
+      {/* Shared Saver Top Nav */}
+      <SaverTopNav />
+
+      {/* Main Body Content (mirrors ManagerDiscover) */}
+      <div className="manager-discover-main-bg">
+        <div className="manager-discover-title">Discover</div>
+        <div className="manager-discover-3col">
+          {/* Left Sidebar */}
+          <aside className="manager-discover-sidebar">
+            <div className="manager-discover-ad-card">Advertisement</div>
+            <div className="manager-discover-ad-card">Advertisement</div>
+            <div className="manager-discover-ad-card">Advertisement</div>
+          </aside>
+
+          {/* Main Content */}
+          <main className="manager-discover-main">
+            {/* Trending Groups */}
+            <section className="manager-discover-section">
+              <div className="manager-discover-section-title">Trending Groups</div>
+              <div className="manager-discover-trending-grid">
                 {mockGroups.map(g => (
-                  <div className="discover-trending-row" key={g.id}>
-                    <span className="discover-group-name">{g.name}</span>
-                    <span className="discover-group-members">{g.members} members</span>
-                    <button className="discover-join-btn">Send Request to Join</button>
+                  <div className="manager-discover-group-card" key={g.id}>
+                    <div className="manager-discover-group-title">{g.name}</div>
+                    <div className="manager-discover-group-meta">{g.members} members</div>
+                    <div className="manager-discover-group-rate">Interest: {(6 + g.id.length * 0.5).toFixed(2)}%</div>
+                    <button className="manager-discover-join-btn">Join</button>
                   </div>
                 ))}
               </div>
-            )}
-          </div>
-        </div>
-      </nav>
-      <div className="discover-results-container">
-        {results.length > 0 && (
-          <div className="discover-results-list">
-            {searchType === "group"
-              ? results.map(g => (
-                  <div className="discover-result-row" key={g.id}>
-                    <span className="discover-group-name">{g.name}</span>
-                    <span className="discover-group-members">{g.members} members</span>
-                    <button className="discover-join-btn">Send Request to Join</button>
-                  </div>
-                ))
-              : results.map(u => (
-                  <div className="discover-result-row" key={u.id}>
-                    <span className="discover-user-name">{u.name} <span className="discover-username">@{u.username}</span></span>
-                    <button className="discover-chat-btn" onClick={() => window.location.href = `/chat/${u.username}`}>Chat</button>
+            </section>
+
+            {/* Best Interest Rates */}
+            <section className="manager-discover-section">
+              <div className="manager-discover-section-title">Best Interest Rates</div>
+              <div className="manager-discover-rate-list">
+                {[
+                  { inst: "Equity Bank", type: "Fixed Deposit", rate: "12.5%" },
+                  { inst: "Stanbic Bank", type: "Savings Account", rate: "10.2%" },
+                  { inst: "DTB Uganda", type: "SACCO Partner", rate: "9.8%" },
+                  { inst: "PostBank", type: "Group Savings", rate: "8.7%" },
+                ].map((r, i) => (
+                  <div className="manager-discover-rate-card" key={i}>
+                    <div className="manager-discover-rate-inst">{r.inst}</div>
+                    <div className="manager-discover-rate-type">{r.type}</div>
+                    <div className="manager-discover-rate-val">{r.rate}</div>
                   </div>
                 ))}
-          </div>
-        )}
+              </div>
+            </section>
+
+            {/* Opportunities from Banks */}
+            <section className="manager-discover-section">
+              <div className="manager-discover-section-title">Opportunities from Banks</div>
+              <div className="manager-discover-bank-grid">
+                {[
+                  { img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80", title: "Stanbic Youth Account", desc: "Open a youth account and enjoy zero monthly fees plus free mobile banking." },
+                  { img: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80", title: "Equity Fixed Deposit", desc: "Earn up to 12.5% p.a. on fixed deposits above UGX 5M." },
+                  { img: "https://images.unsplash.com/photo-1515168833906-d2a3b82b302b?auto=format&fit=crop&w=400&q=80", title: "DTB Group Savings", desc: "Special group rates for SACCOs and investment clubs." },
+                ].map((b, i) => (
+                  <div className="manager-discover-bank-card" key={i}>
+                    <img className="manager-discover-bank-img" src={b.img} alt={b.title} />
+                    <div className="manager-discover-bank-title">{b.title}</div>
+                    <div className="manager-discover-bank-desc">{b.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Additional Sections */}
+            <section className="manager-discover-section">
+              <div className="manager-discover-section-title">Most Popular Managers</div>
+              <div className="manager-discover-placeholder">Coming soon: Top managers in your region.</div>
+            </section>
+            <section className="manager-discover-section">
+              <div className="manager-discover-section-title">Investment Deals</div>
+              <div className="manager-discover-placeholder">Coming soon: Investment opportunities for SACCO members.</div>
+            </section>
+          </main>
+
+          {/* Right Sidebar */}
+          <aside className="manager-discover-sidebar">
+            <div className="manager-discover-ad-card">Advertisement</div>
+            <div className="manager-discover-ad-card">Advertisement</div>
+          </aside>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/chat.css";
+import SaverTopNav from "../components/SaverTopNav";
 
 // Dummy data for contacts/groups
 const contacts = [
@@ -112,7 +113,7 @@ function Chat() {
 
   return (
     <div className="chat-root">
-      <TopNav />
+      <SaverTopNav />
       <div className="chat-main">
         {/* LEFT SIDEBAR */}
         <aside className="chat-sidebar" style={{ marginTop: 0, top: 0, height: "100%" }}>

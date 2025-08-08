@@ -12,6 +12,7 @@ import GroupView from './pages/GroupView';
 import Chat from './pages/Chat';
 import ManagerChat from './pages/ManagerChat';
 import ManagerDiscover from './pages/ManagerDiscover';
+import SaverDiscover from './pages/SaverDiscover';
 import CustomerService from './pages/CustomerService';
 import Settings from './pages/Settings';
 import Profile from './pages/Profile';
@@ -64,6 +65,7 @@ const App = () => {
                     <Route path="/chat/:groupId" element={<Chat />} />
                     <Route path="/manager-chat" element={<ManagerChat />} />
                     <Route path="/manager-discover" element={<ManagerDiscover />} />
+                    <Route path="/discover" element={<SaverDiscover />} />
                     <Route path="/customer-service" element={<CustomerService />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/profile" element={<Profile />} />

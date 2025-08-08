@@ -6,6 +6,7 @@ import "../styles/SaverDashboard.css";
 import Footer from "../components/Footer";
 import DepositModal from '../components/DepositModal';
 import WithdrawPopup from '../components/WithdrawPopup';
+import SaverTopNav from "../components/SaverTopNav";
 
 // Dummy group data
 const groups = [
@@ -304,25 +305,7 @@ const SaverDashboard = () => {
     <div className="scrollable-page">
       <div className="saver-dashboard">
         {/* Navbar */}
-        <nav className="navbar">
-          <div className="navbar-left">
-            <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
-              <img src={user.avatar} alt="Avatar" className="avatar" />
-              <span>{user.name}</span>
-            </div>
-          </div>
-          <div className="navbar-center">
-            <input
-              type="text"
-              className="search-bar"
-              placeholder="Search groups or friends..."
-            />
-            <button className="discover-btn" onClick={() => navigate("/discover")}>Discover</button>
-          </div>
-          <div className="navbar-right">
-            <button className="logout-btn" onClick={() => navigate("/login")}>Logout</button>
-          </div>
-        </nav>
+        <SaverTopNav />
 
         <div className="dashboard-body">
           {/* Sidebar */}
