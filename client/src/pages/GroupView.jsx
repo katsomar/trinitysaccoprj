@@ -4,6 +4,7 @@ import logo from '../assets/images/logo.png';
 import { useNavigate, useLocation } from 'react-router-dom';
 import InviteManager from './InviteManager';
 import Footer from '../components/Footer';
+import ManagerTopNav from '../components/ManagerTopNav';
 
 const dummyUsers = [
   { id: 1, name: 'Jane Doe', email: 'jane@example.com' },
@@ -243,25 +244,7 @@ const GroupView = () => {
   return (
     <div className="saver-dashboard">
       {/* Navbar (Manager style) */}
-      <nav className="navbar">
-        <div className="navbar-left">
-          <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
-            <img src={user.avatar} alt="Avatar" className="avatar" />
-            <span>{user.name}</span>
-          </div>
-        </div>
-        <div className="navbar-center">
-          <input
-            type="text"
-            className="search-bar"
-            placeholder="Search groups or friends..."
-          />
-          <button className="discover-btn" onClick={() => navigate("/manager-discover")}>Discover</button>
-        </div>
-        <div className="navbar-right">
-          <button className="logout-btn" onClick={() => navigate("/login")}>Logout</button>
-        </div>
-      </nav>
+      <ManagerTopNav />
       <div className="dashboard-body">
         {/* Sidebar placeholder, replace with actual Sidebar if available */}
         <aside className="sidebar">

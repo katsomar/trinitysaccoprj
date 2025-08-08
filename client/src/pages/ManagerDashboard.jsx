@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Line, Bar, Pie } from "react-chartjs-2";
 import DepositModal from '../components/DepositModal';
 import WithdrawPopup from '../components/WithdrawPopup';
+import ManagerTopNav from '../components/ManagerTopNav';
 import "../styles/SaverDashboard.css";
 
 // --- Mock Data ---
@@ -409,21 +410,7 @@ export default function ManagerDashboard() {
     <div className="scrollable-page">
       <div className="saver-dashboard">
         {/* Navbar */}
-        <nav className="navbar">
-          <div className="navbar-left">
-            <div className="profile-viewer" style={{ cursor: 'pointer' }}>
-              <img src="/assets/manager-avatar.png" alt="Avatar" className="avatar" />
-              <span>Manager Jane</span>
-            </div>
-          </div>
-          <div className="navbar-center">
-            <input type="text" className="search-bar" placeholder="Search groups or friends..." />
-            <button className="discover-btn" onClick={() => navigate("/manager-discover")}>Discover</button>
-          </div>
-          <div className="navbar-right">
-            <button className="logout-btn">Logout</button>
-          </div>
-        </nav>
+        <ManagerTopNav />
 
         <div className="dashboard-body">
           {/* Sidebar */}

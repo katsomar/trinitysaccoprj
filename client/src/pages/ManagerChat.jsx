@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/chat.css";
+import ManagerTopNav from '../components/ManagerTopNav';
 
 // Dummy data for contacts/groups
 const contacts = [
@@ -34,12 +35,6 @@ const contacts = [
   },
   // ...add more as needed
 ];
-
-// Dummy user for navbar
-const user = {
-  name: "Mary W.",
-  avatar: "https://ui-avatars.com/api/?name=Mary+W"
-};
 
 function ManagerChat() {
   const [selected, setSelected] = useState(null);
@@ -82,36 +77,9 @@ function ManagerChat() {
     if (e.key === "Enter") handleSend();
   };
 
-  // Top nav bar styled exactly like SaverDashboard
-  const TopNav = () => (
-    <nav className="navbar">
-      <div className="navbar-left">
-        <div className="profile-viewer" style={{ cursor: 'pointer' }} onClick={() => window.location.href = '/profile'}>
-          <img src={user.avatar} alt="Avatar" className="avatar" />
-          <span>{user.name}</span>
-        </div>
-      </div>
-      <div className="navbar-center">
-        <input
-          type="text"
-          className="search-bar"
-          placeholder="Search groups or friends..."
-          // Optionally add onChange handler if needed
-        />
-        <button className="discover-btn" onClick={() => navigate("/manager-discover")}>Discover
-        </button>
-      </div>
-      <div className="navbar-right">
-        <button className="logout-btn" onClick={() => window.location.href = "/login"}>
-          Logout
-        </button>
-      </div>
-    </nav>
-  );
-
   return (
     <div className="chat-root">
-      <TopNav />
+      <ManagerTopNav />
       <div className="chat-main">
         {/* LEFT SIDEBAR */}
         <aside className="chat-sidebar" style={{ marginTop: 0, top: 0, height: "100%" }}>
