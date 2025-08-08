@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Line, Bar, Pie } from "react-chartjs-2";
+import DepositModal from '../components/DepositModal';
+import WithdrawPopup from '../components/WithdrawPopup';
 import "../styles/SaverDashboard.css";
 
 // --- Mock Data ---
@@ -359,6 +361,8 @@ export default function ManagerDashboard() {
   const [pwdModalCallback, setPwdModalCallback] = useState(() => () => {});
   const [pendingGroupId, setPendingGroupId] = useState(null);
   const [messageToView, setMessageToView] = useState(null);
+  const [showDepositModal, setShowDepositModal] = useState(false);
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
   const currentGroup = GROUPS.find(g => g.id === currentGroupId);
 
@@ -414,7 +418,7 @@ export default function ManagerDashboard() {
           </div>
           <div className="navbar-center">
             <input type="text" className="search-bar" placeholder="Search groups or friends..." />
-            <button className="discover-btn">Discover</button>
+            <button className="discover-btn" onClick={() => navigate("/manager-discover")}>Discover</button>
           </div>
           <div className="navbar-right">
             <button className="logout-btn">Logout</button>
@@ -435,7 +439,7 @@ export default function ManagerDashboard() {
               <li onClick={() => navigate("/interest-calculator")}>Interest Calculator</li>
               <li onClick={() => navigate("/reports")}>Reports</li>
               <li onClick={() => navigate("/manager-notifications")}>Manager Notifications</li>
-              <li onClick={() => navigate("/messages")}>Messages</li>
+              <li onClick={() => navigate("/manager-chat")}>Chat</li>
               <li onClick={() => navigate("/manager-settings")}>Settings</li>
             </ul>
             <div className="sidebar-logo">
@@ -459,8 +463,8 @@ export default function ManagerDashboard() {
                 <h2>Group Account Balance</h2>
                 <p className="balance-amount">${currentGroup.balance.toLocaleString()}</p>
                 <div className="balance-buttons" style={{display: 'flex', gap: '0.7rem', marginTop: '0.5rem', justifyContent: 'center'}}>
-                  <button className="btn deposit-btn">Deposit</button>
-                  <button className="btn withdraw-btn">Withdraw</button>
+                  <button className="btn deposit-btn" onClick={() => setShowDepositModal(true)}>Deposit</button>
+                  <button className="btn withdraw-btn" onClick={() => setShowWithdrawModal(true)}>Withdraw</button>
                 </div>
                 <GroupSwitcher groups={GROUPS} currentGroupId={currentGroupId} onSwitch={handleGroupSwitch} />
               </article>
@@ -539,6 +543,8 @@ export default function ManagerDashboard() {
         title={pwdModalTitle}
         error={pwdModalError}
       />
+      <DepositModal isOpen={showDepositModal} onClose={() => setShowDepositModal(false)} />
+      <WithdrawPopup isOpen={showWithdrawModal} onClose={() => setShowWithdrawModal(false)} />
     </div>
   );
 }

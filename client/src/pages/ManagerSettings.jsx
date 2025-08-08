@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/manager-settings.css";
 import { useNavigate } from "react-router-dom";
 
+
 const user = {
   name: "Manager Jane",
   accountNumber: "MGR20250717001",
@@ -107,7 +108,7 @@ const ManagerSettings = () => {
             className="search-bar"
             placeholder="Search groups or members..."
           />
-          <button className="discover-btn" onClick={() => navigate("/discover")}>Discover</button>
+          <button className="discover-btn" onClick={() => navigate("/manager-discover")}>Discover</button>
         </div>
         <div className="navbar-right">
           <button className="logout-btn" onClick={() => navigate("/login")}>Logout</button>
@@ -126,6 +127,7 @@ const ManagerSettings = () => {
             <li onClick={() => navigate("/interest-calculator")}>Interest Calculator</li>
             <li onClick={() => navigate("/reports")}>Reports</li>
             <li onClick={() => navigate("/manager-notifications")}>Manager Notifications</li>
+            <li onClick={() => navigate("/manager-chat")}>Chat</li>
             <li className="active" onClick={() => navigate("/manager-settings")}>Settings</li>
           </ul>
           <div className="sidebar-logo">

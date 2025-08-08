@@ -256,7 +256,7 @@ const GroupView = () => {
             className="search-bar"
             placeholder="Search groups or friends..."
           />
-          <button className="discover-btn" onClick={() => navigate("/discover")}>Discover</button>
+          <button className="discover-btn" onClick={() => navigate("/manager-discover")}>Discover</button>
         </div>
         <div className="navbar-right">
           <button className="logout-btn" onClick={() => navigate("/login")}>Logout</button>
@@ -276,7 +276,7 @@ const GroupView = () => {
             <li onClick={() => navigate("/interest-calculator")}>Interest Calculator</li>
             <li onClick={() => navigate("/reports")}>Reports</li>
             <li onClick={() => navigate("/manager-notifications")}>Manager Notifications</li>
-            <li onClick={() => navigate("/messages")}>Messages</li>
+            <li onClick={() => navigate("/manager-chat")}>Chat</li>
             <li onClick={() => navigate("/manager-settings")}>Settings</li>
           </ul>
           <div className="sidebar-logo">
