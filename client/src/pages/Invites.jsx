@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Invites.css';
 import '../styles/GroupView.css';
+import '../styles/transactions.css';
 import Footer from '../components/Footer';
 import SaverTopNav from '../components/SaverTopNav';
 
@@ -111,7 +112,7 @@ const Invites = () => {
         <main className="main-content invites-main-content">
           <div className="invites-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
             <h1 className="invites-title">Invites / Requests</h1>
-            <button className="btn groupview-back-btn" onClick={() => navigate('/saver-dashboard')}>Back to Dashboard</button>
+            <button className="btn tx-back-btn" onClick={() => navigate('/saver-dashboard')}>Back to Dashboard</button>
           </div>
 
           {/* Tabs */}

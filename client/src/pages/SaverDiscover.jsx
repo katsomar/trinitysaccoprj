@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/discover.css";
 import "../styles/managerDiscover.css";
+import "../styles/transactions.css";
 import SaverTopNav from "../components/SaverTopNav";
 
 const mockGroups = [
@@ -19,7 +20,10 @@ function SaverDiscover() {
 
       {/* Main Body Content (mirrors ManagerDiscover) */}
       <div className="manager-discover-main-bg">
-        <div className="manager-discover-title">Discover</div>
+        <div className="manager-discover-header" style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'1rem',marginBottom:'0.7rem'}}>
+          <div className="manager-discover-title">Discover</div>
+          <button className="btn tx-back-btn" onClick={() => window.location.href = "/saver-dashboard"}>Back to Dashboard</button>
+        </div>
         <div className="manager-discover-3col">
           {/* Left Sidebar */}
           <aside className="manager-discover-sidebar">

@@ -254,7 +254,7 @@ const GroupView = () => {
           </div>
           <ul className="sidebar-menu">
             <li onClick={() => navigate("/members")}>Members</li>
-            <li onClick={() => navigate("/transactions")}>Transactions</li>
+            <li onClick={() => navigate("/manager-transactions")}>Transactions</li>
             <li className={location.pathname === "/groups" ? "active" : ""} onClick={() => navigate("/groups")}>Groups</li>
             <li onClick={() => navigate("/interest-calculator")}>Interest Calculator</li>
             <li onClick={() => navigate("/reports")}>Reports</li>
@@ -270,7 +270,7 @@ const GroupView = () => {
         <main className="main-content groupview-main-content">
           <div className="groupview-header">
             <h1>Group Management</h1>
-            <button className="btn groupview-back-btn" onClick={() => navigate('/manager-dashboard')}>Back to Dashboard</button>
+            <button className="btn tx-back-btn" onClick={() => navigate('/manager-dashboard')}>Back to Dashboard</button>
           </div>
           {/* Tab Switcher */}
           <div className="groupview-tabs">

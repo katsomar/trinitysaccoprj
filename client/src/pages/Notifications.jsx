@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "../styles/notifications.css";
+import "../styles/GroupView.css";
+import "../styles/transactions.css";
 // Remove NavBar import, use custom navbar below
 import { useNavigate } from "react-router-dom";
 import DepositModal from '../components/DepositModal';
@@ -122,7 +124,7 @@ const Notifications = () => {
         <div className="notifications-container">
           <div className="notifications-header-row">
             <div className="notifications-title">Notifications</div>
-            <button className="back-dashboard-btn" onClick={() => navigate("/saver-dashboard")}>Back to Dashboard</button>
+            <button className="btn tx-back-btn" onClick={() => navigate("/saver-dashboard")}>Back to Dashboard</button>
           </div>
           <div className="notifications-list">
             {notifications.map((notif) => {

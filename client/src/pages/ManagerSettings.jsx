@@ -105,7 +105,7 @@ const ManagerSettings = () => {
           </div>
           <ul className="sidebar-menu">
             <li onClick={() => navigate("/members")}>Members</li>
-            <li onClick={() => navigate("/transactions")}>Transactions</li>
+            <li onClick={() => navigate("/manager-transactions")}>Transactions</li>
             <li onClick={() => navigate("/groups")}>Groups</li>
             <li onClick={() => navigate("/interest-calculator")}>Interest Calculator</li>
             <li onClick={() => navigate("/reports")}>Reports</li>
@@ -134,6 +134,7 @@ const ManagerSettings = () => {
                   marginLeft: "auto"
                 }}
                 onClick={() => navigate("/manager-dashboard")}
+                className="btn tx-back-btn"
               >
                 Back to Dashboard
               </button>

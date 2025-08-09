@@ -4,6 +4,7 @@ import "../styles/Settings.css";
 import axios from "axios";
 import DepositModal from '../components/DepositModal';
 import WithdrawPopup from '../components/WithdrawPopup';
+import "../styles/transactions.css";
 // This Settings page is specifically for SACCO Saver users.
 // Only savers should access and use these settings.
 
@@ -275,16 +276,7 @@ const Settings = () => {
             >
               <h1 className="settings-title">Settings</h1>
               <button
-                className="btn"
-                style={{
-                  background: "#e3e6ee",
-                  color: "#004080",
-                  fontWeight: 500,
-                  borderRadius: "8px",
-                  padding: "0.5rem 1.2rem",
-                  fontSize: "1rem",
-                  marginLeft: "auto",
-                }}
+                className="btn tx-back-btn"
                 onClick={() => navigate("/saver-dashboard")}
               >
                 Back to Dashboard

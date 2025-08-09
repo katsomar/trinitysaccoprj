@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import "../styles/discover.css";
 import "../styles/managerDiscover.css";
+import "../styles/transactions.css";
+import { useNavigate } from "react-router-dom";
 
 const mockGroups = [
   { id: "g1", name: "Education Fund", members: 24 },
@@ -22,6 +24,7 @@ const managedGroups = [
 ];
 
 function ManagerDiscover() {
+  const navigate = useNavigate();
   const [searchType, setSearchType] = useState("group");
   const [search, setSearch] = useState("");
   const [focused, setFocused] = useState(false);
@@ -273,7 +276,10 @@ function ManagerDiscover() {
       )}
     {/* Main Body Content */}
     <div className="manager-discover-main-bg">
-      <div className="manager-discover-title">Discover</div>
+      <div className="manager-discover-header" style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'1rem',marginBottom:'0.7rem'}}>
+        <div className="manager-discover-title">Discover</div>
+        <button className="btn tx-back-btn" onClick={() => navigate("/manager-dashboard")}>Back to Dashboard</button>
+      </div>
       <div className="manager-discover-3col">
         {/* Left Sidebar */}
         <aside className="manager-discover-sidebar">

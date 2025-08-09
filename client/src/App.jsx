@@ -12,6 +12,8 @@ import GroupView from './pages/GroupView';
 import Chat from './pages/Chat';
 import ManagerChat from './pages/ManagerChat';
 import ManagerDiscover from './pages/ManagerDiscover';
+import ManagerTransactions from './pages/ManagerTransactions';
+import Members from './pages/Members';
 import SaverDiscover from './pages/SaverDiscover';
 import CustomerService from './pages/CustomerService';
 import Settings from './pages/Settings';
@@ -21,6 +23,7 @@ import ManagerNotifications from './pages/ManagerNotifications';
 import ManagerSettings from './pages/ManagerSettings';
 import Invites from './pages/Invites';
 import InviteManager from './pages/InviteManager';
+import Transactions from './pages/Transactions';
 
 // Helper to conditionally render Navbar/Footer
 const Layout = ({ children }) => {
@@ -57,9 +60,12 @@ const App = () => {
                     <Route path="/manager-dashboard" element={<ManagerDashboard />} />
                     <Route path="/manager-notifications" element={<ManagerNotifications />} />
                     <Route path="/manager-settings" element={<ManagerSettings />} />
+                    <Route path="/manager-transactions" element={<ManagerTransactions />} />
                     <Route path="/groups" element={<GroupView />} />
                     <Route path="/group/:groupId" element={<GroupView />} />
+                    <Route path="/members" element={<Members />} />
                     <Route path="/invites" element={<Invites />} />
+                    <Route path="/transactions" element={<Transactions />} />
                     <Route path="/invite-manager" element={<InviteManager />} />
                     <Route path="/chat" element={<Chat />} />
                     <Route path="/chat/:groupId" element={<Chat />} />
