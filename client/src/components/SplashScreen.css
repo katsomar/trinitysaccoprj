@@ -1,0 +1,54 @@
+/* Full-screen splash container */
+.splash-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff; /* plain background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* no scrollbars */
+  z-index: 9999; /* stay above the app */
+}
+
+/* Logo element */
+.splash-logo {
+  width: 180px;
+  max-width: 60vw;
+  height: auto;
+  opacity: 0; /* start transparent, then fade in */
+  transform: scale(0.98);
+}
+
+/* Immediate fade-in on mount */
+.splash-logo.fade-in {
+  animation: splashFadeIn 1000ms ease-out forwards; /* 1s fade-in */
+}
+
+/* Fade-out in the last second */
+.splash-logo.fade-out {
+  animation: splashFadeOut 1000ms ease-in forwards; /* 1s fade-out */
+}
+
+@keyframes splashFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes splashFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}

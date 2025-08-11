@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -24,12 +24,14 @@ import ManagerSettings from './pages/ManagerSettings';
 import Invites from './pages/Invites';
 import InviteManager from './pages/InviteManager';
 import Transactions from './pages/Transactions';
+import SplashScreen from './components/SplashScreen';
 
 // Helper to conditionally render Navbar/Footer
 const Layout = ({ children }) => {
   const location = useLocation();
   const showLayout = [
     "/",
+    "/home",
     "/about",
     "/login",
     "/signup",
@@ -46,11 +48,15 @@ const Layout = ({ children }) => {
 };
 
 const App = () => {
+    const [showSplash, setShowSplash] = useState(true);
     return (
         <Router>
-            <Layout>
+            {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
+            {!showSplash && (
+              <Layout>
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/home" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
@@ -78,6 +84,7 @@ const App = () => {
                     <Route path="/notifications" element={<Notifications />} />
                 </Routes>
             </Layout>
+            )}
         </Router>
     );
 };
