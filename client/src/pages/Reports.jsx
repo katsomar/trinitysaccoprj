@@ -2,6 +2,7 @@ import React, { useMemo, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ManagerTopNav from '../components/ManagerTopNav';
 import '../styles/reports.css';
+import '../styles/transactions.css';
 
 // Utilities
 function amountToWords(amount) {
@@ -547,9 +548,14 @@ export default function Reports() {
 
           {/* Content */}
           <main className="main-content">
+            <div className="tx-header-row">
+              <h1 className="tx-title">Reports</h1>
+              <div className="tx-header-actions">
+                <button className="btn tx-back-btn" onClick={() => navigate("/manager-dashboard")}>Back to Dashboard</button>
+              </div>
+            </div>
             <section className="reports-container card">
-              <h2 className="section-title">Reports</h2>
-              {TabHeader}
+                            {TabHeader}
               {activeTab === 'withdrawals' ? WithdrawalsTab : DepositsTab}
             </section>
           </main>
