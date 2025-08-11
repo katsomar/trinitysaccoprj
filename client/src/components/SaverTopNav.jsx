@@ -58,6 +58,7 @@ export default function SaverTopNav() {
       </div>
       <div className="navbar-center">
         <div className="discover-searchbar-wrapper">
+          <span className="search-icon" aria-hidden="true" style={{ marginRight: 8 }}>🔍</span>
           <input
             type="text"
             className="search-bar"
@@ -74,8 +75,8 @@ export default function SaverTopNav() {
               value={searchType}
               onChange={e => { setSearchType(e.target.value); setSearch(""); setResults([]); }}
             >
-              <option value="group">Groups</option>
-              <option value="user">Users</option>
+              <option value="group">🗂️ Groups</option>
+              <option value="user">👥 Users</option>
             </select>
           </div>
           <button className="discover-btn" onClick={() => window.location.href = "/discover"}>Discover</button>
@@ -124,7 +125,7 @@ export default function SaverTopNav() {
         </div>
       </div>
       <div className="navbar-right">
-        <button className="logout-btn" onClick={() => window.location.href = "/login"}>Logout</button>
+        <button className="logout-btn" onClick={() => window.location.href = "/login"}>🚪 Logout</button>
       </div>
     </nav>
   );
