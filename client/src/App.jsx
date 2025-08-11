@@ -48,10 +48,10 @@ const Layout = ({ children }) => {
 };
 
 const App = () => {
-    const [showSplash, setShowSplash] = useState(true);
+    const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem('splashShown'));
     return (
         <Router>
-            {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
+            {showSplash && <SplashScreen onFinish={() => { sessionStorage.setItem('splashShown', '1'); setShowSplash(false); }} />}
             {!showSplash && (
               <Layout>
                 <Routes>

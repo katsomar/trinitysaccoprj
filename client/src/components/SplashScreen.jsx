@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './SplashScreen.css';
 import logo from '../assets/images/logo.png';
 
 const SplashScreen = ({ onFinish }) => {
   const [phase, setPhase] = useState('fade-in'); // 'fade-in' | 'fade-out'
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Lock scrolling while splash is visible
@@ -20,8 +18,6 @@ const SplashScreen = ({ onFinish }) => {
       // Restore scrolling
       document.body.style.overflow = prevOverflow;
       if (typeof onFinish === 'function') onFinish();
-      // Redirect to /home after 3s
-      navigate('/home', { replace: true });
     }, 3000);
 
     return () => {
@@ -29,7 +25,7 @@ const SplashScreen = ({ onFinish }) => {
       clearTimeout(endTimer);
       document.body.style.overflow = prevOverflow;
     };
-  }, [navigate, onFinish]);
+  }, [onFinish]);
 
   return (
     <div className="splash-container" aria-label="Loading">
