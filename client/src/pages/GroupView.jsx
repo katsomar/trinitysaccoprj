@@ -253,14 +253,14 @@ const GroupView = () => {
             <span>Online</span>
           </div>
           <ul className="sidebar-menu">
-            <li onClick={() => navigate("/members")}>Members</li>
-            <li onClick={() => navigate("/manager-transactions")}>Transactions</li>
-            <li className={location.pathname === "/groups" ? "active" : ""} onClick={() => navigate("/groups")}>Groups</li>
-            <li onClick={() => navigate("/interest-calculator")}>Interest Calculator</li>
-            <li onClick={() => navigate("/reports")}>Reports</li>
-            <li onClick={() => navigate("/manager-notifications")}>Manager Notifications</li>
-            <li onClick={() => navigate("/manager-chat")}>Chat</li>
-            <li onClick={() => navigate("/manager-settings")}>Settings</li>
+            <li onClick={() => navigate("/members")}><span style={{ marginRight: '8px' }} role="img" aria-label="members">👥</span>Members</li>
+            <li onClick={() => navigate("/manager-transactions")}><span style={{ marginRight: '8px' }} role="img" aria-label="transactions">💳</span>Transactions</li>
+            <li className={location.pathname === "/groups" ? "active" : ""} onClick={() => navigate("/groups")}><span style={{ marginRight: '8px' }} role="img" aria-label="groups">🗂️</span>Groups</li>
+            <li onClick={() => navigate("/interest-calculator")}><span style={{ marginRight: '8px' }} role="img" aria-label="calculator">🧮</span>Interest Calculator</li>
+            <li onClick={() => navigate("/reports")}><span style={{ marginRight: '8px' }} role="img" aria-label="reports">📊</span>Reports</li>
+            <li onClick={() => navigate("/manager-notifications")}><span style={{ marginRight: '8px' }} role="img" aria-label="notifications">🔔</span>Manager Notifications</li>
+            <li onClick={() => navigate("/manager-chat")}><span style={{ marginRight: '8px' }} role="img" aria-label="chat">💬</span>Chat</li>
+            <li onClick={() => navigate("/manager-settings")}><span style={{ marginRight: '8px' }} role="img" aria-label="settings">⚙️</span>Settings</li>
           </ul>
           <div className="sidebar-logo">
             <img src={logo} alt="Logo" style={{ filter: "grayscale(100%)", opacity: 0.65 }} />
