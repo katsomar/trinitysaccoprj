@@ -24,6 +24,7 @@ import ManagerSettings from './pages/ManagerSettings';
 import Invites from './pages/Invites';
 import InviteManager from './pages/InviteManager';
 import Transactions from './pages/Transactions';
+import Reports from './pages/Reports';
 import SplashScreen from './components/SplashScreen';
 
 // Helper to conditionally render Navbar/Footer
@@ -67,6 +68,7 @@ const App = () => {
                     <Route path="/manager-notifications" element={<ManagerNotifications />} />
                     <Route path="/manager-settings" element={<ManagerSettings />} />
                     <Route path="/manager-transactions" element={<ManagerTransactions />} />
+                    <Route path="/reports" element={<Reports />} />
                     <Route path="/groups" element={<GroupView />} />
                     <Route path="/group/:groupId" element={<GroupView />} />
                     <Route path="/members" element={<Members />} />
