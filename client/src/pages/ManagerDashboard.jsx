@@ -364,6 +364,49 @@ export default function ManagerDashboard() {
   const [messageToView, setMessageToView] = useState(null);
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Mobile search state
+  const [mobileSearchType, setMobileSearchType] = useState('group');
+  const [mobileSearch, setMobileSearch] = useState('');
+  const [mobileResults, setMobileResults] = useState([]);
+  const [mobileShowTrending, setMobileShowTrending] = useState(false);
+  const mobileGroups = [
+    { id: 'g1', name: 'Education Fund', members: 24 },
+    { id: 'g2', name: 'Business Group', members: 15 },
+    { id: 'g3', name: 'Holiday Club', members: 8 },
+    { id: 'g4', name: 'Women Empowerment', members: 32 },
+    { id: 'g5', name: 'Farmers SACCO', members: 19 },
+  ];
+  const mobileUsers = [
+    { id: 'u1', username: 'jane_doe', name: 'Jane Doe' },
+    { id: 'u2', username: 'john_smith', name: 'John Smith' },
+    { id: 'u3', username: 'alice_j', name: 'Alice Johnson' },
+    { id: 'u4', username: 'bob_lee', name: 'Bob Lee' },
+    { id: 'u5', username: 'mary_ann', name: 'Mary Ann' },
+  ];
+  const handleMobileSearch = (e) => {
+    const val = e.target.value;
+    setMobileSearch(val);
+    if (val.trim() === '') { setMobileResults([]); return; }
+    if (mobileSearchType === 'group') {
+      setMobileResults(mobileGroups.filter(g => g.name.toLowerCase().includes(val.toLowerCase())));
+    } else {
+      setMobileResults(mobileUsers.filter(u => u.name.toLowerCase().includes(val.toLowerCase()) || u.username.toLowerCase().includes(val.toLowerCase())));
+    }
+  };
+  const toggleMobileMenu = () => setMobileMenuOpen(v => !v);
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKeyDown = (e) => { if (e.key === 'Escape') closeMobileMenu(); };
+    document.addEventListener('keydown', onKeyDown);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [mobileMenuOpen]);
 
   const currentGroup = GROUPS.find(g => g.id === currentGroupId);
 
@@ -411,6 +454,113 @@ export default function ManagerDashboard() {
       <div className="saver-dashboard">
         {/* Navbar */}
         <ManagerTopNav />
+        {/* Hamburger Toggle (visible on <= 1024px) */}
+        <button
+          className={`hamburger-toggle ${mobileMenuOpen ? 'active' : ''}`}
+          aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-side-menu"
+          onClick={toggleMobileMenu}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        {/* Backdrop below navbar when menu open */}
+        {mobileMenuOpen && <div className="mobile-menu-backdrop" onClick={closeMobileMenu} aria-hidden="true"></div>}
+
+        {/* Mobile Side Menu (below navbar) */}
+        <nav id="mobile-side-menu" className={`mobile-side-menu ${mobileMenuOpen ? 'open' : ''}`} role="dialog" aria-modal="false" aria-label="Mobile Navigation">
+          {/* Online/Offline */}
+          <div className="mobile-menu-section online-status">
+            <span className={`status-dot online`}></span>
+            <span>Online</span>
+          </div>
+          
+          {/* Search with type selector + dropdown */}
+          <div className="mobile-menu-section mobile-search">
+            <label className="mobile-label" htmlFor="mobile-search-input-mgr">Search</label>
+            <div className="mobile-searchbar-wrapper">
+              <div className="mobile-type-select-wrapper">
+                <select
+                  className="mobile-type-select"
+                  value={mobileSearchType}
+                  onChange={e => { setMobileSearchType(e.target.value); setMobileSearch(''); setMobileResults([]); }}
+                >
+                  <option value="group">🗂️ Groups</option>
+                  <option value="user">👥 Users</option>
+                </select>
+              </div>
+              <span className="mobile-search-icon" aria-hidden="true">🔍</span>
+              <input
+                id="mobile-search-input-mgr"
+                type="text"
+                placeholder={`Search ${mobileSearchType === 'group' ? 'groups' : 'users'}...`}
+                aria-label="Search"
+                value={mobileSearch}
+                onChange={handleMobileSearch}
+                onFocus={() => { setMobileShowTrending(true); }}
+                onBlur={() => { setTimeout(() => setMobileShowTrending(false), 180); }}
+              />
+            </div>
+            {(mobileSearch.length > 0) && (
+              <div className="mobile-search-dropdown">
+                {mobileSearchType === 'group' ? (
+                  mobileResults.length > 0 ? mobileResults.map(g => (
+                    <div className="mobile-search-row" key={g.id}>
+                      <span className="mobile-result-name">{g.name}</span>
+                      <span className="mobile-result-meta">{g.members ?? '—'} members</span>
+                      <button className="discover-join-btn" onClick={() => alert('Request to join sent')}>Request</button>
+                    </div>
+                  )) : <div className="mobile-search-empty">No groups found.</div>
+                ) : (
+                  mobileResults.length > 0 ? mobileResults.map(u => (
+                    <div className="mobile-search-row" key={u.id}>
+                      <span className="mobile-result-name">{u.name} <span className="mobile-result-meta">@{u.username}</span></span>
+                      <div className="mobile-result-actions">
+                        <button className="discover-chat-btn" onClick={() => { closeMobileMenu(); navigate('/manager-chat'); }}>Chat</button>
+                        <button className="discover-join-btn" onClick={() => alert('Invite flow (mock)')}>Invite</button>
+                      </div>
+                    </div>
+                  )) : <div className="mobile-search-empty">No users found.</div>
+                )}
+              </div>
+            )}
+            {mobileShowTrending && mobileSearchType === 'group' && mobileSearch.trim() === '' && (
+              <div className="mobile-search-dropdown">
+                <div className="mobile-search-title">Trending Groups</div>
+                {mobileGroups.map(g => (
+                  <div className="mobile-search-row" key={g.id}>
+                    <span className="mobile-result-name">{g.name}</span>
+                    <span className="mobile-result-meta">{g.members} members</span>
+                    <button className="discover-join-btn" onClick={() => alert('Request to join sent')}>Request</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          
+          {/* Nav Links */}
+          <ul className="mobile-nav-links">
+            <li onClick={() => { closeMobileMenu(); navigate('/members'); }}><span style={{ marginRight: '8px' }} role="img" aria-label="members">👥</span>Members</li>
+            <li onClick={() => { closeMobileMenu(); navigate('/manager-transactions'); }}><span style={{ marginRight: '8px' }} role="img" aria-label="transactions">💳</span>Transactions</li>
+            <li onClick={() => { closeMobileMenu(); navigate('/groups'); }}><span style={{ marginRight: '8px' }} role="img" aria-label="groups">🗂️</span>Groups</li>
+            <li onClick={() => { closeMobileMenu(); navigate('/interest-calculator'); }}><span style={{ marginRight: '8px' }} role="img" aria-label="calculator">🧮</span>Interest Calculator</li>
+            <li onClick={() => { closeMobileMenu(); navigate('/reports'); }}><span style={{ marginRight: '8px' }} role="img" aria-label="reports">📊</span>Reports</li>
+            <li onClick={() => { closeMobileMenu(); navigate('/manager-notifications'); }}><span style={{ marginRight: '8px' }} role="img" aria-label="notifications">🔔</span>Manager Notifications</li>
+            <li onClick={() => { closeMobileMenu(); navigate('/manager-chat'); }}><span style={{ marginRight: '8px' }} role="img" aria-label="chat">💬</span>Chat</li>
+            <li onClick={() => { closeMobileMenu(); navigate('/manager-settings'); }}><span style={{ marginRight: '8px' }} role="img" aria-label="settings">⚙️</span>Settings</li>
+            <li onClick={() => { closeMobileMenu(); window.location.href = '/login'; }}><span style={{ marginRight: '8px' }} role="img" aria-label="logout">🚪</span>Logout</li>
+          </ul>
+
+          {/* Footer logo */}
+          <div className="mobile-menu-footer">
+            <img src="/src/assets/images/logo.png" alt="Trinity SACCO" />
+            <div className="sidebar-logo-text">Powered by Omblo Technologies</div>
+          </div>
+        </nav>
 
         <div className="dashboard-body">
           {/* Sidebar */}
@@ -521,6 +671,113 @@ export default function ManagerDashboard() {
         <footer className="footer">
           <span>&copy; 2024 Trinity SACCO. All rights reserved.</span>
         </footer>
+        {/* Responsive Mobile Menu Styles */}
+        <style>{`
+          :root { --nav-h: 56px; }
+
+          /* Hamburger toggle */
+          .hamburger-toggle {
+            position: fixed;
+            top: 10px;
+            right: 14px;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255,255,255,0.12);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001; /* above navbar (1000) */
+            cursor: pointer;
+            transition: background 0.2s ease;
+          }
+          .hamburger-toggle:hover { background: rgba(255,255,255,0.2); }
+          .hamburger-toggle span {
+            position: absolute;
+            width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: transform 0.28s ease, opacity 0.2s ease, top 0.28s ease; left: 10px;
+          }
+          .hamburger-toggle span:nth-child(1) { top: 14px; }
+          .hamburger-toggle span:nth-child(2) { top: 20px; }
+          .hamburger-toggle span:nth-child(3) { top: 26px; }
+          .hamburger-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+          .hamburger-toggle.active span:nth-child(2) { opacity: 0; }
+          .hamburger-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+          /* Mobile side menu */
+          .mobile-side-menu {
+            position: fixed;
+            top: var(--nav-h);
+            left: 0;
+            width: min(84vw, 340px);
+            height: calc(100vh - var(--nav-h));
+            background: rgba(255,255,255,0.72);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-right: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transform: translateX(-102%);
+            transition: transform 0.32s ease;
+            z-index: 1000; /* below hamburger */
+            padding: 1rem 1rem 1.2rem 1rem;
+            overflow-y: auto;
+          }
+          .mobile-side-menu.open { transform: translateX(0); }
+          .mobile-menu-section { margin-bottom: 1rem; }
+          .mobile-search-input { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.9); border: 1px solid #e3e6ee; border-radius: 10px; padding: 0.5rem 0.75rem; }
+          .mobile-search-input input { border: none; outline: none; width: 100%; font-size: 1rem; background: transparent; color: #0f172a; }
+          .mobile-label { display: block; font-weight: 600; color: #004080; margin-bottom: 6px; }
+          .mobile-group-select { width: 100%; }
+          .mobile-nav-links { list-style: none; padding: 0; margin: 0.5rem 0 1rem 0; }
+          .mobile-nav-links li { padding: 0.7rem 0.8rem; margin-bottom: 0.5rem; border-radius: 10px; background: rgba(255,255,255,0.9); border: 1px solid #e3e6ee; color: #004080; font-weight: 600; cursor: pointer; transition: background 0.2s ease; }
+          .mobile-nav-links li:hover { background: #eef4ff; }
+          .mobile-menu-footer { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 1.2rem; color: #888; }
+          .mobile-menu-footer img { max-width: 100px; opacity: 0.7; }
+
+          /* Mobile profile + search extended */
+          .mobile-profile { display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem; }
+          .mobile-profile-name { font-weight: 600; color: #0f172a; }
+          .mobile-searchbar-wrapper { position: relative; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.95); border: 1px solid #e3e6ee; border-radius: 10px; padding: 0.45rem 0.6rem; }
+          .mobile-searchbar-wrapper input { border: none; outline: none; width: 100%; background: transparent; font-size: 1rem; color: #0f172a; }
+          .mobile-type-select-wrapper { border-right: 1px solid #e3e6ee; padding-right: 6px; margin-right: 6px; }
+          .mobile-type-select { border: none; background: transparent; font-weight: 600; color: #004080; }
+          .mobile-search-dropdown { margin-top: 8px; background: rgba(255,255,255,0.98); border: 1px solid #e3e6ee; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+          .mobile-search-title { font-weight: 700; color: #004080; padding: 10px 12px; border-bottom: 1px solid #eef2f7; }
+          .mobile-search-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-bottom: 1px solid #f1f5f9; }
+          .mobile-search-row:last-child { border-bottom: none; }
+          .mobile-result-name { font-weight: 600; color: #0f172a; }
+          .mobile-result-meta { color: #64748b; font-size: 0.92rem; margin-left: 8px; }
+          .mobile-search-empty { padding: 12px; color: #64748b; }
+          .discover-join-btn, .discover-chat-btn { border: none; border-radius: 8px; background: #007bff; color: #fff; padding: 6px 10px; cursor: pointer; }
+
+          /* Backdrop under navbar */
+          .mobile-menu-backdrop {
+            position: fixed;
+            top: var(--nav-h);
+            left: 0;
+            width: 100vw;
+            height: calc(100vh - var(--nav-h));
+            background: rgba(0,0,0,0.2);
+            z-index: 999; /* below menu */
+          }
+
+          /* Responsive: hide desktop sidebar, adjust layout, show hamburger, hide navbar search */
+          @media (max-width: 1024px) {
+            .sidebar { display: none; }
+            .dashboard-body { margin-left: 0; }
+            .main-content { margin-left: 0; padding: 1rem; }
+            .navbar .navbar-center { display: none; }
+            .navbar .logout-btn { display: none !important; }
+            .hamburger-toggle { display: inline-flex; }
+          }
+
+          /* Fine-tune spacing on small devices */
+          @media (max-width: 600px) {
+            .greeting-section h1 { font-size: 1.6rem; }
+            .card h2 { font-size: 1.1rem; }
+            .cards-grid { gap: 1rem; }
+          }
+        `}</style>
       </div>
       {/* Password Modal for group switch or protected content */}
       <PasswordModal
