@@ -231,6 +231,11 @@ function PasswordModal({ isOpen, onClose, onVerify, title, error }) {
         }
         .modal-actions { display: flex; justify-content: center; gap: 1rem; }
         .modal-error { color: #dc3545; margin-bottom: 0.5rem; font-size: 1rem; }
+        @media (max-width: 600px) {
+          .modal-content { min-width: 0; max-width: 94vw; padding: 1.2rem 1rem; }
+          .modal-input { width: 100%; font-size: 1rem; }
+          .modal-actions { flex-wrap: wrap; gap: 0.6rem; }
+        }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideDown { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
       `}</style>
@@ -434,6 +439,11 @@ const SaverDashboard = () => {
                 ))}
               </div>
             )}
+          </div>
+
+          {/* Discover link */}
+          <div className="mobile-menu-section mobile-discover-link">
+            <button className="discover-btn" onClick={() => { closeMobileMenu(); navigate('/discover'); }}>Discover</button>
           </div>
 
           {/* Nav Links */}
@@ -662,6 +672,10 @@ const SaverDashboard = () => {
           .mobile-nav-links li:hover { background: #eef4ff; }
           .mobile-menu-footer { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 1.2rem; color: #888; }
           .mobile-menu-footer img { max-width: 100px; opacity: 0.7; }
+
+          /* Mobile discover link */
+          .mobile-discover-link { margin-top: 0.4rem; }
+          .mobile-discover-link .discover-btn { width: 100%; display: inline-flex; justify-content: center; }
 
           /* Mobile profile */
           .mobile-profile { display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem; }
