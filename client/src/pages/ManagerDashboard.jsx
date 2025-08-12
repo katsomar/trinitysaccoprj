@@ -773,6 +773,9 @@ export default function ManagerDashboard() {
 
           /* Fine-tune spacing on small devices */
           @media (max-width: 600px) {
+            /* Ensure profile stays left-aligned on small devices */
+            .navbar { flex-direction: row; justify-content: flex-start; align-items: center; padding-left: 12px; }
+            .navbar-left { margin-right: auto; }
             .greeting-section h1 { font-size: 1.6rem; }
             .card h2 { font-size: 1.1rem; }
             .cards-grid { gap: 1rem; }
