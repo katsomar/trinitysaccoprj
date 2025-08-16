@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "../styles/main.css";
-import { FaRobot, FaPaperPlane } from "react-icons/fa";
+import ResponsiveSideMenu from "../components/ResponsiveSideMenu";
+import { FaHome, FaInfoCircle, FaUserPlus, FaSignInAlt, FaHeadset, FaRobot, FaPaperPlane } from "react-icons/fa";
 import axios from "axios";
+import "../styles/main.css";
 
 const issueOptions = [
   "Login Issues",
@@ -26,6 +27,14 @@ const aiResponses = {
   Other:
     "Please describe your issue in detail and our AI assistant will try to help you.",
 };
+
+const navLinks = [
+  { to: "/", text: <> <FaHome className="nav-icon" /> Home </>, onClick: () => window.location.href = "/" },
+  { to: "/about", text: <> <FaInfoCircle className="nav-icon" /> About </>, onClick: () => window.location.href = "/about" },
+  { to: "/signup", text: <> <FaUserPlus className="nav-icon" /> Sign Up </>, onClick: () => window.location.href = "/signup" },
+  { to: "/login", text: <> <FaSignInAlt className="nav-icon" /> Login </>, onClick: () => window.location.href = "/login" },
+  { to: "/customer-service", text: <> <FaHeadset className="nav-icon" /> Customer Service </>, onClick: () => window.location.href = "/customer-service" },
+];
 
 const CustomerService = () => {
   const [selectedIssue, setSelectedIssue] = useState("");
@@ -92,51 +101,75 @@ const CustomerService = () => {
   };
 
   return (
-    <div className="scrollable-page">
-      <div className="customer-service-page">
-        <div className="customer-service-container">
-          <h1>
-            <FaRobot style={{ marginRight: 10 }} />
-            AI Customer Care Assistant
-          </h1>
-          <p className="cs-desc">
-            How can we help you today? Select an issue or describe your problem
-            below.
-          </p>
-          <form className="cs-form" onSubmit={handleSend}>
-            <select
-              value={selectedIssue}
-              onChange={handleIssueSelect}
-              className="cs-select"
-            >
-              <option value="">Select an issue...</option>
-              {issueOptions.map((issue) => (
-                <option key={issue} value={issue}>
-                  {issue}
-                </option>
-              ))}
-            </select>
-            {(selectedIssue === "Other" || selectedIssue === "") && (
-              <textarea
-                className="cs-textarea"
-                placeholder="Describe your issue here..."
-                value={customQuery}
-                onChange={handleQueryChange}
-                rows={4}
-              />
-            )}
-            <button type="submit" className="cs-btn">
-              <FaPaperPlane style={{ marginRight: 6 }} />
-              Send
-            </button>
-          </form>
-          {response && (
-            <div className="cs-response">
-              <FaRobot className="cs-response-icon" />
-              <span>{response}</span>
-            </div>
+    <div className="customer-service-page scrollable-page">
+      {/* Responsive Top Nav & Side Menu */}
+      <ResponsiveSideMenu
+        logoSrc="/images/logo.png"
+        navLinks={navLinks}
+      />
+      {/* Desktop NavBar (hidden on small/medium screens) */}
+      <nav className="navbar desktop-navbar">
+        <img src="/images/logo.png" alt="Trinity SACCO Logo" className="logo" />
+        <ul className="nav-links">
+          <li>
+            <a href="/"><FaHome className="nav-icon" /> Home</a>
+          </li>
+          <li>
+            <a href="/about"><FaInfoCircle className="nav-icon" /> About</a>
+          </li>
+          <li>
+            <a href="/signup"><FaUserPlus className="nav-icon" /> Sign Up</a>
+          </li>
+          <li>
+            <a href="/login"><FaSignInAlt className="nav-icon" /> Login</a>
+          </li>
+          <li>
+            <a href="/customer-service"><FaHeadset className="nav-icon" /> Customer Service</a>
+          </li>
+        </ul>
+      </nav>
+      <div className="customer-service-container">
+        <h1>
+          <FaRobot style={{ marginRight: 10 }} />
+          AI Customer Care Assistant
+        </h1>
+        <p className="cs-desc">
+          How can we help you today? Select an issue or describe your problem
+          below.
+        </p>
+        <form className="cs-form" onSubmit={handleSend}>
+          <select
+            value={selectedIssue}
+            onChange={handleIssueSelect}
+            className="cs-select"
+          >
+            <option value="">Select an issue...</option>
+            {issueOptions.map((issue) => (
+              <option key={issue} value={issue}>
+                {issue}
+              </option>
+            ))}
+          </select>
+          {(selectedIssue === "Other" || selectedIssue === "") && (
+            <textarea
+              className="cs-textarea"
+              placeholder="Describe your issue here..."
+              value={customQuery}
+              onChange={handleQueryChange}
+              rows={4}
+            />
           )}
-        </div>
+          <button type="submit" className="cs-btn">
+            <FaPaperPlane style={{ marginRight: 6 }} />
+            Send
+          </button>
+        </form>
+        {response && (
+          <div className="cs-response">
+            <FaRobot className="cs-response-icon" />
+            <span>{response}</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -154,4 +187,4 @@ export default CustomerService;
 // 4. Make sure you have installed react-icons:
 // npm install react-icons
 
-// 5. Make sure your CSS file (main.css) is imported and contains the required
+// 5. Make sure your CSS file (main.css) is imported and contains the required styles.
