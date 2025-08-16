@@ -123,7 +123,7 @@ const ManagerSettings = () => {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <h1 className="settings-title">Settings</h1>
               <button
-                className="btn"
+                className="btn tx-back-btn"
                 style={{
                   background: "#e3e6ee",
                   color: "#004080",
@@ -134,7 +134,6 @@ const ManagerSettings = () => {
                   marginLeft: "auto"
                 }}
                 onClick={() => navigate("/manager-dashboard")}
-                className="btn tx-back-btn"
               >
                 Back to Dashboard
               </button>
