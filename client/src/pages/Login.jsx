@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { jwtDecode } from "jwt-decode";
+
 import axios from "../utils/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-
+import ajaxUse from "../utils/remote/ajaxUse";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,36 +15,29 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+
     const data = { email, password };
 
     try {
-      const response = await axios.post(
-        "http://localhost/trinitySacco/server/api/auth/login.php",
-        data
-      );
-      const result = response.data;
-      console.log("Login response:", result); // Debug log
+      const server_response = await ajaxUse.login(data);
+      if (server_response.status === "OK") {
+        localStorage.setItem("sacco", server_response.details);
+        localStorage.setItem("loginTime", Date.now().toString());
 
-      if (result.message === "Login successful") {
-        // Store token and user info
-        localStorage.setItem("token", result.token);
-        localStorage.setItem("userName", result.name);
-        localStorage.setItem("userRole", result.role);
+        const access_token = server_response.details; // token from PHP
+        const decoded_token = jwtDecode(access_token);
 
-        alert("Login successful!");
+        const roleId = decoded_token.data.role_id;
+        console.log("User Role ID:", roleId);
 
-        // Redirect based on role
-        navigate(
-          result.role === "manager" ? "/manager-dashboard" : "/saver-dashboard"
-        );
-      } else {
-        setError(result.error || "Login failed. Please try again.");
+        if (roleId === "1") {
+          navigate("/saver-dashboard");
+        } else if (roleId === "2") {
+          navigate("/manager-dashboard");
+        }
       }
     } catch (err) {
-      console.error("Login error:", err);
-      setError(
-        err.response?.data?.error || "An error occurred. Please try again."
-      );
+      setError("An error occurred while logging in.");
     }
   };
 

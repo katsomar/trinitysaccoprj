@@ -123,7 +123,6 @@ const ManagerSettings = () => {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <h1 className="settings-title">Settings</h1>
               <button
-                className="btn"
                 style={{
                   background: "#e3e6ee",
                   color: "#004080",

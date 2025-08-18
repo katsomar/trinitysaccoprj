@@ -1,24 +1,34 @@
 /* Theme: Professional Slate & Emerald */
 :root {
-    --primary-color: #1e293b;      /* Slate (dark blue-gray) */
-    --secondary-color: #10b981;    /* Emerald (green) */
-    --accent-color: #f59e0b;       /* Amber (golden yellow) */
-    --background-color: #f1f5f9;   /* Light gray background */
-    --text-color: #1e293b;         /* Dark text */
-    --card-bg: #ffffff;            /* White card background */
-    --card-shadow: 0 4px 16px rgba(30,41,59,0.1); /* Subtle shadow */
-    --input-bg: #f8fafc;           /* Light input background */
-    --input-border: #10b981;       /* Green border */
-    --input-focus: #f59e0b;        /* Amber focus */
-    --header-color: #121212;       /* Dark header text */
-    --header-accent: #f59e0b;      /* Amber accent */
+    --primary-color: #1e293b;
+    /* Slate (dark blue-gray) */
+    --secondary-color: #10b981;
+    /* Emerald (green) */
+    --accent-color: #f59e0b;
+    /* Amber (golden yellow) */
+    --background-color: #f1f5f9;
+    /* Light gray background */
+    --text-color: #1e293b;
+    /* Dark text */
+    --card-bg: #ffffff;
+    /* White card background */
+    --card-shadow: 0 4px 16px rgba(30, 41, 59, 0.1);
+    /* Subtle shadow */
+    --input-bg: #f8fafc;
+    /* Light input background */
+    --input-border: #10b981;
+    /* Green border */
+    --input-focus: #f59e0b;
+    /* Amber focus */
+    --header-color: #121212;
+    /* Dark header text */
+    --header-accent: #f59e0b;
+    /* Amber accent */
 }
 
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-
 /* General Reset */
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
@@ -54,7 +64,8 @@ ul {
 }
 
 body {
-    padding-top: 60px; /* Add padding to avoid content being hidden under the fixed navbar */
+    padding-top: 60px;
+    /* Add padding to avoid content being hidden under the fixed navbar */
 }
 
 .navbar .logo {
@@ -63,9 +74,11 @@ body {
 
 .nav-links {
     display: flex;
-    gap: 15px; /* Adjust spacing between links */
+    gap: 15px;
+    /* Adjust spacing between links */
     align-items: center;
-    margin-right: 40px; /* Add margin to ensure links are not too close to the right edge */
+    margin-right: 40px;
+    /* Add margin to ensure links are not too close to the right edge */
 }
 
 .nav-links li {
@@ -77,19 +90,21 @@ body {
     background: none;
     display: flex;
     align-items: center;
-    gap: 5px; /* Space between icon and text */
+    gap: 5px;
+    /* Space between icon and text */
     padding: 10px 15px;
     border-radius: 5px;
     font-weight: bold;
     font-size: 1rem;
     transition: background-color 0.3s, transform 0.2s;
 }
-::-webkit-scrollbar{
+
+::-webkit-scrollbar {
     width: 0.5rem;
     background: rgba(229, 165, 93, 0.2);
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
     width: 100%;
     background: #0f36d0;
     border-radius: 0.25rem;
@@ -130,7 +145,8 @@ body {
 .hero {
     position: relative;
     overflow: hidden;
-    height: 400px; /* Increased height for a larger card */
+    height: 400px;
+    /* Increased height for a larger card */
     margin-bottom: 20px;
     background-size: cover;
     background-position: center;
@@ -142,7 +158,8 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    transition: background-image 1s ease-in-out; /* Smooth transition for background images */
+    transition: background-image 1s ease-in-out;
+    /* Smooth transition for background images */
 }
 
 /* Darken the background image */
@@ -153,7 +170,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    background: rgba(0, 0, 0, 0.5);
+    /* Dark overlay */
     z-index: 1;
     border-radius: 10px;
 }
@@ -179,10 +197,12 @@ body {
         transform: scale(1);
         opacity: 0.6;
     }
+
     50% {
         transform: scale(1.1);
         opacity: 0.4;
     }
+
     100% {
         transform: scale(1);
         opacity: 0.6;
@@ -190,25 +210,33 @@ body {
 }
 
 .hero h1 {
-    font-size: 3.5rem; /* Slightly larger font size */
+    font-size: 3.5rem;
+    /* Slightly larger font size */
     margin: 0;
-    text-shadow: 2px 2px 5px rgba(30,41,59,0.2);
+    text-shadow: 2px 2px 5px rgba(30, 41, 59, 0.2);
     color: #fff;
-    font-family: 'Poppins', sans-serif; /* Updated font */
-    font-weight: 700; /* Bold weight for emphasis */
-    letter-spacing: 1.5px; /* Add spacing between letters */
-    z-index: 3; /* Ensure text is above the effects */
+    font-family: 'Poppins', sans-serif;
+    /* Updated font */
+    font-weight: 700;
+    /* Bold weight for emphasis */
+    letter-spacing: 1.5px;
+    /* Add spacing between letters */
+    z-index: 3;
+    /* Ensure text is above the effects */
     position: relative;
 }
 
 /* Animated Text Section */
 .animated-text {
-    margin: 40px 0; /* Extended spacing below the hero card */
-    font-size: 1.8rem; /* Slightly larger font size */
+    margin: 40px 0;
+    /* Extended spacing below the hero card */
+    font-size: 1.8rem;
+    /* Slightly larger font size */
     font-weight: bold;
     color: var(--secondary-color);
     text-align: center;
-    height: 80px; /* Reserve space for the text and line */
+    height: 80px;
+    /* Reserve space for the text and line */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -218,18 +246,23 @@ body {
 }
 
 .animated-text h2 {
-    animation: fadeInOut 4s ease-in-out infinite; /* Match animation duration with interval */
+    animation: fadeInOut 4s ease-in-out infinite;
+    /* Match animation duration with interval */
     margin: 0;
     position: relative;
 }
 
 /* Animation for Text */
 @keyframes fadeInOut {
-    0%, 10% {
+
+    0%,
+    10% {
         opacity: 0;
         transform: translateY(20px);
     }
-    20%, 80% {
+
+    20%,
+    80% {
         opacity: 1;
         transform: translateY(0);
     }
@@ -241,15 +274,21 @@ body {
 }
 
 @keyframes lineInOut {
-    0%, 20% {
+
+    0%,
+    20% {
         width: 0;
         opacity: 0;
     }
-    30%, 70% {
+
+    30%,
+    70% {
         width: 50%;
         opacity: 1;
     }
-    80%, 100% {
+
+    80%,
+    100% {
         width: 0;
         opacity: 0;
     }
@@ -321,12 +360,14 @@ body {
     width: 2px;
     height: 90%;
     background-color: #007bff;
-    left: 600px; /* Match the team-member separator position */
+    left: 600px;
+    /* Match the team-member separator position */
 }
 
 .company-image-container {
     flex: 1;
-    max-width: 500px; /* Increased size for the image */
+    max-width: 500px;
+    /* Increased size for the image */
 }
 
 .company-image {
@@ -365,21 +406,26 @@ body {
     justify-content: flex-start;
     margin-top: 20px;
     position: relative;
-    margin-bottom: 60px; /* Increased space between team members */
+    margin-bottom: 60px;
+    /* Increased space between team members */
 }
 
 .team-member::after {
     content: '';
     position: absolute;
     width: 2px;
-    height: 90%; /* Extend the line vertically */
-    background-color: var(--input-focus); /* Line color */
-    left: 600px; /* Move the line further to the right, just before the text */
+    height: 90%;
+    /* Extend the line vertically */
+    background-color: var(--input-focus);
+    /* Line color */
+    left: 600px;
+    /* Move the line further to the right, just before the text */
 }
 
 .team-member .image-container {
     flex: 1;
-    max-width: 400px; /* Increased size for the image */
+    max-width: 400px;
+    /* Increased size for the image */
     overflow: hidden;
     border-radius: 10px;
 }
@@ -439,7 +485,8 @@ body {
     background: var(--card-bg);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(30,41,59,0.10); /* Updated shadow */
+    box-shadow: 0 4px 16px rgba(30, 41, 59, 0.10);
+    /* Updated shadow */
     text-align: center;
     max-width: 300px;
     display: flex;
@@ -457,12 +504,13 @@ body {
     height: 48px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .review-stars {
     margin-top: 8px;
-    color: var(--accent-color); /* Gold color for stars */
+    color: var(--accent-color);
+    /* Gold color for stars */
     font-size: 1.2rem;
     letter-spacing: 2px;
 }
@@ -472,8 +520,9 @@ body {
     margin-bottom: 40px;
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,123,255,0.08);
-    max-width: 1500px; /* Increased width */
+    box-shadow: 0 4px 16px rgba(0, 123, 255, 0.08);
+    max-width: 1500px;
+    /* Increased width */
     margin: 40px auto 0 auto;
     padding: 32px 24px;
 }
@@ -505,7 +554,7 @@ body {
     background: #e6fffa;
     border-radius: 50%;
     padding: 8px;
-    box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -531,7 +580,7 @@ body {
     margin-top: 32px;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,123,255,0.10);
+    box-shadow: 0 2px 12px rgba(0, 123, 255, 0.10);
 }
 
 /* Dashboard Styles */
@@ -655,7 +704,8 @@ body {
     background: #f8faff;
     border-radius: 6px;
     padding: 0 10px;
-    box-shadow: 0 2px 12px rgba(45,55,72,0.08); /* Updated shadow */
+    box-shadow: 0 2px 12px rgba(45, 55, 72, 0.08);
+    /* Updated shadow */
 }
 
 .input-icon {
@@ -732,7 +782,8 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: #f4f4f9;
-    overflow: hidden; /* Prevent scrolling */
+    overflow: hidden;
+    /* Prevent scrolling */
 }
 
 .login-container {
@@ -803,6 +854,7 @@ body {
     align-items: center;
     transition: color 0.2s;
 }
+
 .toggle-password:hover {
     color: var(--header-color);
 }
@@ -895,7 +947,7 @@ body {
     align-items: center;
     gap: 10px;
     font-size: 1.08rem;
-    box-shadow: 0 2px 8px rgba(30,41,59,0.08);
+    box-shadow: 0 2px 8px rgba(30, 41, 59, 0.08);
 }
 
 .cs-response-icon {
@@ -1002,7 +1054,7 @@ body {
 .cs-response {
     background: #e6fffa;
     color: var(--text-color);
-    box-shadow: 0 2px 8px rgba(30,41,59,0.08);
+    box-shadow: 0 2px 8px rgba(30, 41, 59, 0.08);
 }
 
 .cs-response-icon {
@@ -1019,5 +1071,3 @@ body {
     display: flex;
     flex-direction: column;
 }
-
-

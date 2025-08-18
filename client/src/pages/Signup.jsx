@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import "../styles/main.css";
@@ -11,7 +11,8 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
-
+import ajaxUse from "../utils/remote/ajaxUse";
+import Select from "react-select";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,13 +20,17 @@ const Signup = () => {
   const [role, setRole] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [roleList, setRoleList] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    listRoles();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -41,37 +46,38 @@ const Signup = () => {
     }
 
     const data = {
-      name,
-      email,
-      phone,
-      role,
-      password,
+      name: name,
+      email: email,
+      phone: phone,
+      role_id: role,
+      password: password,
     };
 
-    axios
-    //Adjust the link to yours Jane!!!!
-      .post(`${import.meta.env.VITE_API_URL}/auth/register.php`, data)
-      .then((response) => {
-        console.log("Response:", response.data); // Debug log
-        const res = response.data;
-        if (res.status === "success") {
-          setSuccess(res.message);
-          alert(res.message);
-          // Clear form
-          setName("");
-          setEmail("");
-          setPhone("");
-          setRole("");
-          setPassword("");
-          setConfirmPassword("");
-        } else {
-          setError(res.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setError("An error occurred. Please try again.");
-      });
+    const res = await ajaxUse.createUse(data);
+    console.log(res);
+    if (res.status === "OK") {
+      setSuccess(res.message);
+      alert(res.message);
+      // Clear form
+      setName("");
+      setEmail("");
+      setPhone("");
+      setRole("");
+      setPassword("");
+      setConfirmPassword("");
+    } else {
+      setError(res.message);
+    }
+  };
+
+  const listRoles = async () => {
+    const res = await ajaxUse.listRole();
+    console.log(res);
+    if (res.status === "OK") {
+      setRoleList(res.details);
+    } else {
+      setRoleList([]);
+    }
   };
 
   return (
@@ -117,16 +123,17 @@ const Signup = () => {
             </div>
             <div className="input-group">
               <FaUserTag className="input-icon" />
-              <select
-                name="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                required
-              >
-                <option value="">Select Role</option>
-                <option value="saver">Saver</option>
-                <option value="manager">Manager</option>
-              </select>
+              <Select
+                onChange={(e) => setRole(e.role_id)}
+                getOptionLabel={(option) => option.role_name}
+                getOptionValue={(option) => option.role_id}
+                isSearchable
+                options={Array.isArray(roleList) ? roleList : []}
+                value={
+                  Array.isArray(roleList) &&
+                  roleList.find((value) => value.role_id === role)
+                }
+              />
             </div>
             <div className="input-group">
               <FaLock className="input-icon" />
