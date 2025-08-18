@@ -97,12 +97,12 @@ const Invites = () => {
             <span>{user.online ? "Online" : "Offline"}</span>
           </div>
           <ul className="sidebar-menu">
-            <li className={location.pathname === "/deposit" ? "active" : ""} onClick={() => navigate("/deposit")}>Deposit</li>
-            <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => navigate("/withdraw")}>Withdraw</li>
-            <li className={location.pathname === "/notifications" ? "active" : ""} onClick={() => navigate("/notifications")}>Notifications</li>
-            <li className={location.pathname === "/chat" ? "active" : ""} onClick={() => navigate("/chat")}>Chat</li>
-            <li className={location.pathname === "/invites" ? "active" : ""} onClick={() => navigate("/invites")}>Invites/Requests</li>
-            <li className={location.pathname === "/settings" ? "active" : ""} onClick={() => navigate("/settings")}>Settings</li>
+            <li className={location.pathname === "/deposit" ? "active" : ""} onClick={() => navigate("/deposit")}><span style={{ marginRight: '8px' }} role="img" aria-label="deposit">💰</span>Deposit</li>
+            <li className={location.pathname === "/withdraw" ? "active" : ""} onClick={() => navigate("/withdraw")}><span style={{ marginRight: '8px' }} role="img" aria-label="withdraw">💸</span>Withdraw</li>
+            <li className={location.pathname === "/notifications" ? "active" : ""} onClick={() => navigate("/notifications")}><span style={{ marginRight: '8px' }} role="img" aria-label="notifications">🔔</span>Notifications</li>
+            <li className={location.pathname === "/chat" ? "active" : ""} onClick={() => navigate("/chat")}><span style={{ marginRight: '8px' }} role="img" aria-label="chat">💬</span>Chat</li>
+            <li className={location.pathname === "/invites" ? "active" : ""} onClick={() => navigate("/invites")}><span style={{ marginRight: '8px' }} role="img" aria-label="invites">📩</span>Invites/Requests</li>
+            <li className={location.pathname === "/settings" ? "active" : ""} onClick={() => navigate("/settings")}><span style={{ marginRight: '8px' }} role="img" aria-label="settings">⚙️</span>Settings</li>
           </ul>
           <div className="sidebar-logo">
             <img src="/src/assets/images/logo.png" alt="Trinity SACCO" style={{ filter: "grayscale(100%)", opacity: 0.65 }} />

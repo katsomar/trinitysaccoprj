@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -24,12 +24,15 @@ import ManagerSettings from './pages/ManagerSettings';
 import Invites from './pages/Invites';
 import InviteManager from './pages/InviteManager';
 import Transactions from './pages/Transactions';
+import Reports from './pages/Reports';
+import SplashScreen from './components/SplashScreen';
 
 // Helper to conditionally render Navbar/Footer
 const Layout = ({ children }) => {
   const location = useLocation();
   const showLayout = [
     "/",
+    "/home",
     "/about",
     "/login",
     "/signup",
@@ -46,11 +49,15 @@ const Layout = ({ children }) => {
 };
 
 const App = () => {
+    const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem('splashShown'));
     return (
         <Router>
-            <Layout>
+            {showSplash && <SplashScreen onFinish={() => { sessionStorage.setItem('splashShown', '1'); setShowSplash(false); }} />}
+            {!showSplash && (
+              <Layout>
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/home" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
@@ -61,6 +68,7 @@ const App = () => {
                     <Route path="/manager-notifications" element={<ManagerNotifications />} />
                     <Route path="/manager-settings" element={<ManagerSettings />} />
                     <Route path="/manager-transactions" element={<ManagerTransactions />} />
+                    <Route path="/reports" element={<Reports />} />
                     <Route path="/groups" element={<GroupView />} />
                     <Route path="/group/:groupId" element={<GroupView />} />
                     <Route path="/members" element={<Members />} />
@@ -78,6 +86,7 @@ const App = () => {
                     <Route path="/notifications" element={<Notifications />} />
                 </Routes>
             </Layout>
+            )}
         </Router>
     );
 };

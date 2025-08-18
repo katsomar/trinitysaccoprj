@@ -127,12 +127,12 @@ const Profile = () => {
         <span>Online</span>
       </div>
       <ul className="sidebar-menu">
-        <li onClick={() => navigate("/deposit")}>Deposit</li>
-        <li onClick={() => navigate("/withdraw")}>Withdraw</li>
-        <li onClick={() => navigate("/notifications")}>Notifications</li>
-        <li onClick={() => navigate("/chat")}>Chat</li>
-        <li onClick={() => navigate("/invites")}>Invites/Requests</li>
-        <li onClick={() => navigate("/settings")}>Settings</li>
+        <li onClick={() => navigate("/deposit")}><span style={{ marginRight: '8px' }} role="img" aria-label="deposit">💰</span>Deposit</li>
+        <li onClick={() => navigate("/withdraw")}><span style={{ marginRight: '8px' }} role="img" aria-label="withdraw">💸</span>Withdraw</li>
+        <li onClick={() => navigate("/notifications")}><span style={{ marginRight: '8px' }} role="img" aria-label="notifications">🔔</span>Notifications</li>
+        <li onClick={() => navigate("/chat")}><span style={{ marginRight: '8px' }} role="img" aria-label="chat">💬</span>Chat</li>
+        <li onClick={() => navigate("/invites")}><span style={{ marginRight: '8px' }} role="img" aria-label="invites">📩</span>Invites/Requests</li>
+        <li onClick={() => navigate("/settings")}><span style={{ marginRight: '8px' }} role="img" aria-label="settings">⚙️</span>Settings</li>
       </ul>
       <div className="sidebar-logo">
         <img src="/src/assets/images/logo.png" alt="Trinity SACCO" style={{ filter: "grayscale(100%)", opacity: 0.65 }} />

@@ -448,52 +448,12 @@
 }
 
 /* Responsive */
-@media (max-width: 900px) {
-  .sidebar {
-    width: 100px;
-    padding: 1rem 0.5rem 1rem 0.5rem;
-    top: 56px;
-    height: calc(100vh - 56px);
-  }
-  .dashboard-body {
-    margin-left: 100px;
-    /* Remove gap property here */
-  }
-  .main-content {
-    margin-left: 1rem;
-  }
+@media (max-width: 1024px) {
+  .sidebar { display: none !important; }
+  .dashboard-body { margin-left: 0 !important; }
+  .main-content { margin-left: 0 !important; padding: 1rem; }
 }
 
 @media (max-width: 600px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1rem;
-  }
-  .dashboard-body {
-    flex-direction: column;
-    margin-left: 0;
-    /* Remove gap property here */
-  }
-  .main-content {
-    margin-left: 0;
-    padding: 0.5rem;
-  }
-  .sidebar {
-    position: static;
-    width: 100%;
-    flex-direction: row;
-    border-right: none;
-    border-bottom: 1px solid #e3e6ee;
-    min-height: auto;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    height: auto;
-    top: unset;
-    left: unset;
-  }
-  .cards-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
+  .cards-grid { grid-template-columns: 1fr; gap: 1rem; }
 }
